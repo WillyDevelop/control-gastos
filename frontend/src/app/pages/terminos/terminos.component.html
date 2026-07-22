@@ -1,0 +1,258 @@
+<div class="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased selection:bg-indigo-100 selection:text-indigo-900 pb-20">
+
+  <!-- Top Header Navigation Bar -->
+  <header class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 px-4 sm:px-8 py-4 shadow-sm">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a routerLink="/login" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-slate-900 text-[#d2ff00] flex items-center justify-center font-extrabold shadow-md transition-transform group-hover:scale-105">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8L6 21" />
+          </svg>
+        </div>
+        <div>
+          <span class="text-lg font-black tracking-tight text-slate-900 block leading-tight">Mis Gastos</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Control Financiero</span>
+        </div>
+      </a>
+
+      <!-- Back Button -->
+      <a routerLink="/registro"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-sm transition-all duration-200 hover:shadow-md active:scale-95">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span>Volver al Registro</span>
+      </a>
+
+    </div>
+  </header>
+
+  <!-- Hero Document Header -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-6 text-center space-y-3">
+    <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-full text-xs font-bold tracking-wide uppercase shadow-sm">
+      <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+      </svg>
+      Documento Legal Oficial
+    </div>
+    
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+      TÉRMINOS Y CONDICIONES DE USO Y POLÍTICA DE PRIVACIDAD
+    </h1>
+    
+    <div class="flex items-center justify-center gap-3 text-xs text-slate-500 font-medium pt-1">
+      <span class="flex items-center gap-1">
+        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+        Última actualización: 22 de julio de 2026
+      </span>
+      <span>•</span>
+      <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">v1.0.0</span>
+    </div>
+  </div>
+
+  <!-- Main Legal Document Body -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="bg-white border border-slate-200/90 rounded-2xl shadow-xl p-6 sm:p-12 space-y-10 text-slate-700 leading-relaxed text-sm sm:text-base">
+
+      <!-- Preamble Callout Card -->
+      <div class="bg-slate-50 border-l-4 border-slate-900 p-5 rounded-r-xl space-y-3">
+        <p class="font-medium">
+          Bienvenido/a a <strong>Control Gastos</strong> (en adelante, "la Aplicación" o "el Servicio"). Al registrarte, acceder o utilizar nuestra plataforma web accesible desde <a href="https://control-gastos-nine-pi.vercel.app" target="_blank" class="text-indigo-600 font-bold underline">https://control-gastos-nine-pi.vercel.app</a> (o dominios derivados), aceptas de manera plena, expresa y sin reservas los presentes Términos y Condiciones de Uso, así como nuestra Política de Privacidad.
+        </p>
+        <p class="text-xs font-bold text-rose-600 uppercase tracking-wide">
+          Si no estás de acuerdo con la totalidad de estas cláusulas, deberás abstenerte de utilizar el Servicio.
+        </p>
+      </div>
+
+      <!-- Section 1 -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-900 text-xs flex items-center justify-center font-bold">1</span>
+          IDENTIFICACIÓN Y NATURALEZA DEL SERVICIO
+        </h2>
+        <div class="space-y-2 pl-2">
+          <p>
+            <strong>1.1. Objeto:</strong> La Aplicación es una herramienta de software como servicio (SaaS) destinada a la gestión personal, registro y visualización analítica de ingresos, egresos y presupuestos financieros.
+          </p>
+          <p>
+            <strong>1.2. Alcance:</strong> El Servicio tiene un propósito exclusivamente informativo y de organización personal. No constituye, bajo ninguna circunstancia, asesoramiento financiero, contable, tributario ni de inversión profesional.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-900 text-xs flex items-center justify-center font-bold">2</span>
+          REGISTRO DE CUENTA Y SEGURIDAD
+        </h2>
+        <div class="space-y-2 pl-2">
+          <p>
+            <strong>2.1. Elegibilidad:</strong> Para crear una cuenta y utilizar la Aplicación, debes ser persona humana con capacidad legal para contratar según las leyes de tu jurisdicción (mínimo 18 años en la República Argentina).
+          </p>
+          <p>
+            <strong>2.2. Veracidad de los Datos:</strong> Te comprometes a proporcionar información precisa, actualizada y veraz al momento del registro (nombre, dirección de correo electrónico válida y contraseña).
+          </p>
+          <p>
+            <strong>2.3. Custodia de Credenciales:</strong> La seguridad de tu contraseña y token de acceso es de tu exclusiva responsabilidad. Queda estrictamente prohibido compartir tus credenciales con terceros. Nos desligamos de toda responsabilidad por accesos no autorizados derivados de tu negligencia en la custodia de claves.
+          </p>
+          <p>
+            <strong>2.4. Credenciales de Dispositivo / WebAuthn:</strong> Si interactúas con los gestores de autenticación del navegador o biometría local de tu dispositivo, comprendes que dicho procesamiento se realiza de forma local y soberana en tu sistema operativo, sin que recopilemos datos biométricos en nuestros servidores.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-900 text-xs flex items-center justify-center font-bold">3</span>
+          PROPIEDAD INTELECTUAL Y LICENCIA DE USO
+        </h2>
+        <div class="space-y-3 pl-2">
+          <p>
+            <strong>3.1. Titularidad del Software:</strong> El código fuente, código objeto, arquitectura de software, diseños de interfaz (UI/UX), marcas, logotipos, componentes interactivos y bases de datos son propiedad exclusiva de WillyDev / Titulares de Control Gastos y están protegidos por las leyes de propiedad intelectual (Ley N° 11.723 en Argentina y tratados internacionales).
+          </p>
+          <p>
+            <strong>3.2. Licencia Limitada:</strong> Se te otorga una licencia de uso personal, no exclusiva, revocable, intransferible y no sublicenciable para acceder y utilizar la Aplicación según su destino legítimo.
+          </p>
+          <div class="space-y-1.5">
+            <p><strong>3.3. Restricciones:</strong> Queda expresamente prohibido:</p>
+            <ul class="list-disc pl-6 space-y-1 text-slate-600">
+              <li>Realizar ingeniería inversa, descompilar, desmontar o intentar extraer el código fuente del backend o frontend.</li>
+              <li>Realizar extracción masiva de datos (web scraping o crawling).</li>
+              <li>Modificar, adaptar, traducir o crear obras derivadas basadas en la Aplicación.</li>
+              <li>Revender, alquilar o comercializar el acceso al Servicio a terceros.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-900 text-xs flex items-center justify-center font-bold">4</span>
+          POLÍTICA DE PRIVACIDAD Y PROTECCIÓN DE DATOS PERSONALES
+        </h2>
+        
+        <p class="text-xs bg-indigo-50 text-indigo-800 font-semibold p-3 rounded-lg border border-indigo-100">
+          Cumpliendo con la Ley N° 25.326 de Protección de Datos Personales (Argentina) y estándares de privacidad por diseño (Privacy by Design):
+        </p>
+
+        <div class="space-y-3 pl-2">
+          <div class="space-y-1.5">
+            <p><strong>4.1. Datos Recopilados:</strong></p>
+            <ul class="list-disc pl-6 space-y-1 text-slate-600">
+              <li><strong>Datos de cuenta:</strong> Nombre, correo electrónico y contraseña almacenada mediante algoritmos de cifrado unidireccional (hashing criptográfico).</li>
+              <li><strong>Datos transaccionales:</strong> Registros de ingresos, gastos, categorías, fechas y montos ingresados voluntariamente por el usuario.</li>
+              <li><strong>Datos técnicos e indirectos:</strong> Direcciones IP, registros de sesión (logs de servidor) e información del navegador recopilada por infraestructura en la nube para fines de ciberseguridad y diagnóstico.</li>
+            </ul>
+          </div>
+
+          <p>
+            <strong>4.2. Finalidad del Tratamiento:</strong> Tus datos son procesados únicamente para brindar el Servicio, autenticar tu sesión mediante JSON Web Tokens (JWT) y ofrecerte estadísticas personalizadas. No vendemos, alquilamos ni comercializamos tus datos personales o financieros con terceros.
+          </p>
+
+          <div class="space-y-2">
+            <p><strong>4.3. Infraestructura y Transferencia Internacional:</strong> Aceptas que, para la correcta prestación técnica del Servicio, tus datos procesados se alojan en proveedores de infraestructura de clase mundial que cumplen con altos estándares de ciberseguridad:</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                <span class="block text-xs font-bold text-slate-400 uppercase">Frontend</span>
+                <span class="font-extrabold text-slate-800 text-sm">Vercel Inc.</span>
+              </div>
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                <span class="block text-xs font-bold text-slate-400 uppercase">API Backend</span>
+                <span class="font-extrabold text-slate-800 text-sm">Render Services</span>
+              </div>
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                <span class="block text-xs font-bold text-slate-400 uppercase">Base de Datos</span>
+                <span class="font-extrabold text-slate-800 text-sm">Aiven Cloud</span>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            <strong>4.4. Derechos ARCO (Acceso, Rectificación, Cancelación y Oposición):</strong> Tienes el derecho absoluto de consultar, corregir o solicitar la eliminación definitiva de tu cuenta y todos tus datos personales/financieros de nuestros servidores en cualquier momento escribiendo a nuestro canal oficial de soporte.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 5 -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-900 text-xs flex items-center justify-center font-bold">5</span>
+          LIMITACIÓN DE RESPONSABILIDAD Y GARANTÍAS
+        </h2>
+        <div class="space-y-2 pl-2">
+          <p>
+            <strong>5.1. Provisión "Tal Cual" (As-Is):</strong> El Servicio se proporciona "tal como está" y "según disponibilidad", sin garantías explícitas o implícitas sobre su funcionamiento ininterrumpido, libre de errores o vulnerabilidades.
+          </p>
+          <p>
+            <strong>5.2. Infraestructura de Terceros y Disponibilidad:</strong> No asumimos responsabilidad por la suspensión temporal o definitiva del Servicio causada por caídas de red, tareas de mantenimiento o fallas operativas en los proveedores de hosting e infraestructura (Vercel, Render, Aiven).
+          </p>
+          <p>
+            <strong>5.3. Inexistencia de Responsabilidad Financiera:</strong> Los cálculos, balances y proyecciones ofrecidos en la pantalla son resultado de los algoritmos del software sobre la información que tú ingresas. No seremos responsables por cualquier pérdida económica, decisión de consumo errónea, sanción fiscal o daño directo/indirecto derivado del uso o la imposibilidad de uso de la Aplicación.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 6 -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-900 text-xs flex items-center justify-center font-bold">6</span>
+          CONDUCTAS PROHIBIDAS Y SUSPENSIÓN DE CUENTA
+        </h2>
+        <div class="space-y-1.5 pl-2">
+          <p>Nos reservamos el derecho de suspender, restringir o cancelar de forma inmediata y sin previo aviso la cuenta de cualquier usuario que incurra en:</p>
+          <ul class="list-disc pl-6 space-y-1 text-slate-600">
+            <li>Intentos de vulnerar la seguridad de la API, inyección de código malicioso o ataques de denegación de servicio (DoS/DDoS).</li>
+            <li>Uso de la plataforma para fines ilícitos, fraude o lavado de activos.</li>
+            <li>Incumplimiento de cualquiera de las cláusulas de estos Términos y Condiciones.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 7 -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-900 text-xs flex items-center justify-center font-bold">7</span>
+          MODIFICACIONES A LOS TÉRMINOS Y CONDICIONES
+        </h2>
+        <div class="pl-2">
+          <p>
+            Nos reservamos la facultad de modificar, actualizar o reformular el presente documento en cualquier momento. La fecha de la última actualización al inicio indicará la vigencia de los cambios. El uso continuado del Servicio tras la publicación de las modificaciones implicará tu aceptación plena de los nuevos Términos.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 8 -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-900 text-xs flex items-center justify-center font-bold">8</span>
+          LEY APLICABLE Y JURISDICCIÓN
+        </h2>
+        <div class="pl-2">
+          <p>
+            Los presentes Términos y Condiciones se rigen de forma exclusiva por las leyes de la República Argentina. Para cualquier controversia, reclamo o disputa legal derivada de la interpretación o cumplimiento de este contrato, el usuario y los titulares de la plataforma se someten a la jurisdicción ordinaria de los Tribunales Competentes con asiento en la Provincia de Mendoza, República Argentina, renunciando expresamente a cualquier otro fuero o jurisdicción que pudiera corresponder.
+          </p>
+        </div>
+      </section>
+
+      <!-- Document Footer Bar -->
+      <div class="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-slate-500 font-medium">
+          © 2026 Control Gastos. Todos los derechos reservados.
+        </p>
+        <a routerLink="/registro"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-black text-xs uppercase tracking-wide rounded-xl shadow-md transition-all active:scale-95">
+          <span>Aceptar y Volver al Registro</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+</div>
