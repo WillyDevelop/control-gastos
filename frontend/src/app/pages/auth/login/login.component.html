@@ -1,5 +1,12 @@
 <div
-  class="min-h-screen flex flex-col lg:flex-row bg-slate-50 dark:bg-gradient-to-br dark:from-[#14161f] dark:via-[#0d0e14] dark:to-[#07080b] transition-colors duration-500 font-sans relative animate-auth-fade">
+  class="min-h-screen flex flex-col lg:flex-row bg-slate-50 dark:bg-gradient-to-br dark:from-[#14161f] dark:via-[#0d0e14] dark:to-[#07080b] transition-colors duration-500 font-sans relative overflow-hidden animate-auth-fade">
+
+  <!-- Ambient Moving Glow Lights for Dark Mode -->
+  <div class="hidden dark:block absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-[15%] left-[15%] w-[450px] h-[450px] bg-indigo-600/15 rounded-full blur-[140px] animate-glow-1"></div>
+    <div class="absolute bottom-[15%] right-[20%] w-[500px] h-[500px] bg-[#d2ff00]/10 rounded-full blur-[140px] animate-glow-2"></div>
+    <div class="absolute top-[50%] left-[50%] w-[550px] h-[550px] bg-purple-600/10 rounded-full blur-[150px] animate-glow-3"></div>
+  </div>
 
   <!-- Top Right Bar with Theme Toggle -->
   <div class="absolute top-6 right-6 z-50 flex items-center gap-3">
