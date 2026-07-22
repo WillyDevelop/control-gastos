@@ -7,9 +7,9 @@
   </header>
 
   <!-- Sub-Navigation Tabs (Clean Style) -->
-  <div class="flex flex-wrap gap-2.5 mb-6 border-b border-extended-gray-border dark:border-slate-700/60 pb-4">
+  <div class="flex items-center gap-2 sm:gap-2.5 mb-6 border-b border-extended-gray-border dark:border-slate-700/60 pb-4 overflow-x-auto flex-nowrap sm:flex-wrap">
     <button (click)="seccionActiva.set('perfil')"
-      class="flex items-center gap-2 px-5 py-2 rounded-xl font-bold text-sm transition-all duration-200 shadow-sm"
+      class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 shadow-sm whitespace-nowrap"
       [ngClass]="seccionActiva() === 'perfil' 
         ? 'bg-brand-primary text-white border-transparent shadow-lg shadow-brand-primary/15' 
         : 'bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-200 border border-slate-200 dark:border-slate-700/60 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700'">
@@ -19,7 +19,7 @@
       Mi Perfil
     </button>
     <button (click)="seccionActiva.set('seguridad')"
-      class="flex items-center gap-2 px-5 py-2 rounded-xl font-bold text-sm transition-all duration-200 shadow-sm"
+      class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 shadow-sm whitespace-nowrap"
       [ngClass]="seccionActiva() === 'seguridad' 
         ? 'bg-brand-primary text-white border-transparent shadow-lg shadow-brand-primary/15' 
         : 'bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-200 border border-slate-200 dark:border-slate-700/60 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700'">
@@ -29,7 +29,7 @@
       Seguridad
     </button>
     <button (click)="seccionActiva.set('categorias')"
-      class="flex items-center gap-2 px-5 py-2 rounded-xl font-bold text-sm transition-all duration-200 shadow-sm"
+      class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-200 shadow-sm whitespace-nowrap"
       [ngClass]="seccionActiva() === 'categorias' 
         ? 'bg-brand-primary text-white border-transparent shadow-lg shadow-brand-primary/15' 
         : 'bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-200 border border-slate-200 dark:border-slate-700/60 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700'">

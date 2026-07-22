@@ -1,4 +1,126 @@
-<div class="flex h-screen bg-canvas dark:bg-slate-900 text-brand-dark dark:text-slate-100 overflow-hidden font-sans transition-colors duration-300">
+<div class="flex flex-col md:flex-row h-screen bg-canvas dark:bg-slate-900 text-brand-dark dark:text-slate-100 overflow-hidden font-sans transition-colors duration-300">
+  
+  <!-- Mobile Top Header Bar -->
+  <header *ngIf="authService.isAuthenticated()"
+    class="flex md:hidden items-center justify-between px-4 py-3 bg-sidebar dark:bg-slate-800 border-b border-extended-gray-border dark:border-slate-700 shrink-0 z-30 transition-colors duration-300">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-interactive bg-brand-primary flex items-center justify-center text-white font-bold shadow-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+          </path>
+        </svg>
+      </div>
+      <span class="font-bold text-base text-brand-dark dark:text-slate-100 tracking-tight">Mis Gastos</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <!-- Theme Switcher Header Button -->
+      <button (click)="themeService.toggleTheme()"
+        class="p-2 rounded-interactive bg-extended-gray-light-bg dark:bg-slate-700 text-brand-dark dark:text-slate-200 transition-colors">
+        @if (themeService.isDarkMode()) {
+        <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464-4.95a1 1 0 111.414 1.414L14.12 7.293a1 1 0 01-1.414-1.414l.828-.828zM17 9a1 1 0 100 2h1a1 1 0 100-2h-1zm-7 7a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-5.657-.707a1 1 0 011.414-1.414l.828.828a1 1 0 11-1.414 1.414l-.828-.828zM3.707 5.657a1 1 0 010-1.414l.828-.828a1 1 0 011.414 0 1 1 0 010 1.414l-.828.828a1 1 0 01-1.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-10.464 2.828a1 1 0 111.414-1.414l.828.828a1 1 0 11-1.414 1.414l-.828-.828z"/>
+        </svg>
+        } @else {
+        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+        </svg>
+        }
+      </button>
+
+      <!-- Hamburger Menu Toggle Button -->
+      <button (click)="toggleMobileMenu()"
+        class="p-2 rounded-interactive bg-extended-gray-light-bg dark:bg-slate-700 text-brand-dark dark:text-slate-200 transition-colors">
+        <svg *ngIf="!isMobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg *ngIf="isMobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer / Off-canvas Menu -->
+  <div *ngIf="isMobileMenuOpen && authService.isAuthenticated()" class="fixed inset-0 z-50 md:hidden animate-fade-in">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-brand-dark/60 dark:bg-slate-950/80 backdrop-blur-sm" (click)="closeMobileMenu()"></div>
+
+    <!-- Drawer Content -->
+    <div class="fixed inset-y-0 left-0 w-72 bg-sidebar dark:bg-slate-800 border-r border-extended-gray-border dark:border-slate-700 p-6 flex flex-col justify-between shadow-2xl z-50">
+      <div>
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-extended-gray-border dark:border-slate-700">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-interactive bg-brand-primary flex items-center justify-center text-white font-bold">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                </path>
+              </svg>
+            </div>
+            <h1 class="text-base font-semibold text-brand-dark dark:text-slate-100">Mis Gastos</h1>
+          </div>
+          <button (click)="closeMobileMenu()" class="p-1 rounded-lg text-extended-gray-muted hover:text-brand-dark dark:text-slate-400 dark:hover:text-slate-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="pb-4 mb-4 border-b border-extended-gray-border dark:border-slate-700">
+          <p class="font-medium text-sm text-extended-gray-muted dark:text-slate-400">Hola, <span class="text-brand-dark dark:text-slate-100 font-semibold">{{ authService.currentUser()?.nombre }}</span></p>
+          <button (click)="authService.logout(); closeMobileMenu()"
+            class="text-xs text-extended-coral-negative mt-1 hover:text-red-500 font-medium cursor-pointer transition-colors flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            Cerrar sesión
+          </button>
+        </div>
+
+        <nav class="space-y-2">
+          <a routerLink="/dashboard" (click)="closeMobileMenu()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200 group [&.active]:bg-brand-primary-light [&.active]:text-brand-primary [&.active]:font-semibold dark:[&.active]:bg-brand-primary/20 dark:[&.active]:text-indigo-300">
+            <svg class="w-5 h-5 opacity-70 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+            </svg>
+            <span class="text-sm">Panel de Control</span>
+          </a>
+
+          <a routerLink="/tarjetas" (click)="closeMobileMenu()" routerLinkActive="active"
+            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200 group [&.active]:bg-brand-primary-light [&.active]:text-brand-primary [&.active]:font-semibold dark:[&.active]:bg-brand-primary/20 dark:[&.active]:text-indigo-300">
+            <svg class="w-5 h-5 opacity-70 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+            </svg>
+            <span class="text-sm">Tarjetas de Crédito</span>
+          </a>
+
+          <a routerLink="/dashboard/ajustes" (click)="closeMobileMenu()" routerLinkActive="active"
+            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200 group [&.active]:bg-brand-primary-light [&.active]:text-brand-primary [&.active]:font-semibold dark:[&.active]:bg-brand-primary/20 dark:[&.active]:text-indigo-300">
+            <svg class="w-5 h-5 opacity-70 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <span class="text-sm">Ajustes</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="pt-4 border-t border-extended-gray-border dark:border-slate-700">
+        <button (click)="openAboutModal()"
+          class="w-full flex items-center justify-between px-4 py-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors text-sm font-medium">
+          <span>Sobre nosotros</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Sidebar -->
   <aside *ngIf="authService.isAuthenticated()"
     class="w-[260px] bg-sidebar dark:bg-slate-800 border-r border-extended-gray-border dark:border-slate-700 flex-col hidden md:flex z-10 transition-colors duration-300">
     <div class="p-6 flex items-center gap-3">
@@ -93,7 +215,9 @@
         </a>
       </div>
     </div>
-  </aside>  <!-- Modal Sobre Nosotros -->
+  </aside>
+
+  <!-- Modal Sobre Nosotros -->
   <div *ngIf="showAboutModal"
     class="fixed inset-0 bg-brand-dark/50 dark:bg-slate-950/80 backdrop-blur-sm z-[100] flex items-center justify-center animate-fade-in p-4">
     <div
@@ -139,7 +263,48 @@
     </div>
   </div>
  
-  <main class="flex-1 overflow-y-auto relative transition-colors duration-300">
+  <!-- Main Outlet View -->
+  <main class="flex-1 overflow-y-auto relative transition-colors duration-300 pb-20 md:pb-0">
     <router-outlet></router-outlet>
   </main>
+
+  <!-- Mobile Bottom Navigation Bar (Fixed) -->
+  <nav *ngIf="authService.isAuthenticated()"
+    class="flex md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sidebar dark:bg-slate-800 border-t border-extended-gray-border dark:border-slate-700 h-16 px-4 justify-around items-center shadow-lg transition-colors duration-300">
+    <!-- Tab 1: Panel -->
+    <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+      class="flex flex-col items-center gap-1 text-extended-gray-muted dark:text-slate-400 hover:text-brand-primary dark:hover:text-indigo-400 [&.active]:text-brand-primary dark:[&.active]:text-indigo-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+      </svg>
+      <span class="text-[10px] font-bold">Panel</span>
+    </a>
+
+    <!-- Tab 2: Tarjetas -->
+    <a routerLink="/tarjetas" routerLinkActive="active"
+      class="flex flex-col items-center gap-1 text-extended-gray-muted dark:text-slate-400 hover:text-brand-primary dark:hover:text-indigo-400 [&.active]:text-brand-primary dark:[&.active]:text-indigo-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+      </svg>
+      <span class="text-[10px] font-bold">Tarjetas</span>
+    </a>
+
+    <!-- Center Floating Action Button (+) -->
+    <button (click)="abrirNuevoGastoMovil()"
+      class="-mt-5 w-12 h-12 rounded-full bg-brand-primary hover:bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-brand-primary/30 transform hover:scale-105 transition-all">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+      </svg>
+    </button>
+
+    <!-- Tab 3: Ajustes -->
+    <a routerLink="/dashboard/ajustes" routerLinkActive="active"
+      class="flex flex-col items-center gap-1 text-extended-gray-muted dark:text-slate-400 hover:text-brand-primary dark:hover:text-indigo-400 [&.active]:text-brand-primary dark:[&.active]:text-indigo-400 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+      </svg>
+      <span class="text-[10px] font-bold">Ajustes</span>
+    </a>
+  </nav>
 </div>

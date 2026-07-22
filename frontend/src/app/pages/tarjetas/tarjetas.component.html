@@ -4,17 +4,17 @@
   </div>
  
   <!-- Pestañas de Tarjetas (Neo-Brutalism) -->
-  <div class="flex flex-wrap gap-2 mb-4 items-center">
-    <div *ngFor="let tarjeta of tarjetas" class="relative group">
+  <div class="flex items-center gap-2 mb-4 overflow-x-auto flex-nowrap pb-2">
+    <div *ngFor="let tarjeta of tarjetas" class="shrink-0 relative group">
       <button (click)="seleccionarTarjeta(tarjeta.id!)"
         [class]="activeTarjetaId === tarjeta.id ? 'bg-brand-primary text-white border-brand-primary shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(51,65,85,1)] translate-y-[-1.5px] translate-x-[-1.5px]' : 'bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-200 border-extended-gray-border dark:border-slate-700 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] dark:shadow-[1.5px_1.5px_0px_0px_rgba(51,65,85,1)]'"
-        class="px-4 py-2 font-bold uppercase tracking-wide border-2 rounded-xl transition-all duration-200 text-sm">
+        class="px-4 py-2 font-bold uppercase tracking-wide border-2 rounded-xl transition-all duration-200 text-xs sm:text-sm whitespace-nowrap">
         {{ tarjeta.nombre }}
       </button>
     </div>
  
     <button (click)="abrirModalTarjeta()"
-      class="px-4 py-2 font-bold uppercase tracking-wide border-2 border-dashed border-extended-gray-muted dark:border-slate-600 text-extended-gray-muted dark:text-slate-400 hover:border-brand-dark dark:hover:border-slate-200 hover:text-brand-dark dark:hover:text-slate-200 rounded-xl transition-all duration-200 flex items-center gap-2 text-sm">
+      class="shrink-0 px-4 py-2 font-bold uppercase tracking-wide border-2 border-dashed border-extended-gray-muted dark:border-slate-600 text-extended-gray-muted dark:text-slate-400 hover:border-brand-dark dark:hover:border-slate-200 hover:text-brand-dark dark:hover:text-slate-200 rounded-xl transition-all duration-200 flex items-center gap-2 text-xs sm:text-sm whitespace-nowrap">
       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path>
       </svg>
@@ -23,22 +23,22 @@
   </div>
  
   <!-- Tabs (Pendientes / Historial) -->
-  <div class="flex justify-between items-center mb-4">
-    <div class="flex gap-3">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+    <div class="flex gap-2 sm:gap-3 w-full sm:w-auto">
       <button (click)="setTab('PENDIENTES')"
         [class]="activeTab === 'PENDIENTES' ? 'bg-brand-primary text-white shadow-subtle border-transparent' : 'bg-extended-gray-light-bg dark:bg-slate-800 text-extended-gray-muted dark:text-slate-400 border-extended-gray-border dark:border-slate-700 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 hover:text-brand-dark dark:hover:text-slate-200'"
-        class="px-4 py-2 font-semibold rounded-interactive border transition-all duration-300 text-sm">
+        class="flex-1 sm:flex-initial px-3 sm:px-4 py-2 font-semibold rounded-interactive border transition-all duration-300 text-xs sm:text-sm text-center">
         Consumos Pendientes
       </button>
       <button (click)="setTab('HISTORIAL')"
         [class]="activeTab === 'HISTORIAL' ? 'bg-brand-primary text-white shadow-subtle border-transparent' : 'bg-extended-gray-light-bg dark:bg-slate-800 text-extended-gray-muted dark:text-slate-400 border-extended-gray-border dark:border-slate-700 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 hover:text-brand-dark dark:hover:text-slate-200'"
-        class="px-4 py-2 font-semibold rounded-interactive border transition-all duration-300 text-sm">
+        class="flex-1 sm:flex-initial px-3 sm:px-4 py-2 font-semibold rounded-interactive border transition-all duration-300 text-xs sm:text-sm text-center">
         Historial Pagados
       </button>
     </div>
  
     <!-- Edit/Delete Card -->
-    <div *ngIf="activeTarjetaId && getActiveTarjeta()" class="flex gap-2">
+    <div *ngIf="activeTarjetaId && getActiveTarjeta()" class="flex gap-2 w-full sm:w-auto justify-end">
       <button (click)="editarTarjeta(getActiveTarjeta()!)"
         class="flex items-center gap-2 bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-200 border border-extended-gray-border dark:border-slate-700 px-3 py-1.5 rounded-interactive font-medium hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors shadow-subtle text-xs">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

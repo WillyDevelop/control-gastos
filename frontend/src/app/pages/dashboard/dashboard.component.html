@@ -1,12 +1,12 @@
-<div class="min-h-screen p-5 text-brand-dark dark:text-slate-100 transition-colors duration-300">
-  <header class="mb-6 flex justify-between items-end border-b border-extended-gray-border dark:border-slate-700 pb-3">
+<div class="min-h-screen p-3 sm:p-5 text-brand-dark dark:text-slate-100 transition-colors duration-300">
+  <header class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 border-b border-extended-gray-border dark:border-slate-700 pb-3">
     <div>
-      <h1 class="text-3xl font-bold tracking-tight">Panel de <span class="text-brand-primary">Control</span></h1>
-      <p class="text-extended-gray-muted dark:text-slate-400 mt-1 font-medium text-sm">Tu resumen financiero en tiempo real</p>
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Panel de <span class="text-brand-primary">Control</span></h1>
+      <p class="text-extended-gray-muted dark:text-slate-400 mt-1 font-medium text-xs sm:text-sm">Tu resumen financiero en tiempo real</p>
     </div>
-    <div class="flex gap-2">
+    <div class="flex gap-2 w-full sm:w-auto justify-end">
       <button (click)="abrirModalTransaccion('GASTO')"
-        class="bg-brand-dark dark:bg-slate-800 text-white border dark:border-slate-700 font-semibold py-1.5 px-4 rounded-interactive shadow-subtle hover:-translate-y-0.5 dark:hover:bg-slate-700 transition-all duration-300 text-sm">
+        class="w-full sm:w-auto bg-brand-dark dark:bg-slate-800 text-white border dark:border-slate-700 font-semibold py-2 px-4 rounded-interactive shadow-subtle hover:-translate-y-0.5 dark:hover:bg-slate-700 transition-all duration-300 text-xs sm:text-sm text-center">
         + AÑADIR GASTOS
       </button>
     </div>
@@ -238,7 +238,7 @@
                 currency:'ARS':'symbol-narrow':'1.2-2' }}
               </p>
               <button (click)="eliminarTransaccion(gasto.id)"
-                class="text-xs text-extended-gray-muted dark:text-slate-400 hover:text-extended-coral-negative dark:hover:text-rose-400 transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1">
+                class="text-xs text-extended-gray-muted dark:text-slate-400 hover:text-extended-coral-negative dark:hover:text-rose-400 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center gap-1">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
@@ -632,8 +632,8 @@
         </div>
       </div>
  
-      <div class="overflow-y-auto border-2 border-brand-dark dark:border-slate-700 rounded-xl flex-1">
-        <table class="w-full text-left border-collapse bg-surface dark:bg-slate-800 relative">
+      <div class="overflow-y-auto overflow-x-auto border-2 border-brand-dark dark:border-slate-700 rounded-xl flex-1">
+        <table class="w-full text-left border-collapse bg-surface dark:bg-slate-800 relative min-w-[500px]">
           <thead class="sticky top-0 z-10 bg-brand-primary text-white border-b-2 border-brand-dark dark:border-slate-700">
             <tr>
               <th class="p-4 font-bold text-sm uppercase tracking-wider">Icono & Nombre</th>

@@ -12,7 +12,7 @@ import { DeudaService } from '../../services/deuda.service';
 import { TarjetaCreditoService } from '../../services/tarjeta-credito.service';
 import { ThemeService } from '../../services/theme.service';
 
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   deudaService = inject(DeudaService);
   tarjetaCreditoService = inject(TarjetaCreditoService);
   themeService = inject(ThemeService);
+  private route = inject(ActivatedRoute);
 
   showModal = false;
   tipoTransaccion: 'INGRESO' | 'GASTO' = 'GASTO';
@@ -340,6 +341,12 @@ export class DashboardComponent implements OnInit {
     this.categoriaService.cargarPresupuestos();
     this.metaAhorroService.cargarMetas();
     this.tarjetaCreditoService.cargarTarjetas();
+
+    this.route.queryParams.subscribe(params => {
+      if (params['action'] === 'nuevoGasto') {
+        this.abrirModalTransaccion('GASTO');
+      }
+    });
   }
 
   eliminarTransaccion(id: number) {
