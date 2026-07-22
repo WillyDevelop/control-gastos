@@ -1,6 +1,9 @@
 # Executables and Local Tools
 MailHog_windows_amd64.exe
 cuota.txt
+run-all.bat
+run_all.cmd
+walkthrough.md
 
 # Maven / Backend Output
 backend/target/
