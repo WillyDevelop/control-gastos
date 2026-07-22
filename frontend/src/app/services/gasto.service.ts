@@ -5,6 +5,7 @@ import { ReporteGasto } from '../models/reporte';
 import { catchError, tap, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { PatrimonioService } from './patrimonio.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { PatrimonioService } from './patrimonio.service';
 export class GastoService {
   private http = inject(HttpClient);
   private patrimonioService = inject(PatrimonioService);
-  private apiUrl = 'http://localhost:8080/api/v1/gastos';
+  private apiUrl = `${environment.apiUrl}/gastos`;
 
   gastosMes = signal<Gasto[]>([]);
   loading = signal<boolean>(false);
@@ -95,7 +96,7 @@ export class GastoService {
   }
 
   getCategorias(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:8080/api/v1/categorias');
+    return this.http.get<any[]>(`${environment.apiUrl}/categorias`);
   }
 
   eliminarGasto(id: number): Observable<void> {

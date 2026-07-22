@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Patrimonio } from '../models/patrimonio';
 import { catchError, tap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatrimonioService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/patrimonio';
+  private apiUrl = `${environment.apiUrl}/patrimonio`;
 
   patrimonio = signal<Patrimonio | null>(null);
   loading = signal<boolean>(false);

@@ -2,13 +2,14 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { TarjetaCredito } from '../models/tarjeta-credito';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TarjetaCreditoService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/tarjetas';
+  private apiUrl = `${environment.apiUrl}/tarjetas`;
   
   tarjetas = signal<TarjetaCredito[]>([]);
 

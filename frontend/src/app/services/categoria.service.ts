@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Categoria } from '../models/categoria';
 import { catchError, tap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/categorias';
+  private apiUrl = `${environment.apiUrl}/categorias`;
 
   categorias = signal<Categoria[]>([]);
   presupuestos = signal<any[]>([]);

@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface PlantillaGasto {
   id?: number;
@@ -26,7 +27,7 @@ export interface PlantillaGastoResponse {
 })
 export class PlantillaGastoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/plantillas';
+  private apiUrl = `${environment.apiUrl}/plantillas`;
 
   plantillas = signal<PlantillaGastoResponse[]>([]);
 

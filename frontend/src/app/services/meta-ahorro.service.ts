@@ -2,13 +2,14 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MetaAhorroService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/v1/metas';
+  private apiUrl = `${environment.apiUrl}/metas`;
 
   metas = signal<any[]>([]);
   loading = signal<boolean>(false);
