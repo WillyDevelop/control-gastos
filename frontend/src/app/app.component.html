@@ -2,7 +2,7 @@
   
   <!-- Mobile Top Header Bar -->
   <header *ngIf="authService.isAuthenticated()"
-    class="flex md:hidden items-center justify-between px-4 py-3 bg-sidebar dark:bg-slate-800 border-b border-extended-gray-border dark:border-slate-700 shrink-0 z-30 transition-colors duration-300">
+    class="flex md:hidden items-center px-4 py-3 bg-sidebar dark:bg-slate-800 border-b border-extended-gray-border dark:border-slate-700 shrink-0 z-30 transition-colors duration-300">
     <!-- Left: Hamburger Menu Toggle Button & Logo -->
     <div class="flex items-center gap-3">
       <!-- Hamburger Button on the LEFT -->
@@ -28,20 +28,6 @@
         <span class="font-bold text-base text-brand-dark dark:text-slate-100 tracking-tight">Mis Gastos</span>
       </div>
     </div>
-
-    <!-- Right: Theme Switcher Header Button -->
-    <button (click)="themeService.toggleTheme()"
-      class="p-2 rounded-interactive bg-extended-gray-light-bg dark:bg-slate-700 text-brand-dark dark:text-slate-200 transition-colors">
-      @if (themeService.isDarkMode()) {
-      <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464-4.95a1 1 0 111.414 1.414L14.12 7.293a1 1 0 01-1.414-1.414l.828-.828zM17 9a1 1 0 100 2h1a1 1 0 100-2h-1zm-7 7a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-5.657-.707a1 1 0 011.414-1.414l.828.828a1 1 0 11-1.414 1.414l-.828-.828zM3.707 5.657a1 1 0 010-1.414l.828-.828a1 1 0 011.414 0 1 1 0 010 1.414l-.828.828a1 1 0 01-1.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-10.464 2.828a1 1 0 111.414-1.414l.828.828a1 1 0 11-1.414 1.414l-.828-.828z"/>
-      </svg>
-      } @else {
-      <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-      </svg>
-      }
-    </button>
   </header>
 
   <!-- Mobile Drawer / Off-canvas Menu -->
