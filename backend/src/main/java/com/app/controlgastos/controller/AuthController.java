@@ -20,6 +20,8 @@ public class AuthController {
             return ResponseEntity.ok().body("{\"message\":\"¡Cuenta creada con éxito!\"}");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("{\"error\":\"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("{\"error\":\"Error al registrar usuario: " + e.getMessage() + "\"}");
         }
     }
 
