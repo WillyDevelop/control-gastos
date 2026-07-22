@@ -1,0 +1,831 @@
+<div class="min-h-screen p-5 text-brand-dark dark:text-slate-100 transition-colors duration-300">
+  <header class="mb-6 flex justify-between items-end border-b border-extended-gray-border dark:border-slate-700 pb-3">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight">Panel de <span class="text-brand-primary">Control</span></h1>
+      <p class="text-extended-gray-muted dark:text-slate-400 mt-1 font-medium text-sm">Tu resumen financiero en tiempo real</p>
+    </div>
+    <div class="flex gap-2">
+      <button (click)="abrirModalTransaccion('GASTO')"
+        class="bg-brand-dark dark:bg-slate-800 text-white border dark:border-slate-700 font-semibold py-1.5 px-4 rounded-interactive shadow-subtle hover:-translate-y-0.5 dark:hover:bg-slate-700 transition-all duration-300 text-sm">
+        + AÑADIR GASTOS
+      </button>
+    </div>
+  </header>
+ 
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <!-- Card Saldo -->
+    <div
+      class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-4 shadow-subtle hover:-translate-y-1 transition-all duration-300">
+      <div class="flex justify-between items-start mb-3">
+        <p class="text-extended-gray-muted dark:text-slate-400 font-medium text-xs uppercase tracking-wider">Saldo Actual</p>
+        <div class="flex gap-2">
+ 
+          <div
+            class="w-8 h-8 bg-extended-gray-light-bg dark:bg-slate-700 rounded-xl flex items-center justify-center text-lg text-brand-primary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold">{{ patrimonioService.patrimonio()?.saldoActual |
+        currency:'ARS':'symbol-narrow':'1.2-2' }}</h2>
+ 
+    </div>
+ 
+    <!-- Card Gastado -->
+    <div
+      class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-4 shadow-subtle hover:-translate-y-1 transition-all duration-300">
+      <div class="flex justify-between items-start mb-3">
+        <p class="text-extended-gray-muted dark:text-slate-400 font-medium text-xs uppercase tracking-wider">Gastado del Mes</p>
+        <div
+          class="w-8 h-8 bg-extended-gray-light-bg dark:bg-slate-700 rounded-xl flex items-center justify-center text-lg text-extended-coral-negative dark:text-rose-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-extended-coral-negative dark:text-rose-400">{{ patrimonioService.patrimonio()?.totalPagado |
+        currency:'ARS':'symbol-narrow':'1.2-2' }}</h2>
+    </div>
+ 
+    <!-- Card Ingresos -->
+    <div
+      class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-4 shadow-subtle flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 relative group">
+      <div>
+        <div class="flex justify-between items-start mb-3">
+          <p class="text-extended-gray-muted dark:text-slate-400 font-medium text-xs uppercase tracking-wider">Entradas (Ingresos)</p>
+          <button (click)="toggleInputIngreso()"
+            class="w-8 h-8 bg-extended-gray-light-bg dark:bg-slate-700 rounded-xl flex items-center justify-center text-lg text-extended-teal-positive dark:text-emerald-400 hover:bg-extended-gray-border dark:hover:bg-slate-600 transition-colors">
+            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </button>
+        </div>
+        <h2 class="text-2xl font-bold text-extended-teal-positive dark:text-emerald-400">{{ patrimonioService.patrimonio()?.ingresoTotal |
+          currency:'ARS':'symbol-narrow':'1.2-2' }}</h2>
+      </div>
+ 
+      @if (mostrandoInputIngreso) {
+      <div
+        class="mt-3 flex gap-2 items-center bg-extended-gray-light-bg dark:bg-slate-700 p-2 rounded-interactive border border-extended-gray-border dark:border-slate-600 animate-fade-in">
+        <input type="text" [(ngModel)]="nuevoIngresoRapido.descripcion" (keyup.enter)="guardarIngresoRapido()"
+          placeholder="Motivo"
+          class="w-full bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-600 p-1.5 text-xs rounded text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary">
+        <input type="number" [(ngModel)]="nuevoIngresoRapido.monto" (keyup.enter)="guardarIngresoRapido()"
+          placeholder="$" max="99999999.99"
+          class="w-16 bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-600 p-1.5 text-xs rounded text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary">
+        <button (click)="guardarIngresoRapido()"
+          class="bg-brand-primary text-white p-1.5 rounded hover:bg-brand-dark dark:hover:bg-brand-primary/80 transition-colors" title="Guardar">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </button>
+      </div>
+      }
+ 
+ 
+    </div>
+ 
+    <!-- Card Tarjetas -->
+    <a routerLink="/tarjetas"
+      class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-4 shadow-subtle hover:-translate-y-1 hover:border-extended-amber-alert/40 hover:shadow-md transition-all duration-300 cursor-pointer block">
+      <div class="flex justify-between items-start mb-3">
+        <p class="text-extended-gray-muted dark:text-slate-400 font-medium text-xs uppercase tracking-wider">Próx. Mes (Tarjetas)</p>
+        <div
+          class="w-8 h-8 bg-extended-gray-light-bg dark:bg-slate-700 rounded-xl flex items-center justify-center text-lg text-extended-amber-alert">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-extended-amber-alert">-{{ patrimonioService.patrimonio()?.gastoMesQueViene |
+        currency:'ARS':'symbol-narrow':'1.2-2' }}</h2>
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <!-- Gráficos -->
+    <div
+      class="lg:col-span-2 bg-surface dark:bg-slate-800 rounded-card p-4 shadow-elegant border border-extended-gray-border/40 dark:border-slate-700 relative">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold text-brand-dark dark:text-slate-100">Visión General</h3>
+ 
+        <!-- Selector de Gráfico -->
+        <div class="relative">
+          <button (click)="showChartSelector = !showChartSelector"
+            class="flex items-center gap-2 bg-extended-gray-light-bg dark:bg-slate-700 hover:bg-extended-gray-border/50 dark:hover:bg-slate-600 text-brand-dark dark:text-slate-100 px-3 py-1.5 rounded-interactive transition-colors text-xs font-medium border border-extended-gray-border/50 dark:border-slate-600">
+            <svg class="w-3.5 h-3.5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+              </path>
+            </svg>
+            Diseño
+            <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+               [class.rotate-180]="showChartSelector">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+ 
+          @if (showChartSelector) {
+          <div
+            class="absolute right-0 mt-2 w-48 bg-surface dark:bg-slate-800 rounded-interactive shadow-elegant border border-extended-gray-border dark:border-slate-700 py-1 z-20 animate-fade-in">
+            <button (click)="activeChart.set('COMPARATIVA'); showChartSelector = false"
+              class="w-full text-left px-4 py-2 text-sm hover:bg-brand-primary-light dark:hover:bg-slate-700 transition-colors flex items-center gap-2"
+              [class.font-bold]="activeChart() === 'COMPARATIVA'"
+              [class.text-brand-primary]="activeChart() === 'COMPARATIVA'">
+              <div class="w-2 h-2 rounded-full bg-brand-primary"></div>
+              Comparativa
+            </button>
+            <button (click)="activeChart.set('TENDENCIA'); showChartSelector = false"
+              class="w-full text-left px-4 py-2 text-sm hover:bg-brand-primary-light dark:hover:bg-slate-700 transition-colors flex items-center gap-2"
+              [class.font-bold]="activeChart() === 'TENDENCIA'"
+              [class.text-brand-primary]="activeChart() === 'TENDENCIA'">
+              <div class="w-2 h-2 rounded-full bg-extended-purple-accent"></div>
+              Tendencia Mensual
+            </button>
+            <button (click)="activeChart.set('DIARIO'); showChartSelector = false"
+              class="w-full text-left px-4 py-2 text-sm hover:bg-brand-primary-light dark:hover:bg-slate-700 transition-colors flex items-center gap-2"
+              [class.font-bold]="activeChart() === 'DIARIO'" [class.text-brand-primary]="activeChart() === 'DIARIO'">
+              <div class="w-2 h-2 rounded-full bg-extended-coral-negative"></div>
+              Gastos Diarios
+            </button>
+            <button (click)="activeChart.set('CATEGORIAS'); showChartSelector = false"
+              class="w-full text-left px-4 py-2 text-sm hover:bg-brand-primary-light dark:hover:bg-slate-700 transition-colors flex items-center gap-2"
+              [class.font-bold]="activeChart() === 'CATEGORIAS'"
+              [class.text-brand-primary]="activeChart() === 'CATEGORIAS'">
+              <div class="w-2 h-2 rounded-full bg-extended-teal-positive"></div>
+              Categorías (Polar)
+            </button>
+            <button (click)="activeChart.set('RADAR'); showChartSelector = false"
+              class="w-full text-left px-4 py-2 text-sm hover:bg-brand-primary-light dark:hover:bg-slate-700 transition-colors flex items-center gap-2"
+              [class.font-bold]="activeChart() === 'RADAR'" [class.text-brand-primary]="activeChart() === 'RADAR'">
+              <div class="w-2 h-2 rounded-full bg-brand-dark"></div>
+              Distribución (Radar)
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+ 
+      <!-- Backdrop invisible para cerrar el menú si se hace click fuera -->
+      @if (showChartSelector) {
+      <div class="fixed inset-0 z-10" (click)="showChartSelector = false"></div>
+      }
+ 
+      <div class="h-80 w-full relative z-0">
+        <!-- Re-render the canvas completely when the type changes to prevent Chart.js reuse bugs -->
+        @switch (activeChartType()) {
+        @case ('bar') {
+        <canvas baseChart [data]="chartData()" [options]="chartOptions()" type="bar"></canvas>
+        }
+        @case ('line') {
+        <canvas baseChart [data]="chartData()" [options]="chartOptions()" type="line"></canvas>
+        }
+        @case ('polarArea') {
+        <canvas baseChart [data]="chartData()" [options]="chartOptions()" type="polarArea"></canvas>
+        }
+        @case ('radar') {
+        <canvas baseChart [data]="chartData()" [options]="chartOptions()" type="radar"></canvas>
+        }
+        }
+      </div>
+    </div>
+ 
+    <div class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-5 shadow-subtle">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-brand-dark dark:text-slate-100">Últimas Transacciones</h3>
+        <span
+          class="bg-extended-gray-light-bg dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 font-medium px-3 py-1 text-xs rounded-full text-extended-gray-muted dark:text-slate-400">Historial</span>
+      </div>
+ 
+      <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+        @for(gasto of gastoService.gastosMes(); track gasto.id) {
+        <div
+          class="bg-surface dark:bg-slate-900/40 border border-extended-gray-border dark:border-slate-700/80 rounded-interactive p-4 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-300 group">
+          <div class="flex justify-between items-start">
+            <div class="flex gap-4">
+              <div
+                class="w-10 h-10 bg-extended-gray-light-bg dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 flex items-center justify-center text-lg rounded-lg group-hover:shadow-subtle transition-all duration-300">
+                @if (gasto.categoria?.icono) {
+                {{ gasto.categoria?.icono }}
+                } @else if (gasto.categoria?.tipo === 'INGRESO') {
+                <svg class="w-5 h-5 text-extended-teal-positive dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18">
+                  </path>
+                </svg>
+                } @else {
+                <svg class="w-5 h-5 text-extended-coral-negative dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3">
+                  </path>
+                </svg>
+                }
+              </div>
+              <div>
+                <h4 class="font-semibold text-md leading-tight text-brand-dark dark:text-slate-200">{{ gasto.descripcion }}</h4>
+                <p class="text-xs text-extended-gray-muted dark:text-slate-400 mt-1 font-medium">
+                  {{ gasto.fecha | date:'dd-MM-yyyy' }} • {{ gasto.metodoPago }}
+                  @if(gasto.entidadPago) { <span class="text-brand-primary dark:text-indigo-400 opacity-80">({{gasto.entidadPago}})</span> }
+                </p>
+              </div>
+            </div>
+            <div class="text-right flex flex-col items-end gap-1">
+              <p class="font-semibold text-lg"
+                [ngClass]="gasto.categoria?.tipo === 'INGRESO' ? 'text-extended-teal-positive dark:text-emerald-400' : 'text-extended-coral-negative dark:text-rose-400'">
+                {{ gasto.categoria?.tipo === 'INGRESO' ? '+' : '-' }}{{ gasto.monto |
+                currency:'ARS':'symbol-narrow':'1.2-2' }}
+              </p>
+              <button (click)="eliminarTransaccion(gasto.id)"
+                class="text-xs text-extended-gray-muted dark:text-slate-400 hover:text-extended-coral-negative dark:hover:text-rose-400 transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                  </path>
+                </svg>
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+        } @empty {
+        <div class="text-center py-10 bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 border-dashed rounded-interactive">
+          <p class="text-extended-gray-muted dark:text-slate-400 font-medium">No hay transacciones este mes</p>
+          <p class="text-xs mt-2 text-extended-gray-muted dark:text-slate-500 opacity-70">Usa "+ ENTRADA" o "+ SALIDA" para empezar</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Presupuestos del Mes -->
+  <div class="mt-6 bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-5 shadow-subtle mb-6">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-3">
+        <span
+          class="w-7 h-7 bg-extended-violet-accent/20 border border-extended-violet-accent/50 dark:border-violet-500/30 rounded-lg flex items-center justify-center text-extended-violet-accent dark:text-violet-400">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+          </svg>
+        </span>
+        Mis Presupuestos del Mes
+      </h3>
+      <button (click)="abrirGestionCategorias()"
+        class="text-xs font-semibold bg-extended-gray-light-bg dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 px-3 py-1.5 hover:bg-extended-gray-border dark:hover:bg-slate-600 transition-colors rounded-interactive text-brand-dark dark:text-slate-200">Gestionar
+        Categorías</button>
+    </div>
+ 
+    @if (categoriaService.presupuestos().length === 0) {
+    <div class="text-center py-6 bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 border-dashed rounded-interactive">
+      <p class="text-extended-gray-muted dark:text-slate-400 font-medium text-sm">No tienes presupuestos configurados.</p>
+      <p class="text-xs mt-1 text-extended-gray-muted dark:text-slate-500 opacity-70">Configura límites mensuales en tus categorías para
+        controlarlos aquí.</p>
+    </div>
+    } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (presupuesto of categoriaService.presupuestos(); track presupuesto.categoriaId) {
+      <div
+        class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700/80 rounded-interactive p-4 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-300">
+        <div class="flex justify-between items-end mb-2">
+          <h4 class="font-semibold text-sm text-brand-dark dark:text-slate-200">{{ presupuesto.nombreCategoria }}</h4>
+          <span class="font-semibold text-sm">{{ presupuesto.montoGastado | currency:'ARS':'symbol-narrow':'1.2-2' }}
+            <span class="text-xs text-extended-gray-muted dark:text-slate-400">/ {{ presupuesto.limiteMensual |
+              currency:'ARS':'symbol-narrow':'1.0-0' }}</span></span>
+        </div>
+ 
+        <div class="h-2 w-full bg-extended-gray-light-bg dark:bg-slate-700 rounded-full overflow-hidden relative">
+          <div class="h-full rounded-full transition-all duration-500" [ngClass]="{
+                     'bg-extended-teal-positive shadow-subtle': presupuesto.porcentajeConsumido < 70,
+                     'bg-extended-amber-alert shadow-subtle': presupuesto.porcentajeConsumido >= 70 && presupuesto.porcentajeConsumido < 100,
+                     'bg-extended-coral-negative shadow-subtle': presupuesto.porcentajeConsumido >= 100
+                   }" [style.width.%]="presupuesto.porcentajeConsumido > 100 ? 100 : presupuesto.porcentajeConsumido">
+          </div>
+        </div>
+ 
+        <div class="flex justify-between items-center mt-2">
+          <span class="text-xs font-semibold"
+            [ngClass]="{'text-extended-coral-negative': presupuesto.porcentajeConsumido >= 100, 'text-extended-gray-muted dark:text-slate-400': presupuesto.porcentajeConsumido < 100}">
+            {{ presupuesto.porcentajeConsumido | number:'1.1-1' }}%
+          </span>
+          @if (presupuesto.porcentajeConsumido >= 100) {
+          <span
+            class="text-xs font-semibold text-extended-coral-negative bg-extended-coral-negative/10 border border-extended-coral-negative/30 px-2 py-0.5 rounded">¡Agotado!</span>
+          }
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+ 
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+    <!-- Donut Charts: Flujo de Caja -->
+    <div class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-5 shadow-subtle lg:col-span-1">
+      <h3 class="text-lg font-semibold mb-4 text-brand-dark dark:text-slate-100">Gastos por Categoría</h3>
+      <div class="h-64 relative flex items-center justify-center">
+        @if((donutPagosData().labels?.length || 0) > 0) {
+        <canvas baseChart [data]="donutPagosData()" [options]="donutOptions()" [type]="'doughnut'">
+        </canvas>
+        } @else {
+        <p class="text-extended-gray-muted dark:text-slate-400 text-sm">Sin gastos este mes</p>
+        }
+      </div>
+    </div>
+ 
+    <!-- Alcancías de Ahorro -->
+    <div class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-5 shadow-subtle lg:col-span-2">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold flex items-center gap-3 text-brand-dark dark:text-slate-100">
+          <span
+            class="w-7 h-7 bg-brand-primary/20 border border-brand-primary/50 dark:border-indigo-500/30 rounded-lg flex items-center justify-center text-brand-primary dark:text-indigo-400">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+          </span>
+          Mis Alcancías de Ahorro
+        </h3>
+        <button (click)="abrirMetaModal()"
+          class="text-xs font-semibold bg-extended-gray-light-bg dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 px-3 py-1.5 hover:bg-extended-gray-light-bg dark:hover:bg-slate-600 transition-colors rounded-interactive text-brand-dark dark:text-slate-200">Nueva
+          Meta</button>
+      </div>
+ 
+      @if (metaAhorroService.metas().length === 0) {
+      <div class="text-center py-6 bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 border-dashed rounded-interactive">
+        <p class="text-extended-gray-muted dark:text-slate-400 font-medium text-sm">Aún no tienes metas de ahorro.</p>
+        <p class="text-xs mt-1 text-extended-gray-muted dark:text-slate-400">Crea una meta y activa el redondeo automático para
+          empezar a ahorrar sin darte cuenta.</p>
+      </div>
+      } @else {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        @for (meta of metaAhorroService.metas(); track meta.id) {
+        <div
+          class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-interactive p-4 relative hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-300">
+          @if(meta.activaParaRedondeo) {
+          <div
+            class="absolute -top-3 -right-3 bg-extended-teal-positive border border-extended-teal-positive/50 px-3 py-1 rounded-full shadow-subtle font-bold text-[10px] uppercase z-10 text-white">
+            Activa <svg class="inline-block w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+              </path>
+            </svg>
+          </div>
+          }
+          <div class="flex justify-between items-start mb-3">
+            <h4 class="font-semibold text-md text-brand-dark dark:text-slate-200 pr-4">{{ meta.nombre }}</h4>
+            <button *ngIf="!meta.activaParaRedondeo" (click)="activarMeta(meta.id)"
+              class="text-[10px] font-semibold bg-extended-gray-light-bg dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 px-2 py-1 hover:bg-extended-gray-light-bg dark:hover:bg-slate-600 transition-colors rounded text-brand-dark dark:text-slate-200">Activar
+              Redondeo</button>
+          </div>
+ 
+          <div class="mb-2 flex justify-between items-end">
+            <span class="font-bold text-lg text-extended-teal-positive dark:text-emerald-400">{{ meta.montoActual |
+              currency:'ARS':'symbol-narrow':'1.2-2' }}</span>
+            <span class="text-xs text-extended-gray-muted dark:text-slate-400 font-medium">de {{ meta.montoObjetivo |
+              currency:'ARS':'symbol-narrow':'1.0-0' }}</span>
+          </div>
+ 
+          <div class="h-2 w-full bg-extended-gray-light-bg dark:bg-slate-700 rounded-full overflow-hidden relative">
+            <div class="h-full bg-brand-primary shadow-subtle transition-all duration-500 rounded-full"
+              [style.width.%]="(meta.montoActual / meta.montoObjetivo) * 100 > 100 ? 100 : (meta.montoActual / meta.montoObjetivo) * 100">
+            </div>
+          </div>
+          <div class="mt-2 text-right">
+            <span class="text-xs font-semibold text-brand-primary dark:text-indigo-400">{{ ((meta.montoActual / meta.montoObjetivo) * 100) |
+              number:'1.1-1' }}%</span>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Panel de Presupuestos y Alcancías -->
+
+  <!-- Modal Transacción -->
+  @if(showModal) {
+  <div class="fixed inset-0 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div
+      class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-5 w-full max-w-xl shadow-subtle animate-fade-in transition-colors duration-300">
+      <h2 class="text-xl font-semibold mb-4 border-b border-extended-gray-border dark:border-slate-700 pb-3 text-brand-dark dark:text-slate-100">
+        {{ tipoTransaccion === 'INGRESO' ? 'Añadir Entrada (Ingreso)' : 'Ingrese el gasto' }}
+      </h2>
+      <form (ngSubmit)="guardarGasto()" #gastoForm="ngForm">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="col-span-2">
+            <label
+              class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Descripción</label>
+            <input type="text" [(ngModel)]="nuevoGasto.descripcion" name="descripcion" required
+              placeholder="Ej. Supermercado"
+              class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-primary focus:shadow-subtle transition-all placeholder-extended-gray-muted/50 dark:placeholder-slate-400 text-sm">
+          </div>
+ 
+          <div>
+            <label class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Monto
+              ($)</label>
+            <input type="number" [(ngModel)]="nuevoGasto.monto" name="monto" required min="0.01" max="99999999.99"
+              class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-primary focus:shadow-subtle transition-all text-sm">
+            @if (gastoForm.controls['monto'].hasError('max')) {
+            <p class="text-[10px] text-extended-coral-negative dark:text-rose-400 mt-1">El monto no puede superar $99.999.999,99.</p>
+            }
+            @if(mensajeRedondeo) {
+            <p class="text-[10px] font-medium text-brand-primary dark:text-indigo-400 mt-1">
+              {{ mensajeRedondeo }}
+            </p>
+            }
+          </div>
+ 
+          <div>
+            <label
+              class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Fecha</label>
+            <input type="date" [(ngModel)]="nuevoGasto.fecha" name="fecha" required
+              class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-primary focus:shadow-subtle transition-all text-sm">
+          </div>
+ 
+          <div class="col-span-2">
+            <div class="flex justify-between items-end mb-1">
+              <label class="block text-extended-gray-muted dark:text-slate-400 font-medium text-[11px] uppercase tracking-wide">Categoría de
+                {{ tipoTransaccion === 'INGRESO' ? 'Entrada' : 'Salida' }}</label>
+              <button type="button" (click)="abrirCategoriaModal()"
+                class="text-[10px] font-medium text-brand-primary hover:text-brand-primary/80 transition-colors">Nueva
+                Categoría +</button>
+            </div>
+            @if(categoriasFiltradas().length === 0) {
+            <div
+              class="w-full bg-extended-coral-negative/10 border border-extended-coral-negative text-extended-coral-negative p-2 rounded-interactive text-xs">
+              No tienes categorías de {{ tipoTransaccion }}. Crea una primero usando el botón "Nueva Categoría +".
+            </div>
+            } @else {
+            <select [(ngModel)]="nuevoGasto.categoriaId" name="categoria" required
+              class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-primary focus:shadow-subtle transition-all appearance-none text-sm">
+              @for(cat of categoriasFiltradas(); track cat.id) {
+              <option [value]="cat.id" class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-100">{{ cat.icono }} {{ cat.nombre }}</option>
+              }
+            </select>
+            }
+          </div>
+ 
+          <div>
+            <label class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Método
+              de Pago</label>
+            <select [(ngModel)]="nuevoGasto.metodoPago" name="metodoPago" required
+              class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-primary focus:shadow-subtle transition-all appearance-none text-sm">
+              <option value="EFECTIVO" class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-100">Efectivo</option>
+              <option value="TARJETA_DEBITO" class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-100">Tarjeta Débito</option>
+              <option value="TARJETA_CREDITO" class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-100">Tarjeta Crédito</option>
+              <option value="TRANSFERENCIA" class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-100">Transferencia / QR</option>
+            </select>
+          </div>
+ 
+          <div>
+            @if (nuevoGasto.metodoPago === 'TARJETA_CREDITO') {
+            <div class="flex justify-between items-end mb-1">
+              <label class="block text-extended-gray-muted dark:text-slate-400 font-medium text-[11px] uppercase tracking-wide">Tarjeta
+                de Crédito</label>
+              <button type="button" (click)="abrirTarjetaModal()"
+                class="text-[10px] font-medium text-brand-primary hover:text-brand-primary/80 transition-colors">Nueva
+                Tarjeta +</button>
+            </div>
+            <select [(ngModel)]="nuevoGasto.tarjetaCreditoId" name="tarjetaCreditoId" required
+              class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-primary focus:shadow-subtle transition-all appearance-none text-sm">
+              <option [value]="null" disabled selected class="bg-surface dark:bg-slate-800 text-extended-gray-muted/70">Seleccionar tarjeta...</option>
+              @for (tarjeta of tarjetaCreditoService.tarjetas(); track tarjeta.id) {
+              <option [value]="tarjeta.id" class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-100">{{ tarjeta.nombre }}</option>
+              }
+            </select>
+            @if (!nuevoGasto.tarjetaCreditoId) {
+            <p class="text-[10px] text-extended-coral-negative dark:text-rose-400 mt-1">Debes seleccionar una tarjeta.</p>
+            }
+            } @else {
+            <label class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Banco /
+              Billetera</label>
+            <input type="text" [(ngModel)]="nuevoGasto.entidadPago" name="entidadPago"
+              placeholder="Ej. MercadoPago, Visa"
+              class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary dark:focus:border-brand-primary focus:shadow-subtle transition-all placeholder-extended-gray-muted/50 dark:placeholder-slate-400 text-sm">
+            }
+          </div>
+ 
+          <div class="col-span-2 flex items-center gap-2 border-t border-extended-gray-border dark:border-slate-700 mt-1 pt-4">
+            <label class="flex items-center gap-2 cursor-pointer group">
+              <input type="checkbox" [(ngModel)]="nuevoGasto.pagado" name="pagado"
+                class="w-4 h-4 rounded border-extended-gray-border dark:border-slate-600 bg-surface dark:bg-slate-700 text-brand-primary focus:ring-brand-primary focus:ring-offset-obsidian-canvas">
+              <span class="text-brand-dark dark:text-slate-200 font-medium text-xs group-hover:text-brand-primary transition-colors">Ya está
+                pagado</span>
+            </label>
+          </div>
+        </div>
+ 
+        <div class="flex gap-3 mt-6">
+          <button type="button" (click)="cerrarModal()"
+            class="flex-1 bg-transparent border border-extended-gray-border dark:border-slate-700 text-brand-dark dark:text-slate-300 font-semibold py-2 rounded-interactive hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors text-sm">
+            CANCELAR
+          </button>
+          <button type="submit" [disabled]="!gastoForm.form.valid || !nuevoGasto.categoriaId"
+            class="flex-1 bg-brand-dark dark:bg-slate-700 dark:hover:bg-slate-600 text-white dark:text-slate-100 font-semibold py-2 rounded-interactive shadow-subtle hover:-translate-y-0.5 transition-all border dark:border-slate-600 disabled:opacity-50 disabled:pointer-events-none text-sm">
+            GUARDAR
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+  <!-- Modal Categoria -->
+  @if(showCategoriaModal) {
+  <div class="fixed inset-0 bg-brand-dark/50 dark:bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+    <div class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-5 w-full max-w-sm shadow-subtle transition-colors duration-300">
+      <h2 class="text-lg font-semibold mb-4 border-b border-extended-gray-border dark:border-slate-700 pb-3 text-brand-dark dark:text-slate-100">Crear Categoría</h2>
+      <form (ngSubmit)="guardarCategoria()" #catForm="ngForm">
+        <div class="mb-3">
+          <label
+            class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Nombre</label>
+          <input type="text" [(ngModel)]="nuevaCategoria.nombre" name="catNombre" required
+            placeholder="Ej. Restaurantes"
+            class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all placeholder-extended-gray-muted/50 dark:placeholder-slate-400 text-sm">
+        </div>
+        <div class="mb-3">
+          <label
+            class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Tipo</label>
+          <select [(ngModel)]="nuevaCategoria.tipo" name="catTipo" required
+            class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all appearance-none text-sm">
+            <option value="GASTO" class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-100">Gasto</option>
+            <option value="INGRESO" class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-100">Ingreso</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Límite
+            Mensual (Opcional)</label>
+          <input type="number" [(ngModel)]="nuevaCategoria.limiteMensual" name="catLimite" min="0" step="10"
+            placeholder="Ej. 5000"
+            class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all placeholder-extended-gray-muted/50 dark:placeholder-slate-400 text-sm">
+        </div>
+        <div class="flex gap-3">
+          <button type="button" (click)="cerrarCategoriaModal()"
+            class="flex-1 bg-transparent border border-extended-gray-border dark:border-slate-700 text-brand-dark dark:text-slate-200 font-medium py-2 rounded-interactive hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors text-sm">Cancelar</button>
+          <button type="submit" [disabled]="!catForm.form.valid"
+            class="flex-1 bg-brand-primary text-white font-medium py-2 rounded-interactive shadow-subtle hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:pointer-events-none text-sm">Crear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+ 
+  <!-- Modal Nueva Meta -->
+  @if(showMetaModal) {
+  <div class="fixed inset-0 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center z-[60] p-4">
+    <div class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-5 w-full max-w-sm shadow-subtle transition-colors duration-300">
+      <h2 class="text-lg font-semibold mb-4 border-b border-extended-gray-border dark:border-slate-700 pb-3 text-brand-dark dark:text-slate-100">Nueva Meta de Ahorro</h2>
+      <form (ngSubmit)="guardarMeta()" #metaForm="ngForm">
+        <div class="mb-3">
+          <label class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Nombre
+            (Ej: Vacaciones)</label>
+          <input type="text" [(ngModel)]="nuevaMeta.nombre" name="metaNombre" required
+            class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all text-sm">
+        </div>
+        <div class="mb-4">
+          <label class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1 text-[11px] uppercase tracking-wide">Monto
+            Objetivo ($)</label>
+          <input type="number" [(ngModel)]="nuevaMeta.montoObjetivo" name="metaMonto" required min="1" max="9999999999.99" step="1000"
+            placeholder="Ej. 100000"
+            class="w-full h-11 bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 py-2 px-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all placeholder-extended-gray-muted/50 dark:placeholder-slate-400 text-sm">
+          @if (metaForm.controls['metaMonto'].hasError('max')) {
+          <p class="text-[10px] text-extended-coral-negative dark:text-rose-400 mt-1">El monto objetivo no puede superar los $9.999.999.999,99.</p>
+          }
+        </div>
+        <div class="flex gap-3">
+          <button type="button" (click)="cerrarMetaModal()"
+            class="flex-1 bg-transparent border border-extended-gray-border dark:border-slate-700 text-brand-dark dark:text-slate-200 font-medium py-2 rounded-interactive hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors text-sm">Cancelar</button>
+          <button type="submit" [disabled]="!metaForm.form.valid"
+            class="flex-1 bg-brand-primary text-white font-medium py-2 rounded-interactive shadow-subtle hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:pointer-events-none text-sm">Crear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+ 
+  <!-- Modal Gestión Categorías (Neo-Brutalism) -->
+  @if(showGestionCategoriasModal) {
+  <div class="fixed inset-0 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center z-[70] p-4">
+    <div
+      class="bg-surface dark:bg-slate-800 border-2 border-brand-dark dark:border-slate-700 rounded-2xl p-8 w-full max-w-4xl shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] dark:shadow-[8px_8px_0px_0px_rgba(51,65,85,1)] overflow-hidden flex flex-col max-h-[90vh] transition-colors duration-300">
+      <div class="flex justify-between items-center mb-6 border-b-2 border-extended-gray-border dark:border-slate-700 pb-4 shrink-0">
+        <h2 class="text-2xl font-bold tracking-tight text-brand-dark dark:text-slate-100">Gestionar Categorías</h2>
+        <div class="flex items-center gap-3">
+          <button (click)="abrirCategoriaModal()"
+            class="flex items-center gap-2 bg-brand-primary text-white font-bold px-4 py-2 rounded-xl border-2 border-brand-dark dark:border-slate-700 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] dark:shadow-[3px_3px_0px_0px_rgba(51,65,85,1)] hover:translate-y-[-1px] hover:translate-x-[-1px] hover:shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(51,65,85,1)] transition-all text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Nueva Categoría
+          </button>
+          <button (click)="cerrarGestionCategorias()"
+            class="text-brand-dark dark:text-slate-400 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 p-2 rounded-full transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+ 
+      <div class="overflow-y-auto border-2 border-brand-dark dark:border-slate-700 rounded-xl flex-1">
+        <table class="w-full text-left border-collapse bg-surface dark:bg-slate-800 relative">
+          <thead class="sticky top-0 z-10 bg-brand-primary text-white border-b-2 border-brand-dark dark:border-slate-700">
+            <tr>
+              <th class="p-4 font-bold text-sm uppercase tracking-wider">Icono & Nombre</th>
+              <th class="p-4 font-bold text-sm uppercase tracking-wider">Tipo</th>
+              <th class="p-4 font-bold text-sm uppercase tracking-wider">Límite Mensual</th>
+              <th class="p-4 font-bold text-sm uppercase tracking-wider text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cat of categoriaService.categorias(); track cat.id) {
+            <tr class="border-b-2 border-brand-dark dark:border-slate-700 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors text-brand-dark dark:text-slate-200">
+              @if (categoriaEnEdicion?.id === cat.id) {
+              <td class="p-4">
+                <div class="flex gap-2">
+                  <input type="text" [(ngModel)]="categoriaEnEdicion.nombre"
+                    class="flex-1 bg-surface dark:bg-slate-700 border-2 border-brand-dark dark:border-slate-600 p-2 rounded-lg text-brand-dark dark:text-slate-100 focus:outline-none">
+                </div>
+              </td>
+              <td class="p-4">
+                <select [(ngModel)]="categoriaEnEdicion.tipo"
+                  class="w-full bg-surface dark:bg-slate-700 border-2 border-brand-dark dark:border-slate-600 p-2 rounded-lg text-brand-dark dark:text-slate-100 focus:outline-none appearance-none">
+                  <option value="GASTO" class="bg-surface dark:bg-slate-800">Gasto</option>
+                  <option value="INGRESO" class="bg-surface dark:bg-slate-800">Ingreso</option>
+                </select>
+              </td>
+              <td class="p-4">
+                <input type="number" [(ngModel)]="categoriaEnEdicion.limiteMensual"
+                  class="w-full bg-surface dark:bg-slate-700 border-2 border-brand-dark dark:border-slate-600 p-2 rounded-lg text-brand-dark dark:text-slate-100 focus:outline-none">
+              </td>
+              <td class="p-4 text-right whitespace-nowrap">
+                <button (click)="guardarCategoriaEditada()"
+                  class="bg-brand-primary text-white font-bold text-xs px-4 py-2 border-2 border-brand-dark dark:border-slate-700 rounded-lg shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] dark:shadow-[2px_2px_0px_0px_rgba(51,65,85,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all mr-2">Guardar</button>
+                <button (click)="cancelarEdicionCategoria()"
+                  class="bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-200 font-bold text-xs px-4 py-2 border-2 border-brand-dark dark:border-slate-700 rounded-lg shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] dark:shadow-[2px_2px_0px_0px_rgba(51,65,85,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">Cancelar</button>
+              </td>
+              } @else {
+              <td class="p-4 font-semibold text-brand-dark dark:text-slate-200 flex items-center gap-3">
+                <span class="text-2xl">{{ cat.icono }}</span> {{ cat.nombre }}
+              </td>
+              <td class="p-4">
+                <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-full border-2 border-brand-dark dark:border-slate-700"
+                  [ngClass]="cat.tipo === 'INGRESO' ? 'bg-extended-teal-positive/20 text-extended-teal-positive dark:text-emerald-400' : 'bg-extended-coral-negative/20 text-extended-coral-negative dark:text-rose-400'">{{
+                  cat.tipo }}</span>
+              </td>
+              <td class="p-4 font-semibold text-brand-dark dark:text-slate-200">
+                {{ cat.limiteMensual ? (cat.limiteMensual | currency:'ARS':'symbol-narrow':'1.2-2') : 'Sin Límite' }}
+              </td>
+              <td class="p-4 text-right whitespace-nowrap">
+                <button (click)="iniciarEdicionCategoria(cat)"
+                  class="text-brand-primary hover:text-brand-dark dark:hover:text-indigo-300 transition-colors mr-3"><svg class="w-5 h-5 inline"
+                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                    </path>
+                  </svg></button>
+                <button (click)="eliminarCategoria(cat.id)"
+                  class="text-extended-coral-negative hover:text-red-700 dark:hover:text-rose-300 transition-colors"><svg class="w-5 h-5 inline"
+                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                    </path>
+                  </svg></button>
+              </td>
+              }
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Modal Confirmación / Alerta -->
+  @if (showConfirmModal) {
+  <div
+    class="fixed inset-0 bg-brand-dark/50 dark:bg-slate-950/80 backdrop-blur-sm z-[100] flex items-center justify-center animate-fade-in p-4">
+    <div class="bg-surface dark:bg-slate-800 border dark:border-slate-700 rounded-card w-full max-w-sm overflow-hidden shadow-elegant transform transition-all transition-colors duration-300">
+      <div class="p-6">
+        <div class="w-12 h-12 rounded-full bg-extended-gray-light-bg dark:bg-slate-700 flex items-center justify-center mb-4">
+          @if (confirmConfig.isAlert) {
+          <svg class="w-6 h-6 text-extended-coral-negative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+            </path>
+          </svg>
+          } @else {
+          <svg class="w-6 h-6 text-brand-dark dark:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+            </path>
+          </svg>
+          }
+        </div>
+        <h3 class="text-xl font-bold text-brand-dark dark:text-slate-100 mb-2">{{ confirmConfig.title }}</h3>
+        <p class="text-extended-gray-muted dark:text-slate-400 text-sm">{{ confirmConfig.message }}</p>
+ 
+        <div class="mt-8 flex gap-3 justify-end">
+          @if (!confirmConfig.isAlert) {
+          <button (click)="closeConfirm()"
+            class="px-5 py-2.5 rounded-interactive border border-extended-gray-border dark:border-slate-700 text-brand-dark dark:text-slate-200 font-medium hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors text-sm">
+            Cancelar
+          </button>
+          <button (click)="executeConfirm()"
+            class="px-5 py-2.5 rounded-interactive bg-extended-coral-negative text-white font-semibold hover:bg-red-600 transition-colors shadow-subtle text-sm">
+            Aceptar
+          </button>
+          } @else {
+          <button (click)="closeConfirm()"
+            class="px-5 py-2.5 rounded-interactive bg-brand-dark dark:bg-slate-700 text-white font-semibold hover:bg-brand-primary dark:hover:bg-slate-700 transition-colors shadow-subtle text-sm">
+            Entendido
+          </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+ 
+  <!-- Modal Fecha Ingreso Patrimonio -->
+  @if (showFechaIngresoModal) {
+  <div class="fixed inset-0 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center z-[80] p-4">
+    <div class="bg-surface dark:bg-slate-800 border border-extended-gray-border dark:border-slate-700 rounded-card p-8 w-full max-w-sm shadow-subtle transition-colors duration-300">
+      <h2 class="text-xl font-semibold mb-6 border-b border-extended-gray-border dark:border-slate-700 pb-4 text-brand-dark dark:text-slate-100">Fecha de Ingreso de Saldo</h2>
+      <p class="text-sm text-extended-gray-muted dark:text-slate-400 mb-4">Selecciona la fecha en la que se actualiza el patrimonio (ej. día
+        de cobro de sueldo).</p>
+      <div class="mb-6">
+        <label
+          class="block text-extended-gray-muted dark:text-slate-400 font-medium mb-1.5 text-[11px] uppercase tracking-wide">Fecha</label>
+        <input type="date" [(ngModel)]="fechaIngresoEdicion" name="fechaIngreso"
+          class="w-full bg-surface dark:bg-slate-700 border border-extended-gray-border dark:border-slate-600 p-3 rounded-interactive text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all">
+      </div>
+      <div class="flex gap-4">
+        <button (click)="cerrarModalFechaIngreso()"
+          class="flex-1 bg-transparent border border-extended-gray-border dark:border-slate-700 text-brand-dark dark:text-slate-200 font-medium py-2.5 rounded-interactive hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors">Cancelar</button>
+        <button (click)="guardarFechaIngreso()" [disabled]="!fechaIngresoEdicion"
+          class="flex-1 bg-brand-primary text-white font-medium py-2.5 rounded-interactive shadow-subtle hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:pointer-events-none">Guardar</button>
+      </div>
+    </div>
+  </div>
+  }
+ 
+  <!-- Modal Nueva Tarjeta -->
+  @if (showNuevaTarjetaModal) {
+  <div class="fixed inset-0 bg-brand-dark/50 dark:bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-[110] p-4">
+    <div
+      class="bg-surface dark:bg-slate-800 border-2 border-brand-dark dark:border-slate-700 rounded-2xl p-8 w-full max-w-md shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] dark:shadow-[8px_8px_0px_0px_rgba(51,65,85,1)] relative transition-colors duration-300">
+      <button (click)="cerrarTarjetaModal()"
+        class="absolute top-4 right-4 text-brand-dark dark:text-slate-400 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 p-2 rounded-full transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <h3 class="text-xl font-black text-brand-dark dark:text-slate-100 uppercase mb-6">Nueva Tarjeta</h3>
+      <form (ngSubmit)="guardarNuevaTarjeta()" #tarjetaForm="ngForm">
+        <div class="space-y-4 mb-6">
+          <div>
+            <label class="block text-sm font-bold text-brand-dark dark:text-slate-200 mb-2 uppercase tracking-wide">Nombre</label>
+            <input type="text" [(ngModel)]="nuevaTarjetaTemp.nombre" name="nombre" required
+              placeholder="Ej: Visa Galicia"
+              class="w-full bg-surface dark:bg-slate-700 border-2 border-brand-dark dark:border-slate-600 p-3 rounded-xl text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all">
+          </div>
+ 
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold text-brand-dark dark:text-slate-200 mb-2 uppercase tracking-wide">Día de Cierre</label>
+              <input type="number" [(ngModel)]="nuevaTarjetaTemp.diaCierre" name="diaCierre" required min="1" max="31"
+                class="w-full bg-surface dark:bg-slate-700 border-2 border-brand-dark dark:border-slate-600 p-3 rounded-xl text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all">
+            </div>
+ 
+            <div>
+              <label class="block text-sm font-bold text-brand-dark dark:text-slate-200 mb-2 uppercase tracking-wide">Día de
+                Vencimiento</label>
+              <input type="number" [(ngModel)]="nuevaTarjetaTemp.diaVencimiento" name="diaVencimiento" required min="1"
+                max="31"
+                class="w-full bg-surface dark:bg-slate-700 border-2 border-brand-dark dark:border-slate-600 p-3 rounded-xl text-brand-dark dark:text-slate-100 focus:outline-none focus:border-brand-primary transition-all">
+            </div>
+          </div>
+        </div>
+ 
+        <div class="flex gap-4">
+          <button type="button" (click)="cerrarTarjetaModal()"
+            class="flex-1 bg-surface dark:bg-slate-800 text-brand-dark dark:text-slate-200 font-bold py-3 rounded-xl border-2 border-brand-dark dark:border-slate-700 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" [disabled]="!tarjetaForm.form.valid"
+            class="flex-1 bg-brand-primary text-white font-bold py-3 rounded-xl border-2 border-brand-dark dark:border-slate-700 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] dark:shadow-[4px_4px_0px_0px_rgba(51,65,85,1)] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(51,65,85,1)] transition-all disabled:opacity-50">
+            Añadir
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</div>

@@ -1,0 +1,240 @@
+<div
+  class="min-h-screen flex flex-col lg:flex-row bg-slate-50 dark:bg-gradient-to-br dark:from-[#14161f] dark:via-[#0d0e14] dark:to-[#07080b] transition-colors duration-500 font-sans relative animate-auth-fade">
+
+  <!-- Top Right Bar with Theme Toggle -->
+  <div class="absolute top-6 right-6 z-50 flex items-center gap-3">
+    <button type="button" (click)="themeService.toggleTheme()"
+      class="w-9 h-9 flex items-center justify-center rounded-interactive bg-white dark:bg-[#191b24] border border-slate-200 dark:border-[#2a2c3a] text-slate-400 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white dark:hover:bg-[#222430] hover:shadow-sm transition-all duration-200"
+      title="Cambiar tema">
+      @if (themeService.isDarkMode()) {
+      <!-- Sun Icon -->
+      <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+      </svg>
+      } @else {
+      <!-- Moon Icon -->
+      <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg>
+      }
+    </button>
+  </div>
+
+  <!-- Left Side: Form Column (Login Form on the LEFT) -->
+  <div
+    class="flex-1 flex flex-col justify-center items-center p-6 sm:p-12 md:p-16 relative z-10 min-h-screen lg:min-h-0">
+    <div class="w-full max-w-md space-y-8 animate-auth-card">
+
+      <!-- Form Header -->
+      <div class="text-center space-y-2">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Accede a tu cuenta
+        </h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+          Inicia sesión con tu correo electrónico y contraseña.
+        </p>
+      </div>
+
+      <!-- Success Alert -->
+      <div *ngIf="successMessage"
+        class="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 p-3 mb-6 border border-emerald-100 dark:border-emerald-800/40 text-xs rounded-interactive font-medium flex items-start gap-2 shadow-sm">
+        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ successMessage }}</span>
+      </div>
+
+      <!-- Error Alert -->
+      <div *ngIf="error"
+        class="bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 p-3 mb-6 border border-rose-100 dark:border-rose-800/40 text-xs rounded-interactive font-medium flex items-start gap-2 shadow-sm">
+        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ error }}</span>
+      </div>
+
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
+        <div class="space-y-1.5">
+          <div class="relative">
+            <input type="email" formControlName="email"
+              class="w-full py-3.5 px-4 bg-white dark:bg-[#0d0e13]/90 border border-slate-200 dark:border-[#262836] focus:outline-none focus:border-slate-900 dark:focus:border-[#d2ff00] focus:ring-0 transition-all rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 text-sm shadow-sm"
+              placeholder="Tu correo electrónico">
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <div class="relative">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+              class="w-full py-3.5 pl-4 pr-11 bg-white dark:bg-[#0d0e13]/90 border border-slate-200 dark:border-[#262836] focus:outline-none focus:border-slate-900 dark:focus:border-[#d2ff00] focus:ring-0 transition-all rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 text-sm shadow-sm"
+              placeholder="Contraseña">
+            <button type="button" (click)="toggleShowPassword()"
+              class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-900 dark:hover:text-[#d2ff00] transition-colors">
+              @if (showPassword) {
+              <!-- Eye Off Icon -->
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+              </svg>
+              } @else {
+              <!-- Eye Icon -->
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              }
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="loading || loginForm.invalid"
+          class="w-full bg-slate-950 hover:bg-slate-900 text-white dark:bg-gradient-to-r dark:from-white dark:to-slate-200 dark:hover:from-slate-100 dark:hover:to-slate-300 dark:text-zinc-950 py-3.5 px-4 font-bold text-sm tracking-wide transition-all rounded-xl mt-4 disabled:opacity-50 disabled:pointer-events-none shadow-md hover:shadow-lg active:scale-[0.99] duration-150">
+          <span class="flex items-center justify-center gap-2">
+            @if (loading) {
+            <svg class="animate-spin h-4 w-4 text-current" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            <span>Ingresando...</span>
+            } @else {
+            <span>Acceder</span>
+            }
+          </span>
+        </button>
+      </form>
+
+      <!-- Bottom Links -->
+      <div class="pt-4 text-center text-xs text-slate-500 dark:text-slate-400 font-medium">
+        ¿No tienes cuenta?
+        <a routerLink="/registro"
+          class="hover:text-slate-900 dark:hover:text-[#d2ff00] underline underline-offset-4 transition-colors font-bold text-slate-800 dark:text-slate-200 ml-1">
+          Regístrate aquí
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Right Side: Brand & Testimonial & Mockup Widget Column (Panel on the RIGHT) -->
+  <div
+    class="lg:w-[440px] xl:w-[500px] w-full bg-slate-100 dark:bg-gradient-to-b dark:from-[#1a1c26]/95 dark:to-[#12131b]/95 border-l border-slate-200 dark:border-[#292c3a] p-8 lg:p-12 flex flex-col justify-between relative overflow-hidden shrink-0 z-10 min-h-screen lg:min-h-0">
+
+    <!-- Subtle Background Glows -->
+    <div
+      class="absolute top-[10%] right-[10%] w-[350px] h-[350px] bg-[#d2ff00]/8 dark:bg-[#d2ff00]/6 rounded-full blur-[100px] pointer-events-none animate-glow-1">
+    </div>
+    <div
+      class="absolute bottom-[10%] left-[10%] w-[350px] h-[350px] bg-indigo-500/8 dark:bg-indigo-500/8 rounded-full blur-[100px] pointer-events-none animate-glow-2">
+    </div>
+
+    <!-- Top: Logo / Brand Header -->
+    <div class="z-10 flex items-center gap-3">
+      <div
+        class="w-10 h-10 rounded-xl border border-slate-200 dark:border-[#2b2d3b] bg-white dark:bg-[#21232f] flex items-center justify-center text-slate-800 dark:text-[#d2ff00] shadow-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8L6 21" />
+        </svg>
+      </div>
+      <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">Mis Gastos</span>
+    </div>
+
+    <!-- Middle: Quote & Testimonial Highlight -->
+    <div class="z-10 my-8 space-y-4">
+      <div class="text-4xl text-slate-400 dark:text-[#d2ff00] font-serif leading-none"></div>
+      <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug">
+        Una aplicacion para gestionar tus gastos diarios
+      </h2>
+      <div>
+        <p class="text-sm font-bold text-slate-800 dark:text-slate-200"></p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium"></p>
+      </div>
+    </div>
+
+    <!-- Bottom: Mockup Dashboard Widget Section -->
+    <div
+      class="z-10 w-full bg-white/80 dark:bg-[#0d0e13]/90 border border-slate-200/80 dark:border-[#242634] p-5 rounded-2xl backdrop-blur-md shadow-lg dark:shadow-2xl dark:shadow-black/50 font-sans animate-auth-panel">
+      <!-- Metrics Header -->
+      <div class="grid grid-cols-2 gap-4 border-b border-slate-200/60 dark:border-[#262836] pb-3 mb-3">
+        <div>
+          <span
+            class="text-[9px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider block mb-0.5">Gastado
+            del Mes</span>
+          <span class="text-sm font-mono font-semibold text-slate-900 dark:text-white">$ 600.000,00</span>
+        </div>
+        <div>
+          <span
+            class="text-[9px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider block mb-0.5">Entradas
+            (Ingresos)</span>
+          <span class="text-sm font-mono font-semibold text-slate-900 dark:text-white">$ 1.450.000,00</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center mb-2.5">
+        <div class="flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-350 dark:bg-slate-500"></span>
+          <span class="text-[9px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider">Visión
+            General</span>
+        </div>
+        <div class="flex gap-1">
+          <span class="w-1 h-1 bg-slate-200 dark:bg-[#262836] rounded-full"></span>
+          <span class="w-1 h-1 bg-slate-200 dark:bg-[#262836] rounded-full"></span>
+          <span class="w-1 h-1 bg-slate-800 dark:bg-[#d2ff00] rounded-full"></span>
+        </div>
+      </div>
+
+      <!-- Minimalist Bar Chart -->
+      <div
+        class="h-24 flex items-end justify-between gap-2.5 px-1 border-b border-slate-200/60 dark:border-[#262836] pb-1 relative font-sans">
+        <!-- Ene -->
+        <div class="flex-1 flex flex-col items-center group/bar cursor-pointer">
+          <div
+            class="w-2.5 bg-slate-250 dark:bg-[#232533] rounded-t-sm h-7 hover:bg-slate-350 dark:hover:bg-[#2e3144] transition-all duration-300 relative">
+          </div>
+          <span class="text-[8px] text-slate-400 dark:text-slate-400 font-semibold mt-1">Ene</span>
+        </div>
+        <!-- Feb -->
+        <div class="flex-1 flex flex-col items-center group/bar cursor-pointer">
+          <div
+            class="w-2.5 bg-slate-300 dark:bg-[#282b3a] rounded-t-sm h-14 hover:bg-slate-450 dark:hover:bg-[#35394d] transition-all duration-300 relative">
+          </div>
+          <span class="text-[8px] text-slate-400 dark:text-slate-400 font-semibold mt-1">Feb</span>
+        </div>
+        <!-- Mar -->
+        <div class="flex-1 flex flex-col items-center group/bar cursor-pointer">
+          <div
+            class="w-2.5 bg-slate-250 dark:bg-[#232533] rounded-t-sm h-10 hover:bg-slate-350 dark:hover:bg-[#2e3144] transition-all duration-300 relative">
+          </div>
+          <span class="text-[8px] text-slate-400 dark:text-slate-400 font-semibold mt-1">Mar</span>
+        </div>
+        <!-- Abr -->
+        <div class="flex-1 flex flex-col items-center group/bar cursor-pointer">
+          <div
+            class="w-2.5 bg-slate-300 dark:bg-[#282b3a] rounded-t-sm h-12 hover:bg-slate-450 dark:hover:bg-[#35394d] transition-all duration-300 relative">
+          </div>
+          <span class="text-[8px] text-slate-400 dark:text-slate-400 font-semibold mt-1">Abr</span>
+        </div>
+        <!-- May -->
+        <div class="flex-1 flex flex-col items-center group/bar cursor-pointer">
+          <div
+            class="w-2.5 bg-slate-250 dark:bg-[#232533] rounded-t-sm h-11 hover:bg-slate-350 dark:hover:bg-[#2e3144] transition-all duration-300 relative">
+          </div>
+          <span class="text-[8px] text-slate-400 dark:text-slate-400 font-semibold mt-1">May</span>
+        </div>
+        <!-- Jun -->
+        <div class="flex-1 flex flex-col items-center group/bar cursor-pointer">
+          <div
+            class="w-2.5 bg-slate-950 dark:bg-gradient-to-t dark:from-[#d2ff00] dark:to-[#e2ff66] rounded-t-sm h-16 hover:opacity-90 transition-all duration-300 relative">
+          </div>
+          <span class="text-[8px] text-slate-950 dark:text-[#d2ff00] font-bold mt-1">Jun</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

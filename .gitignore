@@ -1,0 +1,29 @@
+# Executables and Local Tools
+MailHog_windows_amd64.exe
+cuota.txt
+
+# Maven / Backend Output
+backend/target/
+backend/apache-maven-3.9.6/
+backend/*.log
+*.class
+
+# Node / Frontend Output
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/tmp/
+frontend/out-tsc/
+frontend/npm-debug.log*
+frontend/yarn-error.log*
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.sublime-workspace
+.history/
+
+# OS / System
+.DS_Store
+Thumbs.db

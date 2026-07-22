@@ -1,0 +1,148 @@
+<div class="max-w-2xl mx-auto my-4 text-brand-dark dark:text-slate-100 transition-colors duration-300">
+  <h2 class="text-2xl font-brutal-heading font-black text-neo-text dark:text-slate-100 text-center mb-4 tracking-tight">Añadir Nuevo Gasto</h2>
+  
+  <!-- Fichas Rápidas -->
+  <div class="mb-4" *ngIf="plantillaService.plantillas().length > 0">
+    <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Fichas Rápidas</h3>
+    <div class="flex flex-wrap gap-2">
+      <button 
+        *ngFor="let p of plantillaService.plantillas()" 
+        type="button"
+        (click)="cargarPlantilla(p)"
+        class="bg-neo-yellow dark:bg-amber-500/25 px-3 py-1.5 rounded-brutal-btn border-brutal border-neo-text dark:border-slate-700 shadow-brutal-sm dark:shadow-none hover:translate-y-[2px] hover:shadow-none transition-all font-semibold flex items-center gap-2 text-xs text-brand-dark dark:text-slate-150">
+        <span><svg class="w-3 h-3 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></span> {{ p.nombrePlantilla }}
+      </button>
+    </div>
+  </div>
+ 
+  <div class="bg-white dark:bg-slate-800 p-5 rounded-brutal-card border-brutal border-neo-text dark:border-slate-700 shadow-brutal dark:shadow-none transition-colors duration-300">
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+      
+      <div class="flex flex-col gap-1">
+        <label for="descripcion" class="font-bold text-xs text-slate-700 dark:text-slate-200">Descripción</label>
+        <input type="text" id="descripcion" formControlName="descripcion" placeholder="Ej. Cena en restaurante" 
+          class="w-full h-11 py-2 px-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-slate-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-700 text-brand-dark dark:text-slate-100 text-sm">
+        <div class="text-red-500 text-xs font-medium mt-1" *ngIf="expenseForm.get('descripcion')?.invalid && expenseForm.get('descripcion')?.touched">
+          La descripción es obligatoria (mínimo 3 caracteres).
+        </div>
+      </div>
+ 
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1">
+          <label for="monto" class="font-bold text-xs text-slate-700 dark:text-slate-200">Monto</label>
+          <div class="relative flex items-center h-11">
+            <span class="absolute left-3 text-slate-500 dark:text-slate-400 font-bold">$</span>
+            <input type="number" id="monto" formControlName="monto" step="0.01" max="99999999.99" placeholder="0.00"
+              class="w-full h-full py-2 pl-8 pr-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-slate-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-700 text-brand-dark dark:text-slate-100 text-sm">
+          </div>
+          <div class="text-red-500 text-xs font-medium mt-1" *ngIf="expenseForm.get('monto')?.invalid && expenseForm.get('monto')?.touched">
+            <span *ngIf="expenseForm.get('monto')?.errors?.['max']">El monto no puede superar $99.999.999,99.</span>
+            <span *ngIf="!expenseForm.get('monto')?.errors?.['max']">El monto debe ser mayor a 0.</span>
+          </div>
+          <div class="text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-900/50 text-xs font-bold p-2 mt-1 rounded" *ngIf="mensajeRedondeo">
+            {{ mensajeRedondeo }}
+          </div>
+        </div>
+ 
+        <div class="flex flex-col gap-1">
+          <label for="fecha" class="font-bold text-xs text-slate-700 dark:text-slate-200">Fecha</label>
+          <input type="date" id="fecha" formControlName="fecha"
+            class="w-full h-11 py-2 px-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-slate-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-700 text-brand-dark dark:text-slate-100 text-sm">
+          <div class="text-red-500 text-xs font-medium mt-1" *ngIf="expenseForm.get('fecha')?.invalid && expenseForm.get('fecha')?.touched">
+            La fecha es obligatoria.
+          </div>
+        </div>
+      </div>
+ 
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1">
+          <label for="categoriaId" class="font-bold text-xs text-slate-700 dark:text-slate-200">Categoría</label>
+          <select id="categoriaId" formControlName="categoriaId"
+            class="w-full h-11 py-2 px-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-slate-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-700 text-brand-dark dark:text-slate-100 appearance-none cursor-pointer text-sm">
+            <option value="" disabled selected class="dark:bg-slate-800 text-extended-gray-muted">Seleccione una categoría</option>
+            <option *ngFor="let cat of categorias" [value]="cat.id" class="dark:bg-slate-800">{{ cat.nombre }}</option>
+          </select>
+          <div class="text-red-500 text-xs font-medium mt-1" *ngIf="expenseForm.get('categoriaId')?.invalid && expenseForm.get('categoriaId')?.touched">
+            Debe seleccionar una categoría.
+          </div>
+        </div>
+ 
+        <div class="flex flex-col gap-1">
+          <label for="metodoPago" class="font-bold text-xs text-slate-700 dark:text-slate-200">Método de Pago</label>
+          <select id="metodoPago" formControlName="metodoPago"
+            class="w-full h-11 py-2 px-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-slate-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-700 text-brand-dark dark:text-slate-100 appearance-none cursor-pointer text-sm">
+            <option value="" disabled selected class="dark:bg-slate-800 text-extended-gray-muted">Seleccione un método</option>
+            <option value="TARJETA_CREDITO" class="dark:bg-slate-800">Tarjeta de Crédito</option>
+            <option value="TARJETA_DEBITO" class="dark:bg-slate-800">Tarjeta de Débito</option>
+            <option value="EFECTIVO" class="dark:bg-slate-800">Efectivo</option>
+            <option value="TRANSFERENCIA" class="dark:bg-slate-800">Transferencia</option>
+          </select>
+          <div class="text-red-500 text-xs font-medium mt-1" *ngIf="expenseForm.get('metodoPago')?.invalid && expenseForm.get('metodoPago')?.touched">
+            Debe seleccionar un método de pago.
+          </div>
+        </div>
+      </div>
+ 
+      <div class="flex flex-col gap-1" *ngIf="expenseForm.get('metodoPago')?.value === 'TARJETA_CREDITO'">
+        <label for="tarjetaCreditoId" class="font-bold text-xs text-slate-700 dark:text-slate-200">Tarjeta de Crédito</label>
+        <select id="tarjetaCreditoId" formControlName="tarjetaCreditoId"
+          class="w-full h-11 py-2 px-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-slate-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-700 text-brand-dark dark:text-slate-100 appearance-none cursor-pointer text-sm">
+          <option value="" disabled selected class="dark:bg-slate-800 text-extended-gray-muted">Seleccione su tarjeta</option>
+          <option *ngFor="let t of tarjetas" [value]="t.id" class="dark:bg-slate-800">{{ t.nombre }}</option>
+        </select>
+        <div class="text-red-500 text-xs font-medium mt-1" *ngIf="expenseForm.get('tarjetaCreditoId')?.invalid && expenseForm.get('tarjetaCreditoId')?.touched">
+          Debe seleccionar una tarjeta de crédito.
+        </div>
+      </div>
+ 
+      <div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 rounded text-blue-800 dark:text-blue-300 text-sm font-medium" *ngIf="cierraProximoMes">
+        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> {{ mensajeAlerta }}
+      </div>
+ 
+      <!-- Divider and Split Feature -->
+      <div class="col-span-1 md:col-span-2 pt-4 mt-1 border-t-2 border-slate-200 dark:border-slate-700">
+        <label class="flex items-center gap-2 cursor-pointer group w-fit">
+          <input type="checkbox" formControlName="dividirGasto" 
+            class="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded cursor-pointer accent-neo-yellow group-hover:border-neo-text transition-colors">
+          <span class="font-bold text-xs text-slate-700 dark:text-slate-300 select-none">¿Dividir este gasto con alguien?</span>
+        </label>
+ 
+        <!-- Conditional Split Fields -->
+        <div *ngIf="expenseForm.get('dividirGasto')?.value" class="mt-4 p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-brutal-sharp grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1">
+            <label for="emailDeudor" class="font-bold text-xs text-slate-700 dark:text-slate-200">Email del Amigo</label>
+            <input type="email" id="emailDeudor" formControlName="emailDeudor" placeholder="amigo@email.com"
+              class="w-full h-11 py-2 px-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-white dark:bg-slate-700 text-brand-dark dark:text-slate-100 text-sm">
+            <div class="text-red-500 text-xs font-medium mt-1" *ngIf="expenseForm.get('emailDeudor')?.invalid && expenseForm.get('emailDeudor')?.touched">
+              Email válido requerido.
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label for="porcentajeDeuda" class="font-bold text-xs text-slate-700 dark:text-slate-200">Porcentaje que Paga (1-99%)</label>
+            <div class="relative flex items-center h-11">
+              <input type="number" id="porcentajeDeuda" formControlName="porcentajeDeuda" min="1" max="99"
+                class="w-full h-full py-2 pr-8 pl-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-white dark:bg-slate-700 text-brand-dark dark:text-slate-100 text-sm">
+              <span class="absolute right-3 text-slate-500 dark:text-slate-400 font-bold">%</span>
+            </div>
+            <div class="text-red-500 text-xs font-medium mt-1" *ngIf="expenseForm.get('porcentajeDeuda')?.invalid && expenseForm.get('porcentajeDeuda')?.touched">
+              Debe ser entre 1 y 99%.
+            </div>
+          </div>
+          
+          <div class="md:col-span-2 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-200 dark:bg-slate-700 border-2 border-slate-300 dark:border-slate-600 p-3 rounded-brutal-btn flex justify-between items-center">
+            <span>Tu amigo te deberá:</span>
+            <span class="font-brutal-heading text-lg text-neo-text dark:text-indigo-400">{{ (expenseForm.get('monto')?.value * (expenseForm.get('porcentajeDeuda')?.value / 100)) | currency:'ARS':'symbol-narrow':'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="flex justify-end gap-3 pt-4 border-t-2 border-slate-200 dark:border-slate-700">
+        <button type="button" class="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold rounded-brutal-btn transition-colors border-2 border-transparent text-sm" (click)="expenseForm.reset()">Limpiar</button>
+        <button type="submit" class="px-4 py-2 bg-neo-green dark:bg-emerald-500 text-neo-text dark:text-slate-900 border-brutal border-neo-text dark:border-slate-700 shadow-brutal-sm dark:shadow-none hover:bg-neo-green-hover dark:hover:bg-emerald-450 hover:translate-y-[2px] hover:shadow-none transition-all font-black rounded-brutal-btn disabled:opacity-50 disabled:cursor-not-allowed text-sm" [disabled]="submitting">
+          {{ submitting ? 'Guardando...' : 'Guardar Gasto' }}
+        </button>
+      </div>
+ 
+    </form>
+  </div>
+</div>

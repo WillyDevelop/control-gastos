@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-canvas text-brand-dark font-sans antialiased;
+  }
+}
+
+/* Custom Scrollbar for a clean minimal feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-extended-gray-border rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-extended-gray-muted;
+}
+
+/* Custom Datepicker Indicator style for large calendar icon and separation */
+input[type="date"] {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 4px 10px;
+  margin-right: -8px;
+  border-left: 1px solid #E2E8F0;
+  transition: all 0.2s ease;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  background-color: #F1F5F9;
+}
+
+/* Clean & minimal auth page transition animations */
+@keyframes auth-page-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes auth-card-slide {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes auth-panel-slide {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-auth-fade {
+  animation: auth-page-fade 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-auth-card {
+  animation: auth-card-slide 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-auth-panel {
+  animation: auth-panel-slide 480ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}

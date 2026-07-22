@@ -1,0 +1,29 @@
+/* Glow backdrop animation */
+@keyframes float-glow {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(15px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-10px, 15px) scale(0.98);
+  }
+}
+
+@keyframes float-glow-reverse {
+  0%, 100% {
+    transform: translate(0, 0) scale(1.02);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+.animate-glow-1 {
+  animation: float-glow 25s ease-in-out infinite;
+}
+
+.animate-glow-2 {
+  animation: float-glow-reverse 30s ease-in-out infinite;
+}
