@@ -15,6 +15,11 @@ export class MetaAhorroService {
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
+  limpiarEstado(): void {
+    this.metas.set([]);
+    this.error.set(null);
+  }
+
   cargarMetas(): void {
     this.loading.set(true);
     this.http.get<any[]>(this.apiUrl)

@@ -26,6 +26,11 @@ export class GastoService {
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
+  limpiarEstado(): void {
+    this.gastosMes.set([]);
+    this.error.set(null);
+  }
+
   cargarGastosMes(): void {
     this.loading.set(true);
     this.http.get<Gasto[]>(this.apiUrl)

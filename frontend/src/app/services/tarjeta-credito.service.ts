@@ -13,6 +13,10 @@ export class TarjetaCreditoService {
   
   tarjetas = signal<TarjetaCredito[]>([]);
 
+  limpiarEstado(): void {
+    this.tarjetas.set([]);
+  }
+
   constructor(private http: HttpClient) { }
 
   cargarTarjetas(): void {

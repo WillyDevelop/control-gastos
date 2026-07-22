@@ -31,6 +31,10 @@ export class PlantillaGastoService {
 
   plantillas = signal<PlantillaGastoResponse[]>([]);
 
+  limpiarEstado(): void {
+    this.plantillas.set([]);
+  }
+
   cargarPlantillas(): void {
     this.http.get<PlantillaGastoResponse[]>(this.apiUrl)
       .subscribe(data => this.plantillas.set(data));

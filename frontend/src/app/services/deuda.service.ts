@@ -15,6 +15,11 @@ export class DeudaService {
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
+  limpiarEstado(): void {
+    this.deudas.set([]);
+    this.error.set(null);
+  }
+
   cargarDeudasPorCobrar(): void {
     this.loading.set(true);
     this.http.get<any[]>(`${this.apiUrl}/por-cobrar`)

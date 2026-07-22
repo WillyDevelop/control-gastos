@@ -17,6 +17,12 @@ export class CategoriaService {
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
+  limpiarEstado(): void {
+    this.categorias.set([]);
+    this.presupuestos.set([]);
+    this.error.set(null);
+  }
+
   cargarCategorias(): void {
     this.loading.set(true);
     this.http.get<Categoria[]>(this.apiUrl)

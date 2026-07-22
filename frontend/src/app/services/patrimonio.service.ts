@@ -16,6 +16,11 @@ export class PatrimonioService {
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
+  limpiarEstado(): void {
+    this.patrimonio.set(null);
+    this.error.set(null);
+  }
+
   cargarPatrimonioActual(): void {
     this.loading.set(true);
     this.http.get<Patrimonio>(`${this.apiUrl}/actual`)
