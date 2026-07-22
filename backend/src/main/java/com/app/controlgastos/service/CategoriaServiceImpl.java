@@ -44,25 +44,25 @@ public class CategoriaServiceImpl implements CategoriaService {
         Categoria cat1 = new Categoria();
         cat1.setNombre("Sueldo / Ingresos");
         cat1.setTipo(com.app.controlgastos.model.TipoCategoria.INGRESO);
-        cat1.setIcono("💵");
+        cat1.setIcono("");
         cat1.setUsuario(usuario);
 
         Categoria cat2 = new Categoria();
         cat2.setNombre("Supermercado / Comida");
         cat2.setTipo(com.app.controlgastos.model.TipoCategoria.GASTO);
-        cat2.setIcono("🛒");
+        cat2.setIcono("");
         cat2.setUsuario(usuario);
 
         Categoria cat3 = new Categoria();
         cat3.setNombre("Servicios / Hogar");
         cat3.setTipo(com.app.controlgastos.model.TipoCategoria.GASTO);
-        cat3.setIcono("💡");
+        cat3.setIcono("");
         cat3.setUsuario(usuario);
 
         Categoria cat4 = new Categoria();
         cat4.setNombre("Varios");
         cat4.setTipo(com.app.controlgastos.model.TipoCategoria.GASTO);
-        cat4.setIcono("📦");
+        cat4.setIcono("");
         cat4.setUsuario(usuario);
 
         return categoriaRepository.saveAll(List.of(cat1, cat2, cat3, cat4));

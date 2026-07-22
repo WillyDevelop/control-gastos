@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
       this.categoriaService.crearCategoria({
         nombre: 'Sueldo / Ingresos',
         tipo: 'INGRESO',
-        icono: '💵',
+        icono: '',
         limiteMensual: null
       }).subscribe({
         next: (nuevaCat) => {

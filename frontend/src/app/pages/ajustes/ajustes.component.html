@@ -188,8 +188,13 @@
                           class="bg-slate-100 dark:bg-slate-700 text-brand-dark dark:text-slate-200 font-bold text-[10px] px-3 py-1.5 rounded-lg transition-all">Cancelar</button>
                       </td>
                     } @else {
-                      <td class="p-3 font-semibold text-brand-dark dark:text-slate-200">
-                        <span class="text-xl mr-2">{{ cat.icono }}</span>{{ cat.nombre }}
+                      <td class="p-3 font-semibold text-brand-dark dark:text-slate-200 flex items-center gap-2.5">
+                        <span class="w-7 h-7 rounded-lg bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center text-brand-primary dark:text-indigo-400 shrink-0">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                          </svg>
+                        </span>
+                        {{ cat.nombre }}
                       </td>
                       <td class="p-3">
                         <span class="px-2.5 py-0.5 text-[9px] font-bold uppercase rounded-full border border-extended-teal-positive/30"
