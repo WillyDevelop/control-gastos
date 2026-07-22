@@ -88,13 +88,32 @@ export class DashboardComponent implements OnInit {
     }
     
     let catIngreso = this.categoriaService.categorias().find(c => c.tipo === 'INGRESO');
-    let catId = catIngreso ? catIngreso.id : 3;
-    
+    if (catIngreso && catIngreso.id) {
+      this.enviarIngresoRapido(catIngreso.id);
+    } else {
+      this.categoriaService.crearCategoria({
+        nombre: 'Sueldo / Ingresos',
+        tipo: 'INGRESO',
+        icono: '💵',
+        limiteMensual: null
+      }).subscribe({
+        next: (nuevaCat) => {
+          this.enviarIngresoRapido(nuevaCat.id!);
+        },
+        error: (err) => {
+          console.error('Error creando categoría de ingreso:', err);
+          this.openAlert('Categoría Requerida', 'Debes crear una categoría de tipo Ingreso antes de guardar.');
+        }
+      });
+    }
+  }
+
+  private enviarIngresoRapido(categoriaId: number) {
     this.gastoService.registrarGasto({
       descripcion: this.nuevoIngresoRapido.descripcion,
       monto: this.nuevoIngresoRapido.monto,
       fecha: new Date().toISOString().split('T')[0],
-      categoriaId: catId,
+      categoriaId: categoriaId,
       metodoPago: 'EFECTIVO',
       entidadPago: '',
       esRecurrente: false,
@@ -108,7 +127,7 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error guardando ingreso:', err);
-        alert('Error al guardar: Asegúrate de tener conexión y que exista una categoría de ingreso.');
+        this.openAlert('Error al guardar', 'No se pudo guardar el ingreso. Verifica tu conexión.');
       }
     });
   }
