@@ -342,6 +342,10 @@ export class DashboardComponent implements OnInit {
     this.metaAhorroService.cargarMetas();
     this.tarjetaCreditoService.cargarTarjetas();
 
+    this.gastoService.abrirModal$.subscribe(tipo => {
+      this.abrirModalTransaccion(tipo);
+    });
+
     this.route.queryParams.subscribe(params => {
       if (params['action'] === 'nuevoGasto') {
         this.abrirModalTransaccion('GASTO');

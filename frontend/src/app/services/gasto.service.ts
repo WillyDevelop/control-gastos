@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Gasto } from '../models/gasto';
 import { ReporteGasto } from '../models/reporte';
 import { catchError, tap, map } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { of, Observable, Subject } from 'rxjs';
 import { PatrimonioService } from './patrimonio.service';
 import { environment } from '../../environments/environment';
 
@@ -14,6 +14,13 @@ export class GastoService {
   private http = inject(HttpClient);
   private patrimonioService = inject(PatrimonioService);
   private apiUrl = `${environment.apiUrl}/gastos`;
+
+  private abrirModalSubject = new Subject<'GASTO' | 'INGRESO'>();
+  abrirModal$ = this.abrirModalSubject.asObservable();
+
+  triggerAbrirModal(tipo: 'GASTO' | 'INGRESO' = 'GASTO') {
+    this.abrirModalSubject.next(tipo);
+  }
 
   gastosMes = signal<Gasto[]>([]);
   loading = signal<boolean>(false);

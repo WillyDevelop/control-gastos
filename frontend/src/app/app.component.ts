@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { ThemeService } from './services/theme.service';
+import { GastoService } from './services/gasto.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent {
   title = 'frontend';
   authService = inject(AuthService);
   themeService = inject(ThemeService);
+  private gastoService = inject(GastoService);
   private router = inject(Router);
 
   showConfigMenu = false;
@@ -44,7 +46,13 @@ export class AppComponent {
 
   abrirNuevoGastoMovil() {
     this.closeMobileMenu();
-    this.router.navigate(['/dashboard'], { queryParams: { action: 'nuevoGasto' } });
+    if (!this.router.url.includes('/dashboard')) {
+      this.router.navigate(['/dashboard']).then(() => {
+        this.gastoService.triggerAbrirModal('GASTO');
+      });
+    } else {
+      this.gastoService.triggerAbrirModal('GASTO');
+    }
   }
 }
 
