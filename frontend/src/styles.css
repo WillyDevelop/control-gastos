@@ -142,3 +142,24 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   animation: float-glow-3 7s ease-in-out infinite alternate;
   will-change: transform, opacity;
 }
+
+/* Gentle Notification Bell Ring Animation */
+@keyframes bell-gentle-ring {
+  0%, 82%, 100% {
+    transform: rotate(0deg);
+  }
+  86% {
+    transform: rotate(14deg);
+  }
+  90% {
+    transform: rotate(-12deg);
+  }
+  94% {
+    transform: rotate(8deg);
+  }
+}
+
+.animate-bell-ring {
+  animation: bell-gentle-ring 5.5s ease-in-out infinite;
+  transform-origin: top center;
+}

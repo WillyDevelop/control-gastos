@@ -20,6 +20,7 @@ export class AppComponent {
 
   showConfigMenu = false;
   showAboutModal = false;
+  showNotificacionModal = false;
   isMobileMenuOpen = false;
 
   toggleMobileMenu() {
@@ -42,6 +43,16 @@ export class AppComponent {
 
   closeAboutModal() {
     this.showAboutModal = false;
+  }
+
+  openNotificacionModal() {
+    this.showConfigMenu = false;
+    this.isMobileMenuOpen = false;
+    this.showNotificacionModal = true;
+  }
+
+  closeNotificacionModal() {
+    this.showNotificacionModal = false;
   }
 
   abrirNuevoGastoMovil() {

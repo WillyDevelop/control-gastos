@@ -179,17 +179,31 @@
         </div>
       </button>
 
-      <button (click)="toggleConfigMenu()"
-        class="w-full flex items-center gap-3 px-4 py-2.5 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200">
-        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
-          </path>
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-        </svg>
-        <span class="text-sm font-medium">Configuración</span>
-      </button>
- 
+      <div class="flex items-center justify-between gap-1.5">
+        <button (click)="toggleConfigMenu()"
+          class="flex-1 flex items-center gap-3 px-3.5 py-2.5 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200">
+          <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+            </path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          <span class="text-sm font-medium">Configuración</span>
+        </button>
+
+        <!-- Notification Bell Button -->
+        <button (click)="openNotificacionModal()"
+          class="relative p-2.5 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-all duration-200 group"
+          title="Avisos e Información Importante">
+          <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 animate-bell-ring" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+          </svg>
+          <!-- Notification Dot -->
+          <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full animate-ping opacity-75"></span>
+          <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
+        </button>
+      </div>
+
       <!-- Dropdown -->
       <div *ngIf="showConfigMenu"
         class="absolute bottom-16 left-4 w-52 bg-surface dark:bg-slate-800 border border-slate-150 dark:border-slate-700/60 rounded-card shadow-xl overflow-hidden z-50 animate-fade-in transition-colors duration-300">
@@ -247,6 +261,53 @@
       <button (click)="closeAboutModal()"
         class="w-full mt-8 bg-brand-primary hover:bg-indigo-600 text-white font-black py-3 rounded-xl shadow-lg shadow-brand-primary/15 transition-all uppercase hover:translate-y-[-0.5px]">
         Aceptar
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Notificación Importante -->
+  <div *ngIf="showNotificacionModal"
+    class="fixed inset-0 bg-brand-dark/50 dark:bg-slate-950/80 backdrop-blur-sm z-[100] flex items-center justify-center animate-fade-in p-4">
+    <div
+      class="bg-surface dark:bg-slate-800 border border-slate-150 dark:border-slate-700 rounded-card p-6 sm:p-8 w-full max-w-md shadow-2xl relative transition-colors duration-300">
+      <button (click)="closeNotificacionModal()"
+        class="absolute top-4 right-4 text-brand-dark dark:text-slate-400 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 p-2 rounded-full transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <div class="text-center mb-5">
+        <div
+          class="w-16 h-16 rounded-card bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 dark:text-amber-400 mx-auto mb-4 shadow-lg shadow-amber-500/10">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-black text-brand-dark dark:text-slate-100 uppercase tracking-tight">Aviso Importante</h2>
+        <p class="text-amber-600 dark:text-amber-400 font-bold text-xs uppercase tracking-wider mt-1">Seguridad de la Cuenta</p>
+      </div>
+      <div class="space-y-4 text-sm text-brand-dark dark:text-slate-300 font-medium leading-relaxed">
+        <div class="bg-amber-500/10 dark:bg-amber-500/10 p-4 rounded-xl border border-amber-500/20 text-brand-dark dark:text-slate-200 text-xs space-y-2">
+          <p class="font-bold flex items-center gap-2 text-amber-700 dark:text-amber-400 text-sm">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            Conservación de Contraseña
+          </p>
+          <p class="leading-relaxed text-xs">
+            En esta versión del sistema aún <strong>no está habilitada la función para recuperar contraseñas olvidadas</strong>.
+          </p>
+          <p class="leading-relaxed text-xs">
+            Por favor, <strong>asegúrate de recordar o guardar tu contraseña en un lugar seguro</strong>, ya que temporalmente no será posible restablecer el acceso a tu cuenta si la pierdes.
+          </p>
+        </div>
+        <p class="text-xs text-center text-extended-gray-muted dark:text-slate-400 italic">
+          ¡Estamos trabajando activamente para incluir la recuperación automática de contraseña muy pronto!
+        </p>
+      </div>
+      <button (click)="closeNotificacionModal()"
+        class="w-full mt-6 bg-brand-primary hover:bg-indigo-600 text-white font-black py-3 rounded-xl shadow-lg shadow-brand-primary/15 transition-all uppercase tracking-wide">
+        Entendido
       </button>
     </div>
   </div>
