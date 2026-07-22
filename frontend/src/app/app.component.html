@@ -2,7 +2,7 @@
   
   <!-- Mobile Top Header Bar -->
   <header *ngIf="authService.isAuthenticated()"
-    class="flex md:hidden items-center px-4 py-3 bg-sidebar dark:bg-slate-800 border-b border-extended-gray-border dark:border-slate-700 shrink-0 z-30 transition-colors duration-300">
+    class="flex md:hidden items-center justify-between px-4 py-3 bg-sidebar dark:bg-slate-800 border-b border-extended-gray-border dark:border-slate-700 shrink-0 z-30 transition-colors duration-300">
     <!-- Left: Hamburger Menu Toggle Button & Logo -->
     <div class="flex items-center gap-3">
       <!-- Hamburger Button on the LEFT -->
@@ -28,6 +28,22 @@
         <span class="font-bold text-base text-brand-dark dark:text-slate-100 tracking-tight">Mis Gastos</span>
       </div>
     </div>
+
+    <!-- Right: Notification Bell Button on Mobile Header -->
+    <button (click)="openNotificacionModal()"
+      class="relative p-2 rounded-interactive bg-extended-gray-light-bg dark:bg-slate-700 text-brand-dark dark:text-slate-200 hover:text-amber-500 dark:hover:text-amber-400 transition-all duration-200 group"
+      title="Avisos e Información Importante">
+      <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-12"
+        [class.animate-bell-ring]="!isNotificationMuted"
+        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+      </svg>
+      <!-- Notification Red Dot -->
+      <ng-container *ngIf="!isNotificationMuted">
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full animate-ping opacity-75"></span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full"></span>
+      </ng-container>
+    </button>
   </header>
 
   <!-- Mobile Drawer / Off-canvas Menu -->
