@@ -326,6 +326,12 @@
         @if((donutPagosData().labels?.length || 0) > 0) {
         <canvas baseChart [data]="donutPagosData()" [options]="donutOptions()" [type]="'doughnut'">
         </canvas>
+        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center p-2">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-extended-gray-muted dark:text-slate-400">Total Gastado</span>
+          <span class="text-lg sm:text-xl font-extrabold text-brand-dark dark:text-slate-100 tracking-tight mt-0.5">
+            {{ patrimonioService.patrimonio()?.totalPagado | currency:'ARS':'symbol-narrow':'1.2-2' }}
+          </span>
+        </div>
         } @else {
         <p class="text-extended-gray-muted dark:text-slate-400 text-sm">Sin gastos este mes</p>
         }
