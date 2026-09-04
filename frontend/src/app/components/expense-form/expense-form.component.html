@@ -39,11 +39,8 @@
             <span *ngIf="expenseForm.get('monto')?.errors?.['max']">El monto no puede superar $99.999.999,99.</span>
             <span *ngIf="!expenseForm.get('monto')?.errors?.['max']">El monto debe ser mayor a 0.</span>
           </div>
-          <div class="text-indigo-600 dark:text-[#fae4cf] bg-indigo-50 dark:bg-[#1b2858]/40 border border-indigo-200 dark:border-[#1b2858] text-xs font-bold p-2 mt-1 rounded-interactive" *ngIf="mensajeRedondeo">
-            {{ mensajeRedondeo }}
-          </div>
         </div>
- 
+
         <div class="flex flex-col gap-1">
           <label for="fecha" class="font-bold text-xs text-slate-700 dark:text-slate-200">Fecha</label>
           <input type="date" id="fecha" formControlName="fecha"
@@ -53,7 +50,7 @@
           </div>
         </div>
       </div>
- 
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="flex flex-col gap-1">
           <label for="categoriaId" class="font-bold text-xs text-slate-700 dark:text-slate-200">Categoría</label>
@@ -66,7 +63,7 @@
             Debe seleccionar una categoría.
           </div>
         </div>
- 
+
         <div class="flex flex-col gap-1">
           <label for="metodoPago" class="font-bold text-xs text-slate-700 dark:text-slate-200">Método de Pago</label>
           <select id="metodoPago" formControlName="metodoPago"
@@ -82,7 +79,7 @@
           </div>
         </div>
       </div>
- 
+
       <div class="flex flex-col gap-1" *ngIf="expenseForm.get('metodoPago')?.value === 'TARJETA_CREDITO'">
         <label for="tarjetaCreditoId" class="font-bold text-xs text-slate-700 dark:text-slate-200">Tarjeta de Crédito</label>
         <select id="tarjetaCreditoId" formControlName="tarjetaCreditoId"
@@ -94,9 +91,52 @@
           Debe seleccionar una tarjeta de crédito.
         </div>
       </div>
- 
+
       <div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 rounded-interactive text-blue-800 dark:text-[#fae4cf] text-sm font-medium" *ngIf="cierraProximoMes">
         <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> {{ mensajeAlerta }}
+      </div>
+
+      <!-- Opción de Destinar al Ahorro -->
+      <div class="col-span-1 md:col-span-2 pt-4 mt-1 border-t-2 border-slate-200 dark:border-slate-700" *ngIf="expenseForm.get('metodoPago')?.value !== 'TARJETA_CREDITO'">
+        <div class="p-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-brutal-sharp">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <label class="flex items-center gap-2 cursor-pointer group w-fit">
+              <input type="checkbox" formControlName="destinarAhorro" (change)="onDestinarAhorroToggle()"
+                class="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded-interactive cursor-pointer accent-neo-yellow group-hover:border-neo-text transition-colors">
+              <div>
+                <span class="font-bold text-xs text-slate-700 dark:text-slate-300 select-none block">¿Destinar una parte a mis ahorros?</span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400">Suma un aporte voluntario o redondeo a tu alcancía activa</span>
+              </div>
+            </label>
+
+            <span *ngIf="metaAhorroService.getMetaActiva()" class="text-xs font-bold px-2.5 py-1 bg-neo-yellow dark:bg-[#fae4cf]/20 text-brand-dark dark:text-[#fae4cf] border border-neo-text dark:border-[#fae4cf]/30 rounded-interactive w-fit">
+              Alcancía: {{ metaAhorroService.getMetaActiva().nombre }}
+            </span>
+            <span *ngIf="!metaAhorroService.getMetaActiva()" class="text-xs font-bold text-red-500">
+              Sin alcancía habilitada
+            </span>
+          </div>
+
+          <div *ngIf="expenseForm.get('destinarAhorro')?.value" class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+            <div *ngIf="!metaAhorroService.getMetaActiva()" class="text-xs text-red-500 font-medium">
+              No tienes ninguna alcancía habilitada. Habilita una en el panel de alcancías para destinar ahorros.
+            </div>
+
+            <div *ngIf="metaAhorroService.getMetaActiva()" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <label for="montoAhorro" class="font-bold text-xs text-slate-700 dark:text-slate-200 block mb-1">Monto para Ahorro ($)</label>
+                <div class="flex items-center gap-2">
+                  <input type="number" id="montoAhorro" formControlName="montoAhorro" step="0.01" min="0.01" placeholder="0.00"
+                    class="w-36 h-10 py-1.5 px-3 border-2 border-slate-200 dark:border-slate-600 rounded-brutal-btn focus:border-neo-text dark:focus:border-brand-primary focus:outline-none transition-colors bg-white dark:bg-slate-700 text-brand-dark dark:text-slate-100 text-sm font-semibold">
+                  <button *ngIf="redondeoSugerido > 0" type="button" (click)="aplicarRedondeo()"
+                    class="text-xs font-bold px-3 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-brutal-btn transition-colors">
+                    Usar redondeo (+${{ redondeoSugerido.toFixed(2) }})
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
  
       <!-- Divider and Split Feature -->

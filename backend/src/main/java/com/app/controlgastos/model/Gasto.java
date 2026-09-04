@@ -50,6 +50,12 @@ public class Gasto {
     @JoinColumn(name = "tarjeta_credito_id")
     private TarjetaCredito tarjetaCredito;
 
+    @Column(name = "destinar_ahorro")
+    private boolean destinarAhorro = false;
+
+    @Column(name = "monto_ahorro", precision = 10, scale = 2)
+    private BigDecimal montoAhorro;
+
     public Gasto() {}
 
     public Long getId() { return id; }
@@ -90,4 +96,10 @@ public class Gasto {
 
     public TarjetaCredito getTarjetaCredito() { return tarjetaCredito; }
     public void setTarjetaCredito(TarjetaCredito tarjetaCredito) { this.tarjetaCredito = tarjetaCredito; }
+
+    public boolean isDestinarAhorro() { return destinarAhorro; }
+    public void setDestinarAhorro(boolean destinarAhorro) { this.destinarAhorro = destinarAhorro; }
+
+    public BigDecimal getMontoAhorro() { return montoAhorro; }
+    public void setMontoAhorro(BigDecimal montoAhorro) { this.montoAhorro = montoAhorro; }
 }

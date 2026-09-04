@@ -73,6 +73,8 @@ public class GastoServiceImpl implements GastoService {
         gasto.setEsRecurrente(dto.isEsRecurrente());
         gasto.setNotas(dto.getNotas());
         gasto.setEntidadPago(dto.getEntidadPago());
+        gasto.setDestinarAhorro(dto.isDestinarAhorro());
+        gasto.setMontoAhorro(dto.getMontoAhorro());
         com.app.controlgastos.model.TarjetaCredito tarjeta = null;
         if (dto.getMetodoPago() == MetodoPago.TARJETA_CREDITO) {
             gasto.setPagado(false);
@@ -95,6 +97,24 @@ public class GastoServiceImpl implements GastoService {
                 periodoFinancieroCalc = periodoFinancieroCalc.plusMonths(2);
             }
         }
+        BigDecimal montoAporteCalc = null;
+        if (dto.isDestinarAhorro() && dto.getMetodoPago() != MetodoPago.TARJETA_CREDITO) {
+            if (dto.getMontoAhorro() != null && dto.getMontoAhorro().compareTo(BigDecimal.ZERO) > 0) {
+                montoAporteCalc = dto.getMontoAhorro();
+            } else {
+                BigDecimal monto = dto.getMonto();
+                BigDecimal mil = new BigDecimal("1000");
+                BigDecimal redondeado = monto.divide(mil, 0, java.math.RoundingMode.CEILING).multiply(mil);
+                BigDecimal diff = redondeado.subtract(monto);
+                if (diff.compareTo(BigDecimal.ZERO) > 0) {
+                    montoAporteCalc = diff;
+                }
+            }
+        }
+        final BigDecimal montoAporte = montoAporteCalc;
+        gasto.setDestinarAhorro(dto.isDestinarAhorro() && montoAporte != null);
+        gasto.setMontoAhorro(montoAporte);
+
         final LocalDate periodoFinanciero = periodoFinancieroCalc;
         gasto.setPeriodoFinanciero(periodoFinanciero);
 
@@ -103,24 +123,16 @@ public class GastoServiceImpl implements GastoService {
         if (gasto.isPagado()) {
             actualizarPatrimonio(periodoFinanciero.getMonthValue(), periodoFinanciero.getYear(), dto.getMonto(), categoria.getTipo(), usuario);
             
-            // Lógica de redondeo automático
-            if (dto.getMetodoPago() != MetodoPago.TARJETA_CREDITO) {
+            // Lógica de ahorro voluntario (si el usuario eligió destinar ahorro)
+            if (gasto.isDestinarAhorro() && montoAporte != null) {
                 metaAhorroRepository.findByUsuarioIdAndActivaParaRedondeoTrue(usuario.getId())
                         .ifPresent(meta -> {
-                            BigDecimal monto = dto.getMonto();
-                            // Redondear al millar superior
-                            BigDecimal mil = new BigDecimal("1000");
-                            BigDecimal redondeado = monto.divide(mil, 0, java.math.RoundingMode.CEILING).multiply(mil);
-                            BigDecimal diferencia = redondeado.subtract(monto);
+                            // Sumar a la meta de ahorro
+                            meta.setMontoActual(meta.getMontoActual().add(montoAporte));
+                            metaAhorroRepository.save(meta);
                             
-                            if (diferencia.compareTo(BigDecimal.ZERO) > 0) {
-                                // Sumar a la meta de ahorro
-                                meta.setMontoActual(meta.getMontoActual().add(diferencia));
-                                metaAhorroRepository.save(meta);
-                                
-                                // Restar del patrimonio (como si fuera un gasto extra)
-                                actualizarPatrimonio(periodoFinanciero.getMonthValue(), periodoFinanciero.getYear(), diferencia, TipoCategoria.GASTO, usuario);
-                            }
+                            // Restar del patrimonio (como si fuera un gasto extra asignado al ahorro)
+                            actualizarPatrimonio(periodoFinanciero.getMonthValue(), periodoFinanciero.getYear(), montoAporte, TipoCategoria.GASTO, usuario);
                         });
             }
         }
@@ -179,6 +191,8 @@ public class GastoServiceImpl implements GastoService {
         
         gasto.setNotas(dto.getNotas());
         gasto.setEntidadPago(dto.getEntidadPago());
+        gasto.setDestinarAhorro(dto.isDestinarAhorro());
+        gasto.setMontoAhorro(dto.getMontoAhorro());
 
         com.app.controlgastos.model.TarjetaCredito tarjeta = null;
         if (dto.getMetodoPago() == MetodoPago.TARJETA_CREDITO) {
@@ -368,6 +382,8 @@ public class GastoServiceImpl implements GastoService {
         dto.setNotas(gasto.getNotas());
         dto.setEntidadPago(gasto.getEntidadPago());
         dto.setPeriodoFinanciero(gasto.getPeriodoFinanciero());
+        dto.setDestinarAhorro(gasto.isDestinarAhorro());
+        dto.setMontoAhorro(gasto.getMontoAhorro());
         if (gasto.getTarjetaCredito() != null) {
             dto.setTarjetaCreditoId(gasto.getTarjetaCredito().getId());
             dto.setNombreTarjeta(gasto.getTarjetaCredito().getNombre());

@@ -8,4 +8,7 @@ public interface MetaAhorroService {
     List<MetaAhorroResponseDTO> obtenerTodas();
     MetaAhorroResponseDTO crearMeta(MetaAhorroRequestDTO dto);
     MetaAhorroResponseDTO activarMeta(Long id);
+    MetaAhorroResponseDTO desactivarMeta(Long id);
+    MetaAhorroResponseDTO actualizarMeta(Long id, MetaAhorroRequestDTO dto);
+    void eliminarMeta(Long id);
 }

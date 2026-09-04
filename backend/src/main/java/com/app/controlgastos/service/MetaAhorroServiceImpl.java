@@ -68,6 +68,58 @@ public class MetaAhorroServiceImpl implements MetaAhorroService {
         return mapToDTO(metaAhorroRepository.save(metaAActivar));
     }
 
+    @Override
+    @Transactional
+    public MetaAhorroResponseDTO desactivarMeta(Long id) {
+        Usuario usuario = SecurityUtils.getCurrentUser();
+        
+        MetaAhorro metaADesactivar = metaAhorroRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Meta no encontrada"));
+
+        if (!metaADesactivar.getUsuario().getId().equals(usuario.getId())) {
+            throw new RuntimeException("Acceso denegado");
+        }
+
+        metaADesactivar.setActivaParaRedondeo(false);
+        return mapToDTO(metaAhorroRepository.save(metaADesactivar));
+    }
+
+    @Override
+    @Transactional
+    public MetaAhorroResponseDTO actualizarMeta(Long id, MetaAhorroRequestDTO dto) {
+        Usuario usuario = SecurityUtils.getCurrentUser();
+        
+        MetaAhorro meta = metaAhorroRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Meta no encontrada"));
+
+        if (!meta.getUsuario().getId().equals(usuario.getId())) {
+            throw new RuntimeException("Acceso denegado");
+        }
+
+        meta.setNombre(dto.getNombre());
+        meta.setMontoObjetivo(dto.getMontoObjetivo());
+        if (dto.getMontoActual() != null) {
+            meta.setMontoActual(dto.getMontoActual());
+        }
+
+        return mapToDTO(metaAhorroRepository.save(meta));
+    }
+
+    @Override
+    @Transactional
+    public void eliminarMeta(Long id) {
+        Usuario usuario = SecurityUtils.getCurrentUser();
+        
+        MetaAhorro meta = metaAhorroRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Meta no encontrada"));
+
+        if (!meta.getUsuario().getId().equals(usuario.getId())) {
+            throw new RuntimeException("Acceso denegado");
+        }
+
+        metaAhorroRepository.delete(meta);
+    }
+
     private MetaAhorroResponseDTO mapToDTO(MetaAhorro meta) {
         MetaAhorroResponseDTO dto = new MetaAhorroResponseDTO();
         dto.setId(meta.getId());

@@ -49,6 +49,24 @@ export class MetaAhorroService {
     );
   }
 
+  desactivarMeta(id: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}/desactivar`, {}).pipe(
+      tap(() => this.cargarMetas())
+    );
+  }
+
+  actualizarMeta(id: number, meta: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, meta).pipe(
+      tap(() => this.cargarMetas())
+    );
+  }
+
+  eliminarMeta(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => this.cargarMetas())
+    );
+  }
+
   getMetaActiva(): any {
     return this.metas().find(m => m.activaParaRedondeo) || null;
   }

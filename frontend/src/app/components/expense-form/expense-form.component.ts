@@ -7,6 +7,7 @@ import { PlantillaGastoService, PlantillaGastoResponse } from '../../services/pl
 import { Categoria } from '../../models/categoria';
 import { TarjetaCreditoService } from '../../services/tarjeta-credito.service';
 import { TarjetaCredito } from '../../models/tarjeta-credito';
+import { MetaAhorroService } from '../../services/meta-ahorro.service';
 
 @Component({
   selector: 'app-expense-form',
@@ -29,7 +30,7 @@ export class ExpenseFormComponent implements OnInit {
     private fb: FormBuilder,
     private gastoService: GastoService,
     public plantillaService: PlantillaGastoService,
-    private metaAhorroService: MetaAhorroService,
+    public metaAhorroService: MetaAhorroService,
     private tarjetaService: TarjetaCreditoService,
     private router: Router
   ) {
@@ -42,7 +43,9 @@ export class ExpenseFormComponent implements OnInit {
       tarjetaCreditoId: [''],
       dividirGasto: [false],
       emailDeudor: [''],
-      porcentajeDeuda: [50]
+      porcentajeDeuda: [50],
+      destinarAhorro: [false],
+      montoAhorro: ['']
     });
 
     this.expenseForm.get('dividirGasto')?.valueChanges.subscribe(dividir => {
@@ -130,10 +133,43 @@ export class ExpenseFormComponent implements OnInit {
     });
   }
 
+  get redondeoSugerido(): number {
+    const monto = this.expenseForm.get('monto')?.value;
+    if (!monto || monto <= 0) return 0;
+    const redondeo = Math.ceil(Number(monto) / 1000) * 1000;
+    const diff = redondeo - Number(monto);
+    return diff > 0 ? Number(diff.toFixed(2)) : 0;
+  }
+
+  onDestinarAhorroToggle(): void {
+    const destinar = this.expenseForm.get('destinarAhorro')?.value;
+    const montoAhorroCtrl = this.expenseForm.get('montoAhorro');
+    if (destinar && (!montoAhorroCtrl?.value || montoAhorroCtrl.value <= 0)) {
+      const sugerido = this.redondeoSugerido;
+      if (sugerido > 0) {
+        montoAhorroCtrl?.setValue(sugerido);
+      }
+    }
+  }
+
+  aplicarRedondeo(): void {
+    const sugerido = this.redondeoSugerido;
+    if (sugerido > 0) {
+      this.expenseForm.get('montoAhorro')?.setValue(sugerido);
+    }
+  }
+
   onSubmit(): void {
     if (this.expenseForm.valid) {
       this.submitting = true;
-      this.gastoService.crearGasto(this.expenseForm.value).subscribe({
+      const formVal = { ...this.expenseForm.value };
+      if (!formVal.destinarAhorro) {
+        formVal.montoAhorro = null;
+      } else if (!formVal.montoAhorro) {
+        formVal.montoAhorro = this.redondeoSugerido > 0 ? this.redondeoSugerido : null;
+      }
+
+      this.gastoService.crearGasto(formVal).subscribe({
         next: () => {
           this.submitting = false;
           this.expenseForm.reset();

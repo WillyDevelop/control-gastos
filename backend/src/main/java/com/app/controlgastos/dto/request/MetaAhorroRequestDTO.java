@@ -11,6 +11,8 @@ public class MetaAhorroRequestDTO {
     @NotNull(message = "El monto objetivo es obligatorio")
     private BigDecimal montoObjetivo;
 
+    private BigDecimal montoActual;
+
     public MetaAhorroRequestDTO() {}
 
     public String getNombre() { return nombre; }
@@ -18,4 +20,7 @@ public class MetaAhorroRequestDTO {
 
     public BigDecimal getMontoObjetivo() { return montoObjetivo; }
     public void setMontoObjetivo(BigDecimal montoObjetivo) { this.montoObjetivo = montoObjetivo; }
+
+    public BigDecimal getMontoActual() { return montoActual; }
+    public void setMontoActual(BigDecimal montoActual) { this.montoActual = montoActual; }
 }

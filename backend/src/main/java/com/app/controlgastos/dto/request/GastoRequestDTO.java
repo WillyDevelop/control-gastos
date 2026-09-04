@@ -32,6 +32,9 @@ public class GastoRequestDTO {
     private BigDecimal porcentajeDeuda;
     private Long tarjetaCreditoId;
 
+    private boolean destinarAhorro = false;
+    private BigDecimal montoAhorro;
+
     public GastoRequestDTO() {}
 
     public String getDescripcion() { return descripcion; }
@@ -60,4 +63,8 @@ public class GastoRequestDTO {
     public void setPorcentajeDeuda(BigDecimal porcentajeDeuda) { this.porcentajeDeuda = porcentajeDeuda; }
     public Long getTarjetaCreditoId() { return tarjetaCreditoId; }
     public void setTarjetaCreditoId(Long tarjetaCreditoId) { this.tarjetaCreditoId = tarjetaCreditoId; }
+    public boolean isDestinarAhorro() { return destinarAhorro; }
+    public void setDestinarAhorro(boolean destinarAhorro) { this.destinarAhorro = destinarAhorro; }
+    public BigDecimal getMontoAhorro() { return montoAhorro; }
+    public void setMontoAhorro(BigDecimal montoAhorro) { this.montoAhorro = montoAhorro; }
 }

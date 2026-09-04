@@ -18,6 +18,8 @@ public class GastoResponseDTO {
     private CategoriaResponseDTO categoria;
     private Long tarjetaCreditoId;
     private String nombreTarjeta;
+    private boolean destinarAhorro;
+    private BigDecimal montoAhorro;
 
     public GastoResponseDTO() {}
 
@@ -47,4 +49,10 @@ public class GastoResponseDTO {
     public void setTarjetaCreditoId(Long tarjetaCreditoId) { this.tarjetaCreditoId = tarjetaCreditoId; }
     public String getNombreTarjeta() { return nombreTarjeta; }
     public void setNombreTarjeta(String nombreTarjeta) { this.nombreTarjeta = nombreTarjeta; }
+
+    public boolean isDestinarAhorro() { return destinarAhorro; }
+    public void setDestinarAhorro(boolean destinarAhorro) { this.destinarAhorro = destinarAhorro; }
+
+    public BigDecimal getMontoAhorro() { return montoAhorro; }
+    public void setMontoAhorro(BigDecimal montoAhorro) { this.montoAhorro = montoAhorro; }
 }

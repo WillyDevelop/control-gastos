@@ -82,9 +82,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.closeConfirm();
   }
 
+  bloquearNumeros(event: KeyboardEvent) {
+    if (/[0-9]/.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  onMotivoInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input) {
+      const limpio = input.value.replace(/[0-9]/g, '');
+      input.value = limpio;
+      this.nuevoIngresoRapido.descripcion = limpio;
+    }
+  }
+
   guardarIngresoRapido() {
-    if (!this.nuevoIngresoRapido.descripcion || !this.nuevoIngresoRapido.monto) return;
+    const motivo = (this.nuevoIngresoRapido.descripcion || '').trim();
+    if (!motivo || !this.nuevoIngresoRapido.monto) return;
     
+    if (/[0-9]/.test(motivo)) {
+      this.openAlert('Motivo inválido', 'El motivo sólo debe ser texto (no se permiten números).');
+      return;
+    }
+
     if (this.nuevoIngresoRapido.monto > 99999999.99) {
       this.openAlert('Monto excedido', 'El monto máximo permitido para una transacción es $99.999.999,99.');
       return;
@@ -145,7 +166,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     tarjetaCreditoId: null,
     dividirGasto: false,
     emailDeudor: '',
-    porcentajeDeuda: 50
+    porcentajeDeuda: 50,
+    destinarAhorro: false,
+    montoAhorro: null
   };
 
   nuevaCategoria: any = {
@@ -425,20 +448,41 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  get redondeoSugerido(): number {
+    if (!this.nuevoGasto.monto || this.nuevoGasto.monto <= 0) return 0;
+    const monto = Number(this.nuevoGasto.monto);
+    const redondeo = Math.ceil(monto / 1000) * 1000;
+    const diff = redondeo - monto;
+    return diff > 0 ? Number(diff.toFixed(2)) : 0;
+  }
+
   get mensajeRedondeo(): string {
     if (!this.nuevoGasto.monto || this.nuevoGasto.monto <= 0) return '';
     if (this.nuevoGasto.metodoPago === 'TARJETA_CREDITO') return '';
     const metaActiva = this.metaAhorroService.getMetaActiva();
     if (!metaActiva) return '';
 
-    const monto = this.nuevoGasto.monto;
-    const redondeo = Math.ceil(monto / 1000) * 1000;
-    const diferencia = redondeo - monto;
-
-    if (diferencia > 0) {
-      return `¡Se aplicará un redondeo automático de $${diferencia.toFixed(2)} a tu meta activa (${metaActiva.nombre})!`;
+    const diff = this.redondeoSugerido;
+    if (diff > 0) {
+      return `Redondeo sugerido: $${diff.toFixed(2)} a "${metaActiva.nombre}"`;
     }
     return '';
+  }
+
+  onDestinarAhorroToggle() {
+    if (this.nuevoGasto.destinarAhorro && (!this.nuevoGasto.montoAhorro || this.nuevoGasto.montoAhorro <= 0)) {
+      const sugerido = this.redondeoSugerido;
+      if (sugerido > 0) {
+        this.nuevoGasto.montoAhorro = sugerido;
+      }
+    }
+  }
+
+  aplicarRedondeo() {
+    const sugerido = this.redondeoSugerido;
+    if (sugerido > 0) {
+      this.nuevoGasto.montoAhorro = sugerido;
+    }
   }
 
   abrirMetaModal() {
@@ -463,6 +507,55 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   activarMeta(id: number) {
     this.metaAhorroService.activarMeta(id).subscribe();
+  }
+
+  desactivarMeta(id: number) {
+    this.metaAhorroService.desactivarMeta(id).subscribe();
+  }
+
+  showEditarMetaModal = false;
+  metaEnEdicion: any = { id: null, nombre: '', montoObjetivo: null, montoActual: 0 };
+
+  abrirEditarMetaModal(meta: any) {
+    this.metaEnEdicion = { ...meta };
+    this.showEditarMetaModal = true;
+  }
+
+  cerrarEditarMetaModal() {
+    this.showEditarMetaModal = false;
+    this.metaEnEdicion = { id: null, nombre: '', montoObjetivo: null, montoActual: 0 };
+  }
+
+  guardarEdicionMeta() {
+    if (!this.metaEnEdicion.nombre || !this.metaEnEdicion.montoObjetivo) return;
+    if (this.metaEnEdicion.montoObjetivo > 9999999999.99) {
+      this.openAlert('Monto excedido', 'El monto objetivo de la meta no puede superar los $9.999.999.999,99.');
+      return;
+    }
+    this.metaAhorroService.actualizarMeta(this.metaEnEdicion.id, this.metaEnEdicion).subscribe({
+      next: () => {
+        this.cerrarEditarMetaModal();
+      },
+      error: (err) => {
+        console.error('Error al actualizar meta:', err);
+        this.openAlert('Error', 'No se pudo actualizar la meta de ahorro.');
+      }
+    });
+  }
+
+  eliminarMeta(meta: any) {
+    this.openConfirm(
+      'Eliminar Alcancía',
+      `¿Estás seguro de que deseas eliminar la alcancía "${meta.nombre}"?`,
+      () => {
+        this.metaAhorroService.eliminarMeta(meta.id).subscribe({
+          error: (err) => {
+            console.error('Error al eliminar meta:', err);
+            this.openAlert('Error', 'No se pudo eliminar la meta de ahorro.');
+          }
+        });
+      }
+    );
   }
 
   abrirModalTransaccion(tipo: 'INGRESO' | 'GASTO') {
@@ -567,7 +660,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       categoriaId: null,
       metodoPago: 'EFECTIVO',
       entidadPago: '',
-      tarjetaCreditoId: null
+      tarjetaCreditoId: null,
+      dividirGasto: false,
+      emailDeudor: '',
+      porcentajeDeuda: 50,
+      destinarAhorro: false,
+      montoAhorro: null
     };
   }
 
@@ -587,8 +685,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.nuevoGasto.tarjetaCreditoId = null; // clear dropdown value
     }
     
+    const destinar = this.tipoTransaccion === 'GASTO' && this.nuevoGasto.destinarAhorro && this.nuevoGasto.metodoPago !== 'TARJETA_CREDITO';
+    const montoAhorroFinal = destinar ? (this.nuevoGasto.montoAhorro > 0 ? this.nuevoGasto.montoAhorro : this.redondeoSugerido) : null;
+
     this.gastoService.registrarGasto({
       ...this.nuevoGasto,
+      destinarAhorro: destinar,
+      montoAhorro: montoAhorroFinal,
       esRecurrente: false,
       pagado: true,
       notas: ''
@@ -596,6 +699,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       next: () => {
         this.patrimonioService.cargarPatrimonioActual();
         this.gastoService.cargarGastosMes();
+        this.metaAhorroService.cargarMetas();
       },
       error: (err) => {
         console.error('Error al registrar gasto', err);

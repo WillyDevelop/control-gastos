@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/metas")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class MetaAhorroController {
 
     private final MetaAhorroService metaAhorroService;
@@ -33,5 +33,21 @@ public class MetaAhorroController {
     @PutMapping("/{id}/activar")
     public MetaAhorroResponseDTO activarMeta(@PathVariable Long id) {
         return metaAhorroService.activarMeta(id);
+    }
+
+    @PutMapping("/{id}/desactivar")
+    public MetaAhorroResponseDTO desactivarMeta(@PathVariable Long id) {
+        return metaAhorroService.desactivarMeta(id);
+    }
+
+    @PutMapping("/{id}")
+    public MetaAhorroResponseDTO actualizarMeta(@PathVariable Long id, @jakarta.validation.Valid @RequestBody MetaAhorroRequestDTO request) {
+        return metaAhorroService.actualizarMeta(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminarMeta(@PathVariable Long id) {
+        metaAhorroService.eliminarMeta(id);
     }
 }
