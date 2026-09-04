@@ -50,13 +50,7 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        if (err.status === 0 || err.status === 502 || err.status === 503 || err.status === 504) {
-          this.error = 'El servidor se está iniciando o no responde (Render tarda ~1 minuto al despertar). Por favor espera un momento y reintenta.';
-        } else if (err.status === 401 || err.status === 400) {
-          this.error = err.error?.error || 'Credenciales incorrectas o usuario no registrado.';
-        } else {
-          this.error = err.error?.error || 'Error al iniciar sesión. Intenta nuevamente.';
-        }
+        this.error = err.error?.error || 'Error de autenticación';
       }
     });
   }
