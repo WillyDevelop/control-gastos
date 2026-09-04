@@ -39,6 +39,9 @@ public interface GastoRepository extends JpaRepository<Gasto, Long> {
     @Query("SELECT g FROM Gasto g WHERE g.usuario.id = :usuarioId AND g.metodoPago = 'TARJETA_CREDITO' AND g.pagado = false AND YEAR(g.periodoFinanciero) = :anio AND MONTH(g.periodoFinanciero) = :mes")
     List<Gasto> findTarjetasPendientesPorPeriodo(@Param("usuarioId") Long usuarioId, @Param("anio") int anio, @Param("mes") int mes);
 
+    long countByUsuarioId(Long usuarioId);
+    void deleteByUsuario(com.app.controlgastos.model.Usuario usuario);
+
     @Query("SELECT g FROM Gasto g WHERE g.usuario.id = :usuarioId AND g.metodoPago = 'TARJETA_CREDITO' AND g.pagado = false AND YEAR(g.periodoFinanciero) = :anio AND MONTH(g.periodoFinanciero) = :mes AND g.tarjetaCredito.id = :tarjetaId")
     List<Gasto> findTarjetasPendientesPorPeriodoYTarjeta(@Param("usuarioId") Long usuarioId, @Param("anio") int anio, @Param("mes") int mes, @Param("tarjetaId") Long tarjetaId);
 

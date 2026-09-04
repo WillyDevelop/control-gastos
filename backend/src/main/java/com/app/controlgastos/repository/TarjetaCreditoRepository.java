@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface TarjetaCreditoRepository extends JpaRepository<TarjetaCredito, Long> {
     List<TarjetaCredito> findByUsuarioId(Long usuarioId);
+    long countByUsuarioId(Long usuarioId);
+    void deleteByUsuario(com.app.controlgastos.model.Usuario usuario);
 }

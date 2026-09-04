@@ -218,13 +218,20 @@ export class DashboardComponent implements OnInit {
   });
 
   chartData = computed((): ChartData<any> => {
+    const isDark = this.themeService.isDarkMode();
+    const primaryColor = isDark ? '#fae4cf' : '#0a0f23';
+    const secondaryColor = isDark ? '#1b2858' : '#d9c6b4';
+    const navyPalette = isDark
+      ? ['#fae4cf', '#edd9c7', '#d9c6b4', '#31468f', '#1b2858', '#0a0f23']
+      : ['#0a0f23', '#16214a', '#1b2858', '#243573', '#d9c6b4', '#fae4cf'];
+
     switch(this.activeChart()) {
       case 'DIARIO':
         return {
           labels: this.chartLabels(),
           datasets: [{
             type: 'bar', label: 'Gastos Diarios', data: this.gastosPorDia(),
-            backgroundColor: '#F43F5E', borderRadius: 4, barPercentage: 0.6
+            backgroundColor: primaryColor, borderRadius: 7, barPercentage: 0.6
           }]
         };
       case 'TENDENCIA':
@@ -232,7 +239,8 @@ export class DashboardComponent implements OnInit {
           labels: this.chartLabels(),
           datasets: [{
             type: 'line', label: 'Gasto Acumulado', data: this.gastosAcumulados(),
-            borderColor: '#F43F5E', backgroundColor: 'rgba(244, 63, 94, 0.1)',
+            borderColor: primaryColor,
+            backgroundColor: isDark ? 'rgba(250, 228, 207, 0.15)' : 'rgba(10, 15, 35, 0.12)',
             fill: true, tension: 0.4, pointRadius: 2, borderWidth: 3
           }]
         };
@@ -243,8 +251,9 @@ export class DashboardComponent implements OnInit {
           datasets: [{
             type: 'polarArea', label: 'Gastos por Categoría',
             data: Array.from(catMap.values()),
-            backgroundColor: ['rgba(15, 23, 42, 0.7)', 'rgba(99, 102, 241, 0.7)', 'rgba(20, 184, 166, 0.7)', 'rgba(244, 63, 94, 0.7)', 'rgba(109, 40, 217, 0.7)'],
-            borderWidth: 1
+            backgroundColor: navyPalette,
+            borderWidth: 1,
+            borderColor: isDark ? '#121b3d' : '#fffaf5'
           }]
         };
       case 'COMPARATIVA':
@@ -253,11 +262,11 @@ export class DashboardComponent implements OnInit {
           datasets: [
             {
               type: 'bar', label: 'Salidas', data: this.gastosPorDia(),
-              backgroundColor: '#F43F5E', borderRadius: 4, barPercentage: 0.5
+              backgroundColor: primaryColor, borderRadius: 7, barPercentage: 0.5
             },
             {
               type: 'bar', label: 'Entradas', data: this.ingresosPorDia(),
-              backgroundColor: '#14B8A6', borderRadius: 4, barPercentage: 0.5
+              backgroundColor: secondaryColor, borderRadius: 7, barPercentage: 0.5
             }
           ]
         };
@@ -267,9 +276,12 @@ export class DashboardComponent implements OnInit {
           labels: Array.from(radarMap.keys()),
           datasets: [{
             type: 'radar', label: 'Distribución', data: Array.from(radarMap.values()),
-            backgroundColor: 'rgba(99, 102, 241, 0.2)', borderColor: '#6366F1',
-            pointBackgroundColor: '#6366F1', pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#6366F1',
+            backgroundColor: isDark ? 'rgba(250, 228, 207, 0.2)' : 'rgba(10, 15, 35, 0.15)',
+            borderColor: primaryColor,
+            pointBackgroundColor: primaryColor,
+            pointBorderColor: isDark ? '#121b3d' : '#fffaf5',
+            pointHoverBackgroundColor: isDark ? '#121b3d' : '#fffaf5',
+            pointHoverBorderColor: primaryColor,
             fill: true
           }]
         };
@@ -278,13 +290,23 @@ export class DashboardComponent implements OnInit {
 
   chartOptions = computed((): ChartOptions<any> => {
     const isDark = this.themeService.isDarkMode();
-    const textColor = isDark ? '#8f9099' : '#64748B'; // Custom slate-400 or slate-500
-    const gridColor = isDark ? '#1f1f24' : '#E2E8F0'; // Custom slate-700 or slate-200
+    const textColor = isDark ? '#fae4cf' : '#000000'; // Strict black letters in light mode, warm beige in dark mode
+    const gridColor = isDark ? '#1b2858' : '#e8d8c8'; // Strict palette grid line borders
     const baseOptions: any = {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { display: true, position: 'top', labels: { color: textColor, font: { family: 'Inter', size: 12 }, usePointStyle: true, boxWidth: 8 } },
-        tooltip: { backgroundColor: isDark ? '#121214' : '#0F172A', titleFont: { family: 'Inter', size: 13 }, bodyFont: { family: 'Inter', size: 13, weight: 'bold' }, padding: 12, cornerRadius: 8 }
+        legend: { display: true, position: 'top', labels: { color: textColor, font: { family: 'Inter', size: 12, weight: 'bold' }, usePointStyle: true, boxWidth: 8 } },
+        tooltip: {
+          backgroundColor: isDark ? '#0a0f23' : '#fae4cf',
+          titleColor: isDark ? '#fae4cf' : '#000000',
+          bodyColor: isDark ? '#fae4cf' : '#000000',
+          borderColor: isDark ? '#1b2858' : '#e8d8c8',
+          borderWidth: 1,
+          titleFont: { family: 'Inter', size: 13 },
+          bodyFont: { family: 'Inter', size: 13, weight: 'bold' },
+          padding: 12,
+          cornerRadius: 7
+        }
       }
     };
     
@@ -294,7 +316,7 @@ export class DashboardComponent implements OnInit {
           r: {
             grid: { color: gridColor },
             angleLines: { color: gridColor },
-            pointLabels: { color: textColor, font: { family: 'Inter', size: 11 } },
+            pointLabels: { color: textColor, font: { family: 'Inter', size: 11, weight: 'bold' } },
             ticks: { display: false }
           }
         };
@@ -302,7 +324,7 @@ export class DashboardComponent implements OnInit {
         baseOptions.scales = {
           r: {
             grid: { color: gridColor },
-            ticks: { color: textColor, backdropColor: 'transparent', font: { family: 'Inter', size: 9 } }
+            ticks: { color: textColor, backdropColor: 'transparent', font: { family: 'Inter', size: 9, weight: 'bold' } }
           }
         };
       }
@@ -312,8 +334,8 @@ export class DashboardComponent implements OnInit {
     return {
       ...baseOptions,
       scales: {
-        x: { grid: { display: false }, ticks: { color: textColor, font: { family: 'Inter', size: 11 } } },
-        y: { beginAtZero: true, border: { dash: [4, 4], display: false }, grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Inter', size: 11 } } }
+        x: { grid: { display: false }, ticks: { color: textColor, font: { family: 'Inter', size: 11, weight: 'bold' } } },
+        y: { beginAtZero: true, border: { dash: [4, 4], display: false }, grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Inter', size: 11, weight: 'bold' } } }
       }
     };
   });
@@ -327,28 +349,37 @@ export class DashboardComponent implements OnInit {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: isDark ? '#121214' : '#0F172A',
-          bodyFont: { family: 'Inter', size: 13 },
+          backgroundColor: isDark ? '#0a0f23' : '#fae4cf',
+          titleColor: isDark ? '#fae4cf' : '#000000',
+          bodyColor: isDark ? '#fae4cf' : '#000000',
+          borderColor: isDark ? '#1b2858' : '#e8d8c8',
+          borderWidth: 1,
+          bodyFont: { family: 'Inter', size: 13, weight: 'bold' },
           padding: 10,
-          cornerRadius: 8
+          cornerRadius: 7
         }
       }
     };
   });
 
   donutPagosData = computed((): ChartData<'doughnut'> => {
+    const isDark = this.themeService.isDarkMode();
     const salidas = this.gastoService.gastosMes().filter(g => g.categoria?.tipo === 'GASTO');
     const grouped = salidas.reduce((acc: any, g) => {
       const cat = g.categoria?.nombre || 'Otros';
       acc[cat] = (acc[cat] || 0) + g.monto;
       return acc;
     }, {});
+    const palette = isDark
+      ? ['#fae4cf', '#edd9c7', '#d9c6b4', '#31468f', '#1b2858', '#0a0f23']
+      : ['#0a0f23', '#16214a', '#1b2858', '#243573', '#d9c6b4', '#fae4cf'];
     return {
       labels: Object.keys(grouped),
       datasets: [{
         data: Object.values(grouped),
-        backgroundColor: ['#38BDF8', '#6366F1', '#14B8A6', '#F43F5E', '#6D28D9', '#64748B'],
-        borderWidth: 0
+        backgroundColor: palette,
+        borderColor: isDark ? '#121b3d' : '#fffaf5',
+        borderWidth: 2
       }]
     };
   });

@@ -6,8 +6,23 @@
 
 @layer base {
   body {
-    @apply bg-canvas text-brand-dark font-sans antialiased;
+    @apply bg-canvas text-black font-sans antialiased dark:bg-[#0a0f23] dark:text-[#fae4cf];
   }
+}
+
+/* Regla estándar: bordes sutiles al 7% (~7px) en lugar de esquinas infladas */
+.rounded,
+.rounded-card,
+.rounded-interactive,
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl,
+.rounded-lg,
+.rounded-md,
+.rounded-brutal-btn,
+.rounded-brutal-card,
+.rounded-brutal-sharp {
+  border-radius: 7px !important;
 }
 
 /* Custom Scrollbar for a clean minimal feel */
@@ -21,11 +36,19 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-extended-gray-border rounded-full;
+  @apply bg-[#e8d8c8] rounded-interactive;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-extended-gray-muted;
+  @apply bg-[#d9c6b4];
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background-color: #1b2858;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #243573;
 }
 
 /* Custom Datepicker Indicator style for large calendar icon and separation */
@@ -46,6 +69,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background-color: #F1F5F9;
+}
+
+html.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.85) sepia(0.3) saturate(2) hue-rotate(330deg);
+  border-left: 1px solid #1b2858;
+}
+
+html.dark input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  background-color: #121b3d;
 }
 
 /* Clean & minimal auth page transition animations */

@@ -9,7 +9,7 @@
         *ngFor="let p of plantillaService.plantillas()" 
         type="button"
         (click)="cargarPlantilla(p)"
-        class="bg-neo-yellow dark:bg-amber-500/25 px-3 py-1.5 rounded-brutal-btn border-brutal border-neo-text dark:border-slate-700 shadow-brutal-sm dark:shadow-none hover:translate-y-[2px] hover:shadow-none transition-all font-semibold flex items-center gap-2 text-xs text-brand-dark dark:text-slate-150">
+        class="bg-neo-yellow dark:bg-[#fae4cf]/15 px-3 py-1.5 rounded-interactive border-brutal border-neo-text dark:border-[#fae4cf]/30 shadow-brutal-sm dark:shadow-none hover:translate-y-[2px] hover:shadow-none transition-all font-semibold flex items-center gap-2 text-xs text-brand-dark dark:text-[#fae4cf]">
         <span><svg class="w-3 h-3 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></span> {{ p.nombrePlantilla }}
       </button>
     </div>
@@ -39,7 +39,7 @@
             <span *ngIf="expenseForm.get('monto')?.errors?.['max']">El monto no puede superar $99.999.999,99.</span>
             <span *ngIf="!expenseForm.get('monto')?.errors?.['max']">El monto debe ser mayor a 0.</span>
           </div>
-          <div class="text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-900/50 text-xs font-bold p-2 mt-1 rounded" *ngIf="mensajeRedondeo">
+          <div class="text-indigo-600 dark:text-[#fae4cf] bg-indigo-50 dark:bg-[#1b2858]/40 border border-indigo-200 dark:border-[#1b2858] text-xs font-bold p-2 mt-1 rounded-interactive" *ngIf="mensajeRedondeo">
             {{ mensajeRedondeo }}
           </div>
         </div>
@@ -95,7 +95,7 @@
         </div>
       </div>
  
-      <div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 rounded text-blue-800 dark:text-blue-300 text-sm font-medium" *ngIf="cierraProximoMes">
+      <div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 rounded-interactive text-blue-800 dark:text-[#fae4cf] text-sm font-medium" *ngIf="cierraProximoMes">
         <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> {{ mensajeAlerta }}
       </div>
  
@@ -103,7 +103,7 @@
       <div class="col-span-1 md:col-span-2 pt-4 mt-1 border-t-2 border-slate-200 dark:border-slate-700">
         <label class="flex items-center gap-2 cursor-pointer group w-fit">
           <input type="checkbox" formControlName="dividirGasto" 
-            class="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded cursor-pointer accent-neo-yellow group-hover:border-neo-text transition-colors">
+            class="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded-interactive cursor-pointer accent-neo-yellow group-hover:border-neo-text transition-colors">
           <span class="font-bold text-xs text-slate-700 dark:text-slate-300 select-none">¿Dividir este gasto con alguien?</span>
         </label>
  
@@ -138,7 +138,7 @@
  
       <div class="flex justify-end gap-3 pt-4 border-t-2 border-slate-200 dark:border-slate-700">
         <button type="button" class="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold rounded-brutal-btn transition-colors border-2 border-transparent text-sm" (click)="expenseForm.reset()">Limpiar</button>
-        <button type="submit" class="px-4 py-2 bg-neo-green dark:bg-emerald-500 text-neo-text dark:text-slate-900 border-brutal border-neo-text dark:border-slate-700 shadow-brutal-sm dark:shadow-none hover:bg-neo-green-hover dark:hover:bg-emerald-450 hover:translate-y-[2px] hover:shadow-none transition-all font-black rounded-brutal-btn disabled:opacity-50 disabled:cursor-not-allowed text-sm" [disabled]="submitting">
+        <button type="submit" class="px-4 py-2 bg-neo-green dark:bg-[#fae4cf] text-neo-text dark:text-[#0a0f23] border-brutal border-neo-text dark:border-[#fae4cf]/40 shadow-brutal-sm dark:shadow-none hover:bg-neo-green-hover dark:hover:bg-[#f5e5d5] hover:translate-y-[2px] hover:shadow-none transition-all font-black rounded-brutal-btn disabled:opacity-50 disabled:cursor-not-allowed text-sm" [disabled]="submitting">
           {{ submitting ? 'Guardando...' : 'Guardar Gasto' }}
         </button>
       </div>

@@ -1,13 +1,13 @@
-<div class="flex flex-col md:flex-row h-screen bg-canvas dark:bg-slate-900 text-brand-dark dark:text-slate-100 overflow-hidden font-sans transition-colors duration-300">
+<div class="flex flex-col md:flex-row h-screen bg-canvas dark:bg-[#0a0f23] text-black dark:text-[#fae4cf] overflow-hidden font-sans transition-colors duration-300">
   
   <!-- Mobile Top Header Bar -->
   <header *ngIf="authService.isAuthenticated()"
-    class="flex md:hidden items-center justify-between px-4 py-3 bg-sidebar dark:bg-slate-800 border-b border-extended-gray-border dark:border-slate-700 shrink-0 z-30 transition-colors duration-300">
+    class="flex md:hidden items-center justify-between px-4 py-3 bg-sidebar dark:bg-[#0e1530] border-b border-[#e8d8c8] dark:border-[#1b2858] shrink-0 z-30 transition-colors duration-300">
     <!-- Left: Hamburger Menu Toggle Button & Logo -->
     <div class="flex items-center gap-3">
       <!-- Hamburger Button on the LEFT -->
       <button (click)="toggleMobileMenu()"
-        class="p-2 rounded-interactive bg-extended-gray-light-bg dark:bg-slate-700 text-brand-dark dark:text-slate-200 transition-colors">
+        class="p-2 rounded-interactive bg-[#edd9c7] dark:bg-[#1b2858] text-black dark:text-[#fae4cf] transition-colors">
         <svg *ngIf="!isMobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
@@ -18,30 +18,30 @@
 
       <!-- App Logo & Title -->
       <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-interactive bg-brand-primary flex items-center justify-center text-white font-bold shadow-sm">
+        <div class="w-8 h-8 rounded-interactive bg-[#0a0f23] dark:bg-[#fae4cf] flex items-center justify-center text-[#fae4cf] dark:text-[#0a0f23] font-bold shadow-sm">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
             </path>
           </svg>
         </div>
-        <span class="font-bold text-base text-brand-dark dark:text-slate-100 tracking-tight">Mis Gastos</span>
+        <span class="font-bold text-base text-black dark:text-[#fae4cf] tracking-tight">Mis Gastos</span>
       </div>
     </div>
 
     <!-- Right: Notification Bell Button on Mobile Header -->
     <button (click)="openNotificacionModal()"
-      class="relative p-2 rounded-interactive bg-extended-gray-light-bg dark:bg-slate-700 text-brand-dark dark:text-slate-200 hover:text-amber-500 dark:hover:text-amber-400 transition-all duration-200 group"
+      class="relative p-2 rounded-interactive bg-[#edd9c7] dark:bg-[#1b2858] text-black dark:text-[#fae4cf] transition-all duration-200 group"
       title="Avisos e Información Importante">
       <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-12"
         [class.animate-bell-ring]="!isNotificationMuted"
         fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
       </svg>
-      <!-- Notification Red Dot -->
+      <!-- Notification Dot -->
       <ng-container *ngIf="!isNotificationMuted">
-        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full animate-ping opacity-75"></span>
-        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full"></span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#0a0f23] dark:bg-[#fae4cf] rounded-full animate-ping opacity-75"></span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#0a0f23] dark:bg-[#fae4cf] rounded-full"></span>
       </ng-container>
     </button>
   </header>
@@ -49,33 +49,33 @@
   <!-- Mobile Drawer / Off-canvas Menu -->
   <div *ngIf="isMobileMenuOpen && authService.isAuthenticated()" class="fixed inset-0 z-50 md:hidden animate-fade-in">
     <!-- Backdrop -->
-    <div class="fixed inset-0 bg-brand-dark/60 dark:bg-slate-950/80 backdrop-blur-sm" (click)="closeMobileMenu()"></div>
+    <div class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm" (click)="closeMobileMenu()"></div>
 
     <!-- Drawer Content -->
-    <div class="fixed inset-y-0 left-0 w-72 bg-sidebar dark:bg-slate-800 border-r border-extended-gray-border dark:border-slate-700 p-6 flex flex-col justify-between shadow-2xl z-50">
+    <div class="fixed inset-y-0 left-0 w-72 bg-[#fbf5ee] dark:bg-[#0e1530] border-r border-[#e8d8c8] dark:border-[#1b2858] p-6 flex flex-col justify-between shadow-2xl z-50">
       <div>
-        <div class="flex items-center justify-between mb-6 pb-4 border-b border-extended-gray-border dark:border-slate-700">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#e8d8c8] dark:border-[#1b2858]">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-interactive bg-brand-primary flex items-center justify-center text-white font-bold">
+            <div class="w-8 h-8 rounded-interactive bg-[#0a0f23] dark:bg-[#fae4cf] flex items-center justify-center text-[#fae4cf] dark:text-[#0a0f23] font-bold">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                 </path>
               </svg>
             </div>
-            <h1 class="text-base font-semibold text-brand-dark dark:text-slate-100">Mis Gastos</h1>
+            <h1 class="text-base font-bold text-black dark:text-[#fae4cf]">Mis Gastos</h1>
           </div>
-          <button (click)="closeMobileMenu()" class="p-1 rounded-lg text-extended-gray-muted hover:text-brand-dark dark:text-slate-400 dark:hover:text-slate-100">
+          <button (click)="closeMobileMenu()" class="p-1 rounded-interactive text-black/70 hover:text-black dark:text-[#fae4cf]/70 dark:hover:text-[#fae4cf]">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
           </button>
         </div>
 
-        <div class="pb-4 mb-4 border-b border-extended-gray-border dark:border-slate-700">
-          <p class="font-medium text-sm text-extended-gray-muted dark:text-slate-400">Hola, <span class="text-brand-dark dark:text-slate-100 font-semibold">{{ authService.currentUser()?.nombre }}</span></p>
+        <div class="pb-4 mb-4 border-b border-[#e8d8c8] dark:border-[#1b2858]">
+          <p class="font-medium text-sm text-black/70 dark:text-[#fae4cf]/70">Hola, <span class="text-black dark:text-[#fae4cf] font-bold">{{ authService.currentUser()?.nombre }}</span></p>
           <button (click)="authService.logout(); closeMobileMenu()"
-            class="text-xs text-extended-coral-negative mt-1 hover:text-red-500 font-medium cursor-pointer transition-colors flex items-center gap-1">
+            class="text-xs text-black dark:text-[#fae4cf] mt-1 hover:underline font-semibold cursor-pointer transition-colors flex items-center gap-1">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -86,35 +86,43 @@
 
         <nav class="space-y-2">
           <a routerLink="/dashboard" (click)="closeMobileMenu()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200 group [&.active]:bg-brand-primary-light [&.active]:text-brand-primary [&.active]:font-semibold dark:[&.active]:bg-brand-primary/20 dark:[&.active]:text-indigo-300">
-            <svg class="w-5 h-5 opacity-70 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-black/80 dark:text-[#fae4cf]/80 hover:text-black dark:hover:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-colors duration-200 group [&.active]:bg-[#0a0f23] [&.active]:text-[#fae4cf] [&.active]:font-bold dark:[&.active]:bg-[#fae4cf] dark:[&.active]:text-[#0a0f23]">
+            <svg class="w-5 h-5 opacity-80 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
             </svg>
             <span class="text-sm">Panel de Control</span>
           </a>
 
           <a routerLink="/tarjetas" (click)="closeMobileMenu()" routerLinkActive="active"
-            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200 group [&.active]:bg-brand-primary-light [&.active]:text-brand-primary [&.active]:font-semibold dark:[&.active]:bg-brand-primary/20 dark:[&.active]:text-indigo-300">
-            <svg class="w-5 h-5 opacity-70 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-black/80 dark:text-[#fae4cf]/80 hover:text-black dark:hover:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-colors duration-200 group [&.active]:bg-[#0a0f23] [&.active]:text-[#fae4cf] [&.active]:font-bold dark:[&.active]:bg-[#fae4cf] dark:[&.active]:text-[#0a0f23]">
+            <svg class="w-5 h-5 opacity-80 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
             </svg>
             <span class="text-sm">Tarjetas de Crédito</span>
           </a>
 
           <a routerLink="/dashboard/ajustes" (click)="closeMobileMenu()" routerLinkActive="active"
-            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200 group [&.active]:bg-brand-primary-light [&.active]:text-brand-primary [&.active]:font-semibold dark:[&.active]:bg-brand-primary/20 dark:[&.active]:text-indigo-300">
-            <svg class="w-5 h-5 opacity-70 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-black/80 dark:text-[#fae4cf]/80 hover:text-black dark:hover:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-colors duration-200 group [&.active]:bg-[#0a0f23] [&.active]:text-[#fae4cf] [&.active]:font-bold dark:[&.active]:bg-[#fae4cf] dark:[&.active]:text-[#0a0f23]">
+            <svg class="w-5 h-5 opacity-80 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
             <span class="text-sm">Ajustes</span>
           </a>
+
+          <a *ngIf="authService.isAdmin()" routerLink="/admin" (click)="closeMobileMenu()" routerLinkActive="active"
+            class="flex items-center gap-3 px-4 py-3 rounded-interactive text-black dark:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#fae4cf]/10 transition-colors duration-200 group [&.active]:bg-[#0a0f23] [&.active]:text-[#fae4cf] [&.active]:font-bold dark:[&.active]:bg-[#fae4cf] dark:[&.active]:text-[#0a0f23]">
+            <svg class="w-5 h-5 text-black dark:text-[#fae4cf]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+            <span class="text-sm font-semibold">Panel Admin</span>
+          </a>
         </nav>
       </div>
 
-      <div class="pt-4 border-t border-extended-gray-border dark:border-slate-700">
+      <div class="pt-4 border-t border-[#e8d8c8] dark:border-[#1b2858]">
         <button (click)="openAboutModal()"
-          class="w-full flex items-center justify-between px-4 py-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors text-sm font-medium">
+          class="w-full flex items-center justify-between px-4 py-3 rounded-interactive text-black/70 dark:text-[#fae4cf]/70 hover:text-black dark:hover:text-[#fae4cf] hover:bg-[#edd9c7]/50 dark:hover:bg-[#1b2858] transition-colors text-sm font-medium">
           <span>Sobre nosotros</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -126,23 +134,23 @@
 
   <!-- Desktop Sidebar -->
   <aside *ngIf="authService.isAuthenticated()"
-    class="w-[260px] bg-sidebar dark:bg-slate-800 border-r border-extended-gray-border dark:border-slate-700 flex-col hidden md:flex z-10 transition-colors duration-300">
+    class="w-[260px] bg-sidebar dark:bg-[#0e1530] border-r border-[#e8d8c8] dark:border-[#1b2858] flex-col hidden md:flex z-10 transition-colors duration-300">
     <div class="p-6 flex items-center gap-3">
-      <div class="w-8 h-8 rounded-interactive bg-brand-primary flex items-center justify-center text-white font-bold">
+      <div class="w-8 h-8 rounded-interactive bg-[#0a0f23] dark:bg-[#fae4cf] flex items-center justify-center text-[#fae4cf] dark:text-[#0a0f23] font-bold">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
           </path>
         </svg>
       </div>
-      <h1 class="text-base font-semibold text-brand-dark dark:text-slate-100">Mis Gastos</h1>
+      <h1 class="text-base font-bold text-black dark:text-[#fae4cf]">Mis Gastos</h1>
     </div>
  
     <div class="px-6 pb-4 mb-2">
-      <p class="font-medium text-sm text-extended-gray-muted dark:text-slate-400">Hola, <span class="text-brand-dark dark:text-slate-100 font-semibold">{{
+      <p class="font-medium text-sm text-black/70 dark:text-[#fae4cf]/70">Hola, <span class="text-black dark:text-[#fae4cf] font-bold">{{
           authService.currentUser()?.nombre }}</span></p>
       <button (click)="authService.logout()"
-        class="text-xs text-extended-coral-negative mt-1 hover:text-red-500 font-medium cursor-pointer transition-colors flex items-center gap-1">
+        class="text-xs text-black dark:text-[#fae4cf] mt-1 hover:underline font-semibold cursor-pointer transition-colors flex items-center gap-1">
         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -153,8 +161,8 @@
 
     <nav class="flex-1 space-y-1 overflow-y-auto">
       <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-        class="flex items-center gap-3 px-4 py-2.5 mx-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200 group [&.active]:bg-brand-primary-light [&.active]:text-brand-primary [&.active]:font-semibold dark:[&.active]:bg-brand-primary/20 dark:[&.active]:text-indigo-300">
-        <svg class="w-5 h-5 opacity-70 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2"
+        class="flex items-center gap-3 px-4 py-2.5 mx-3 rounded-interactive text-black/80 dark:text-[#fae4cf]/80 hover:text-black dark:hover:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-colors duration-200 group [&.active]:bg-[#0a0f23] [&.active]:text-[#fae4cf] [&.active]:font-bold dark:[&.active]:bg-[#fae4cf] dark:[&.active]:text-[#0a0f23]">
+        <svg class="w-5 h-5 opacity-80 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2"
           viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
@@ -163,112 +171,117 @@
         <span class="text-sm">Panel de Control</span>
       </a>
       <a routerLink="/tarjetas" routerLinkActive="active"
-        class="flex items-center gap-3 px-4 py-2.5 mx-3 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200 group [&.active]:bg-brand-primary-light [&.active]:text-brand-primary [&.active]:font-semibold dark:[&.active]:bg-brand-primary/20 dark:[&.active]:text-indigo-300">
-        <svg class="w-5 h-5 opacity-70 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2"
+        class="flex items-center gap-3 px-4 py-2.5 mx-3 rounded-interactive text-black/80 dark:text-[#fae4cf]/80 hover:text-black dark:hover:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-colors duration-200 group [&.active]:bg-[#0a0f23] [&.active]:text-[#fae4cf] [&.active]:font-bold dark:[&.active]:bg-[#fae4cf] dark:[&.active]:text-[#0a0f23]">
+        <svg class="w-5 h-5 opacity-80 group-[.active]:opacity-100" fill="none" stroke="currentColor" stroke-width="2"
           viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
         </svg>
         <span class="text-sm">Tarjetas de Crédito</span>
       </a>
+      <a *ngIf="authService.isAdmin()" routerLink="/admin" routerLinkActive="active"
+        class="flex items-center gap-3 px-4 py-2.5 mx-3 rounded-interactive text-black dark:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#fae4cf]/10 transition-colors duration-200 group [&.active]:bg-[#0a0f23] [&.active]:text-[#fae4cf] [&.active]:font-bold dark:[&.active]:bg-[#fae4cf] dark:[&.active]:text-[#0a0f23]">
+        <svg class="w-5 h-5 text-black dark:text-[#fae4cf]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+        </svg>
+        <span class="text-sm font-semibold">Panel Admin</span>
+      </a>
     </nav>
  
-    <div class="p-4 border-t border-extended-gray-border dark:border-slate-700 relative">
+    <div class="p-4 border-t border-[#e8d8c8] dark:border-[#1b2858] relative">
       <!-- Theme Switcher Button -->
       <button (click)="themeService.toggleTheme()"
-        class="w-full flex items-center justify-between px-4 py-2 mb-2 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-all duration-300">
+        class="w-full flex items-center justify-between px-4 py-2 mb-2 rounded-interactive text-black dark:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-all duration-300">
         <div class="flex items-center gap-3">
           @if (themeService.isDarkMode()) {
-          <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+          <svg class="w-5 h-5 text-[#fae4cf]" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464-4.95a1 1 0 111.414 1.414L14.12 7.293a1 1 0 01-1.414-1.414l.828-.828zM17 9a1 1 0 100 2h1a1 1 0 100-2h-1zm-7 7a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-5.657-.707a1 1 0 011.414-1.414l.828.828a1 1 0 11-1.414 1.414l-.828-.828zM3.707 5.657a1 1 0 010-1.414l.828-.828a1 1 0 011.414 0 1 1 0 010 1.414l-.828.828a1 1 0 01-1.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-10.464 2.828a1 1 0 111.414-1.414l.828.828a1 1 0 11-1.414 1.414l-.828-.828z"/>
           </svg>
-          <span class="text-sm font-medium">Modo Claro</span>
+          <span class="text-sm font-semibold">Modo Claro</span>
           } @else {
-          <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
+          <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 20 20">
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
           </svg>
-          <span class="text-sm font-medium">Modo Oscuro</span>
+          <span class="text-sm font-semibold">Modo Oscuro</span>
           }
         </div>
-        <div class="w-8 h-4 bg-slate-200 dark:bg-slate-600 rounded-full p-0.5 transition-colors duration-300 flex items-center" [class.justify-end]="themeService.isDarkMode()">
-          <div class="w-3 h-3 bg-white dark:bg-slate-900 rounded-full shadow-md transform transition-all duration-300"></div>
+        <div class="w-8 h-4 bg-[#e8d8c8] dark:bg-[#1b2858] rounded-full p-0.5 transition-colors duration-300 flex items-center" [class.justify-end]="themeService.isDarkMode()">
+          <div class="w-3 h-3 bg-[#0a0f23] dark:bg-[#fae4cf] rounded-full shadow-md transform transition-all duration-300"></div>
         </div>
       </button>
 
       <div class="flex items-center justify-between gap-1.5">
         <button (click)="toggleConfigMenu()"
-          class="flex-1 flex items-center gap-3 px-3.5 py-2.5 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-brand-dark dark:hover:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors duration-200">
-          <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          class="flex-1 flex items-center gap-3 px-3.5 py-2.5 rounded-interactive text-black dark:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-colors duration-200">
+          <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
             </path>
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
           </svg>
-          <span class="text-sm font-medium">Configuración</span>
+          <span class="text-sm font-semibold">Configuración</span>
         </button>
 
         <!-- Notification Bell Button -->
         <button (click)="openNotificacionModal()"
-          class="relative p-2.5 rounded-interactive text-extended-gray-muted dark:text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-all duration-200 group"
+          class="relative p-2.5 rounded-interactive text-black dark:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-all duration-200 group"
           title="Avisos e Información Importante">
           <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-12"
             [class.animate-bell-ring]="!isNotificationMuted"
             fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
           </svg>
-          <!-- Notification Dot (Hidden during 10-min mute period) -->
+          <!-- Notification Dot -->
           <ng-container *ngIf="!isNotificationMuted">
-            <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full animate-ping opacity-75"></span>
-            <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
+            <span class="absolute top-2 right-2 w-2 h-2 bg-[#0a0f23] dark:bg-[#fae4cf] rounded-full animate-ping opacity-75"></span>
+            <span class="absolute top-2 right-2 w-2 h-2 bg-[#0a0f23] dark:bg-[#fae4cf] rounded-full"></span>
           </ng-container>
         </button>
       </div>
 
       <!-- Dropdown -->
       <div *ngIf="showConfigMenu"
-        class="absolute bottom-16 left-4 w-52 bg-surface dark:bg-slate-800 border border-slate-150 dark:border-slate-700/60 rounded-card shadow-xl overflow-hidden z-50 animate-fade-in transition-colors duration-300">
+        class="absolute bottom-16 left-4 w-52 bg-[#fbf5ee] dark:bg-[#121b3d] border border-[#e8d8c8] dark:border-[#1b2858] rounded-interactive shadow-xl overflow-hidden z-50 animate-fade-in transition-colors duration-300">
         <button (click)="openAboutModal()"
-          class="w-full text-left px-4 py-3 text-sm font-bold text-brand-dark dark:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors border-b border-slate-100 dark:border-slate-700/60">
+          class="w-full text-left px-4 py-3 text-sm font-bold text-black dark:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-colors border-b border-[#e8d8c8] dark:border-[#1b2858]">
           Sobre nosotros
         </button>
         <a routerLink="/dashboard/ajustes" (click)="toggleConfigMenu()"
-          class="block w-full text-left px-4 py-3 text-sm font-bold text-brand-dark dark:text-slate-100 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 transition-colors">
+          class="block w-full text-left px-4 py-3 text-sm font-bold text-black dark:text-[#fae4cf] hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] transition-colors">
           Ajustes
         </a>
       </div>
     </div>
   </aside>
-
-  <!-- Modal Sobre Nosotros -->
   <div *ngIf="showAboutModal"
-    class="fixed inset-0 bg-brand-dark/50 dark:bg-slate-950/80 backdrop-blur-sm z-[100] flex items-center justify-center animate-fade-in p-4">
+    class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center animate-fade-in p-4">
     <div
-      class="bg-surface dark:bg-slate-800 border border-slate-150 dark:border-slate-700 rounded-card p-8 w-full max-w-md shadow-2xl relative transition-colors duration-300">
+      class="bg-[#fbf5ee] dark:bg-[#121b3d] border border-[#e8d8c8] dark:border-[#1b2858] rounded-interactive p-8 w-full max-w-md shadow-2xl relative transition-colors duration-300">
       <button (click)="closeAboutModal()"
-        class="absolute top-4 right-4 text-brand-dark dark:text-slate-400 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 p-2 rounded-full transition-colors">
+        class="absolute top-4 right-4 text-black/70 dark:text-[#fae4cf]/70 hover:bg-[#edd9c7]/70 dark:hover:bg-[#1b2858] p-2 rounded-interactive transition-colors">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
       <div class="text-center mb-6">
         <div
-          class="w-16 h-16 rounded-card bg-brand-primary flex items-center justify-center text-white mx-auto mb-4 shadow-md shadow-brand-primary/10">
+          class="w-16 h-16 rounded-interactive bg-[#0a0f23] dark:bg-[#fae4cf] flex items-center justify-center text-[#fae4cf] dark:text-[#0a0f23] mx-auto mb-4 shadow-md">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
             </path>
           </svg>
         </div>
-        <h2 class="text-2xl font-black text-brand-dark dark:text-slate-100 uppercase tracking-tight">Mis Gastos</h2>
-        <p class="text-brand-primary font-bold text-sm mt-1">v1.0.0</p>
+        <h2 class="text-2xl font-black text-black dark:text-[#fae4cf] uppercase tracking-tight">Mis Gastos</h2>
+        <p class="text-black/70 dark:text-[#fae4cf]/80 font-bold text-sm mt-1">v1.0.0</p>
       </div>
-      <div class="space-y-4 text-sm text-brand-dark dark:text-slate-300 font-medium leading-relaxed">
+      <div class="space-y-4 text-sm text-black dark:text-[#fae4cf] font-medium leading-relaxed">
         <p>Una aplicación diseñada para simplificar el control de tus finanzas personales.</p>
-        <div class="bg-extended-gray-light-bg dark:bg-slate-700 p-4 rounded-xl border border-extended-gray-border dark:border-slate-600">
-          <p class="text-xs text-extended-gray-muted dark:text-slate-400 uppercase tracking-wider mb-1">Desarrollado por</p>
+        <div class="bg-[#edd9c7]/50 dark:bg-[#101838] p-4 rounded-interactive border border-[#e8d8c8] dark:border-[#1b2858]">
+          <p class="text-xs text-black/70 dark:text-[#fae4cf]/70 uppercase tracking-wider mb-1">Desarrollado por</p>
           <p class="font-bold">
             <a href="https://github.com/WillyDevelop" target="_blank" rel="noopener noreferrer"
-              class="flex items-center gap-2 text-brand-dark dark:text-slate-200 hover:text-brand-primary dark:hover:text-brand-primary transition-colors">
+              class="flex items-center gap-2 text-black dark:text-[#fae4cf] hover:underline transition-colors">
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path
                   d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -279,56 +292,42 @@
         </div>
       </div>
       <button (click)="closeAboutModal()"
-        class="w-full mt-8 bg-brand-primary hover:bg-indigo-600 text-white font-black py-3 rounded-xl shadow-lg shadow-brand-primary/15 transition-all uppercase hover:translate-y-[-0.5px]">
+        class="w-full mt-8 bg-[#0a0f23] dark:bg-[#fae4cf] hover:bg-[#16214a] dark:hover:bg-[#f5e5d5] text-[#fae4cf] dark:text-[#0a0f23] font-black py-3 rounded-interactive shadow-lg transition-all uppercase hover:translate-y-[-0.5px]">
         Aceptar
       </button>
     </div>
   </div>
 
-  <!-- Modal Notificación Importante -->
+  <!-- Modal Notificación Importante (Minimalista) -->
   <div *ngIf="showNotificacionModal"
-    class="fixed inset-0 bg-brand-dark/50 dark:bg-slate-950/80 backdrop-blur-sm z-[100] flex items-center justify-center animate-fade-in p-4">
+    (click)="closeNotificacionModal()"
+    class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center animate-fade-in p-4">
     <div
-      class="bg-surface dark:bg-slate-800 border border-slate-150 dark:border-slate-700 rounded-card p-6 sm:p-8 w-full max-w-md shadow-2xl relative transition-colors duration-300">
+      (click)="$event.stopPropagation()"
+      class="bg-[#fbf5ee] dark:bg-[#0a0f23] border border-[#e8d8c8] dark:border-[#1b2858] rounded-interactive p-8 sm:p-10 w-full max-w-md shadow-2xl relative transition-colors duration-300">
       <button (click)="closeNotificacionModal()"
-        class="absolute top-4 right-4 text-brand-dark dark:text-slate-400 hover:bg-extended-gray-light-bg dark:hover:bg-slate-700 p-2 rounded-full transition-colors">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        class="absolute top-4 right-4 text-black/60 dark:text-[#fae4cf]/60 hover:text-black dark:hover:text-[#fae4cf] p-1.5 rounded-interactive transition-colors"
+        title="Cerrar">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
-      <div class="text-center mb-5">
-        <div
-          class="w-16 h-16 rounded-card bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 dark:text-amber-400 mx-auto mb-4 shadow-lg shadow-amber-500/10">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-          </svg>
-        </div>
-        <h2 class="text-2xl font-black text-brand-dark dark:text-slate-100 uppercase tracking-tight">Aviso Importante</h2>
-        <p class="text-amber-600 dark:text-amber-400 font-bold text-xs uppercase tracking-wider mt-1">Seguridad de la Cuenta</p>
-      </div>
-      <div class="space-y-4 text-sm text-brand-dark dark:text-slate-300 font-medium leading-relaxed">
-        <div class="bg-amber-500/10 dark:bg-amber-500/10 p-4 rounded-xl border border-amber-500/20 text-brand-dark dark:text-slate-200 text-xs space-y-2">
-          <p class="font-bold flex items-center gap-2 text-amber-700 dark:text-amber-400 text-sm">
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-            </svg>
-            Conservación de Contraseña
-          </p>
-          <p class="leading-relaxed text-xs">
+      <div class="text-center space-y-4 pt-2">
+        <h2 class="text-xl sm:text-2xl font-black text-black dark:text-[#fae4cf] uppercase tracking-tight">
+          Aviso Importante
+        </h2>
+        <div class="space-y-3 text-sm text-black/90 dark:text-[#fae4cf]/90 font-medium leading-relaxed">
+          <p>
             En esta versión del sistema aún <strong>no está habilitada la función para recuperar contraseñas olvidadas</strong>.
           </p>
-          <p class="leading-relaxed text-xs">
+          <p>
             Por favor, <strong>asegúrate de recordar o guardar tu contraseña en un lugar seguro</strong>, ya que temporalmente no será posible restablecer el acceso a tu cuenta si la pierdes.
           </p>
+          <p class="text-xs text-black/60 dark:text-[#fae4cf]/60 italic pt-2">
+            ¡Estamos trabajando activamente para incluir la recuperación automática de contraseña muy pronto!
+          </p>
         </div>
-        <p class="text-xs text-center text-extended-gray-muted dark:text-slate-400 italic">
-          ¡Estamos trabajando activamente para incluir la recuperación automática de contraseña muy pronto!
-        </p>
       </div>
-      <button (click)="closeNotificacionModal()"
-        class="w-full mt-6 bg-brand-primary hover:bg-indigo-600 text-white font-black py-3 rounded-xl shadow-lg shadow-brand-primary/15 transition-all uppercase tracking-wide">
-        Entendido
-      </button>
     </div>
   </div>
  
@@ -339,11 +338,11 @@
 
   <!-- Mobile Bottom Navigation Bar (Fixed) -->
   <nav *ngIf="authService.isAuthenticated()"
-    class="flex md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sidebar dark:bg-slate-800 border-t border-extended-gray-border dark:border-slate-700 h-16 shadow-lg transition-colors duration-300">
+    class="flex md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sidebar dark:bg-[#101838] border-t border-[#e8d8c8] dark:border-[#1b2858] h-16 shadow-lg transition-colors duration-300">
     <div class="grid grid-cols-5 w-full h-full items-center text-center">
       <!-- Tab 1: Panel -->
       <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-        class="flex flex-col items-center justify-center gap-1 text-extended-gray-muted dark:text-slate-400 hover:text-brand-primary dark:hover:text-indigo-400 [&.active]:text-brand-primary dark:[&.active]:text-indigo-400 transition-colors">
+        class="flex flex-col items-center justify-center gap-1 text-black/70 dark:text-[#fae4cf]/70 hover:text-black dark:hover:text-[#fae4cf] [&.active]:text-black dark:[&.active]:text-[#fae4cf] transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
         </svg>
@@ -352,7 +351,7 @@
 
       <!-- Tab 2: Tarjetas -->
       <a routerLink="/tarjetas" routerLinkActive="active"
-        class="flex flex-col items-center justify-center gap-1 text-extended-gray-muted dark:text-slate-400 hover:text-brand-primary dark:hover:text-indigo-400 [&.active]:text-brand-primary dark:[&.active]:text-indigo-400 transition-colors">
+        class="flex flex-col items-center justify-center gap-1 text-black/70 dark:text-[#fae4cf]/70 hover:text-black dark:hover:text-[#fae4cf] [&.active]:text-black dark:[&.active]:text-[#fae4cf] transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
         </svg>
@@ -362,7 +361,7 @@
       <!-- Tab 3: Exact Center Floating Action Button (+) -->
       <div class="flex items-center justify-center">
         <button (click)="abrirNuevoGastoMovil()"
-          class="-mt-4 w-11 h-11 rounded-full bg-brand-primary hover:bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-brand-primary/30 border-2 border-sidebar dark:border-slate-800 transition-all active:scale-95">
+          class="-mt-4 w-11 h-11 rounded-interactive bg-[#0a0f23] text-[#fae4cf] dark:bg-[#fae4cf] dark:text-[#0a0f23] flex items-center justify-center shadow-lg border-2 border-sidebar dark:border-[#101838] transition-all active:scale-95">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
           </svg>
@@ -371,14 +370,14 @@
 
       <!-- Tab 4: Modo (Tema) -->
       <button (click)="themeService.toggleTheme()"
-        class="flex flex-col items-center justify-center gap-1 text-extended-gray-muted dark:text-slate-400 hover:text-brand-primary dark:hover:text-indigo-400 transition-colors">
+        class="flex flex-col items-center justify-center gap-1 text-black/70 dark:text-[#fae4cf]/70 hover:text-black dark:hover:text-[#fae4cf] transition-colors">
         @if (themeService.isDarkMode()) {
-        <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+        <svg class="w-5 h-5 text-[#fae4cf]" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464-4.95a1 1 0 111.414 1.414L14.12 7.293a1 1 0 01-1.414-1.414l.828-.828zM17 9a1 1 0 100 2h1a1 1 0 100-2h-1zm-7 7a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-5.657-.707a1 1 0 011.414-1.414l.828.828a1 1 0 11-1.414 1.414l-.828-.828zM3.707 5.657a1 1 0 010-1.414l.828-.828a1 1 0 011.414 0 1 1 0 010 1.414l-.828.828a1 1 0 01-1.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-10.464 2.828a1 1 0 111.414-1.414l.828.828a1 1 0 11-1.414 1.414l-.828-.828z"/>
         </svg>
         <span class="text-[10px] font-bold">Modo</span>
         } @else {
-        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
+        <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 20 20">
           <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
         </svg>
         <span class="text-[10px] font-bold">Modo</span>
@@ -387,7 +386,7 @@
 
       <!-- Tab 5: Ajustes -->
       <a routerLink="/dashboard/ajustes" routerLinkActive="active"
-        class="flex flex-col items-center justify-center gap-1 text-extended-gray-muted dark:text-slate-400 hover:text-brand-primary dark:hover:text-indigo-400 [&.active]:text-brand-primary dark:[&.active]:text-indigo-400 transition-colors">
+        class="flex flex-col items-center justify-center gap-1 text-black/70 dark:text-[#fae4cf]/70 hover:text-black dark:hover:text-[#fae4cf] [&.active]:text-black dark:[&.active]:text-[#fae4cf] transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>

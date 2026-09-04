@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'dashboard/ajustes', loadComponent: () => import('./pages/ajustes/ajustes.component').then(c => c.AjustesComponent), canActivate: [authGuard] },
   { path: 'tarjetas', loadComponent: () => import('./pages/tarjetas/tarjetas.component').then(c => c.TarjetasComponent), canActivate: [authGuard] },
+  { path: 'admin', loadComponent: () => import('./pages/admin/admin.component').then(c => c.AdminComponent), canActivate: [authGuard, adminGuard] },
   { path: '**', redirectTo: 'dashboard' }
 ];

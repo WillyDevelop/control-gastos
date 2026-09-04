@@ -78,7 +78,7 @@ public class AuthService {
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
         
         if (!usuario.isActivo()) {
-            throw new IllegalArgumentException("Cuenta no activada. Revisa tu email.");
+            throw new IllegalArgumentException("La cuenta se encuentra suspendida o inactiva.");
         }
 
         authenticationManager.authenticate(
@@ -86,7 +86,7 @@ public class AuthService {
         );
 
         String jwt = jwtService.generateToken(usuario);
-        return new AuthResponse(jwt, usuario.getEmail(), usuario.getNombre());
+        return new AuthResponse(jwt, usuario.getEmail(), usuario.getNombre(), usuario.getRol());
     }
 
     @Transactional

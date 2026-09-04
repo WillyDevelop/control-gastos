@@ -1,22 +1,22 @@
-<div class="min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-blue-100 selection:text-blue-900 pb-20">
+<div class="min-h-screen bg-white dark:bg-[#0a0f23] text-slate-900 dark:text-[#fae4cf] font-sans antialiased selection:bg-blue-100 selection:text-blue-900 pb-20 transition-colors">
 
   <!-- Top Header Navigation Bar -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 px-4 sm:px-8 py-3.5">
+  <header class="bg-white dark:bg-[#101838] border-b border-slate-200 dark:border-[#1b2858] sticky top-0 z-50 px-4 sm:px-8 py-3.5 transition-colors">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       
       <!-- Brand Logo -->
       <a routerLink="/login" class="flex items-center gap-2.5 group">
-        <div class="w-8 h-8 rounded-lg bg-slate-900 text-[#d2ff00] flex items-center justify-center font-bold shadow-sm">
+        <div class="w-8 h-8 rounded-interactive bg-slate-900 dark:bg-[#121b3d] border dark:border-[#1b2858] text-[#fae4cf] flex items-center justify-center font-bold shadow-sm">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8L6 21" />
           </svg>
         </div>
-        <span class="text-base font-bold tracking-tight text-slate-900">Mis Gastos</span>
+        <span class="text-base font-bold tracking-tight text-slate-900 dark:text-[#fae4cf]">Mis Gastos</span>
       </a>
 
       <!-- Back Button -->
       <a routerLink="/registro"
-        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition-colors">
+        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-[#fae4cf] dark:hover:bg-[#f5e5d5] text-white dark:text-[#0a0f23] font-semibold text-xs rounded-interactive transition-colors">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
@@ -27,10 +27,10 @@
   </header>
 
   <!-- Main Legal Document Content (Exact typography, layout & colors from reference image) -->
-  <main class="max-w-4xl mx-auto px-6 sm:px-12 pt-8 pb-12 text-slate-800 text-xs sm:text-sm leading-relaxed">
+  <main class="max-w-4xl mx-auto px-6 sm:px-12 pt-8 pb-12 text-slate-800 dark:text-slate-200 text-xs sm:text-sm leading-relaxed">
 
     <!-- Document Main Title -->
-    <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mb-2">
+    <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#fae4cf] tracking-tight mb-2">
       TÉRMINOS Y CONDICIONES DE USO Y POLÍTICA DE PRIVACIDAD
     </h1>
     
@@ -39,18 +39,18 @@
     </p>
 
     <!-- Preamble -->
-    <div class="space-y-3 mb-8 text-slate-800">
+    <div class="space-y-3 mb-8 text-slate-800 dark:text-slate-200">
       <p>
         Bienvenido/a a <strong>Control Gastos</strong> (en adelante, "la Aplicación" o "el Servicio"). Al registrarte, acceder o utilizar nuestra plataforma web accesible desde <a href="https://control-gastos-nine-pi.vercel.app" target="_blank" class="text-blue-600 hover:underline font-medium">https://control-gastos-nine-pi.vercel.app</a> (o dominios derivados), aceptas de manera plena, expresa y sin reservas los presentes Términos y Condiciones de Uso, así como nuestra Política de Privacidad.
       </p>
-      <p class="font-medium text-slate-900">
+      <p class="font-medium text-slate-900 dark:text-[#fae4cf]">
         Si no estás de acuerdo con la totalidad de estas cláusulas, deberás abstenerte de utilizar el Servicio.
       </p>
     </div>
 
     <!-- Section 1 -->
     <section class="mb-8">
-      <h2 class="text-sm sm:text-base font-bold text-slate-900 border-b border-slate-200 pb-1.5 mb-3">
+      <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-[#fae4cf] border-b border-slate-200 dark:border-[#1b2858] pb-1.5 mb-3">
         1. IDENTIFICACIÓN Y NATURALEZA DEL SERVICIO
       </h2>
       <div class="space-y-2.5 pl-1">
@@ -65,7 +65,7 @@
 
     <!-- Section 2 -->
     <section class="mb-8">
-      <h2 class="text-sm sm:text-base font-bold text-slate-900 border-b border-slate-200 pb-1.5 mb-3">
+      <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-[#fae4cf] border-b border-slate-200 dark:border-[#1b2858] pb-1.5 mb-3">
         2. REGISTRO DE CUENTA Y SEGURIDAD
       </h2>
       <div class="space-y-2.5 pl-1">
@@ -86,7 +86,7 @@
 
     <!-- Section 3 -->
     <section class="mb-8">
-      <h2 class="text-sm sm:text-base font-bold text-slate-900 border-b border-slate-200 pb-1.5 mb-3">
+      <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-[#fae4cf] border-b border-slate-200 dark:border-[#1b2858] pb-1.5 mb-3">
         3. PROPIEDAD INTELECTUAL Y LICENCIA DE USO
       </h2>
       <div class="space-y-2.5 pl-1">
@@ -98,7 +98,7 @@
         </p>
         <div>
           <p class="mb-1.5"><strong>3.3. Restricciones:</strong> Queda expresamente prohibido:</p>
-          <ul class="list-disc pl-6 space-y-1 text-slate-800">
+          <ul class="list-disc pl-6 space-y-1 text-slate-800 dark:text-slate-300">
             <li>Realizar ingeniería inversa, descompilar, desmontar o intentar extraer el código fuente del backend o frontend.</li>
             <li>Realizar extracción masiva de datos (web scraping o crawling).</li>
             <li>Modificar, adaptar, traducir o crear obras derivadas basadas en la Aplicación.</li>
@@ -110,18 +110,18 @@
 
     <!-- Section 4 -->
     <section class="mb-8">
-      <h2 class="text-sm sm:text-base font-bold text-slate-900 border-b border-slate-200 pb-1.5 mb-3">
+      <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-[#fae4cf] border-b border-slate-200 dark:border-[#1b2858] pb-1.5 mb-3">
         4. POLÍTICA DE PRIVACIDAD Y PROTECCIÓN DE DATOS PERSONALES
       </h2>
       
-      <p class="mb-3 font-medium text-slate-900">
+      <p class="mb-3 font-medium text-slate-900 dark:text-[#fae4cf]">
         Cumpliendo con la Ley N° 25.326 de Protección de Datos Personales (Argentina) y estándares de privacidad por diseño (Privacy by Design):
       </p>
 
       <div class="space-y-3 pl-1">
         <div>
           <p class="mb-1.5"><strong>4.1. Datos Recopilados:</strong></p>
-          <ul class="list-disc pl-6 space-y-1 text-slate-800">
+          <ul class="list-disc pl-6 space-y-1 text-slate-800 dark:text-slate-300">
             <li><strong>Datos de cuenta:</strong> Nombre, correo electrónico y contraseña almacenada mediante algoritmos de cifrado unidireccional (hashing criptográfico).</li>
             <li><strong>Datos transaccionales:</strong> Registros de ingresos, gastos, categorías, fechas y montos ingresados voluntariamente por el usuario.</li>
             <li><strong>Datos técnicos e indirectos:</strong> Direcciones IP, registros de sesión (logs de servidor) e información del navegador recopilada por infraestructura en la nube para fines de ciberseguridad y diagnóstico.</li>
@@ -134,7 +134,7 @@
 
         <div>
           <p class="mb-1.5"><strong>4.3. Infraestructura y Transferencia Internacional:</strong> Aceptas que, para la correcta prestación técnica del Servicio, tus datos procesados se alojan en proveedores de infraestructura de clase mundial que cumplen con altos estándares de ciberseguridad:</p>
-          <ul class="list-disc pl-6 space-y-1 text-slate-800">
+          <ul class="list-disc pl-6 space-y-1 text-slate-800 dark:text-slate-300">
             <li><strong>Servidores de Frontend:</strong> Vercel Inc.</li>
             <li><strong>Servidores de API Backend:</strong> Render Services Inc.</li>
             <li><strong>Base de Datos Relacional:</strong> Aiven Cloud Platform.</li>
@@ -149,7 +149,7 @@
 
     <!-- Section 5 -->
     <section class="mb-8">
-      <h2 class="text-sm sm:text-base font-bold text-slate-900 border-b border-slate-200 pb-1.5 mb-3">
+      <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-[#fae4cf] border-b border-slate-200 dark:border-[#1b2858] pb-1.5 mb-3">
         5. LIMITACIÓN DE RESPONSABILIDAD Y GARANTÍAS
       </h2>
       <div class="space-y-2.5 pl-1">
@@ -167,12 +167,12 @@
 
     <!-- Section 6 -->
     <section class="mb-8">
-      <h2 class="text-sm sm:text-base font-bold text-slate-900 border-b border-slate-200 pb-1.5 mb-3">
+      <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-[#fae4cf] border-b border-slate-200 dark:border-[#1b2858] pb-1.5 mb-3">
         6. CONDUCTAS PROHIBIDAS Y SUSPENSIÓN DE CUENTA
       </h2>
       <div class="space-y-2 pl-1">
         <p>Nos reservamos el derecho de suspender, restringir o cancelar de forma inmediata y sin previo aviso la cuenta de cualquier usuario que incurra en:</p>
-        <ul class="list-disc pl-6 space-y-1 text-slate-800">
+        <ul class="list-disc pl-6 space-y-1 text-slate-800 dark:text-slate-300">
           <li>Intentos de vulnerar la seguridad de la API, inyección de código malicioso o ataques de denegación de servicio (DoS/DDoS).</li>
           <li>Uso de la plataforma para fines ilícitos, fraude o lavado de activos.</li>
           <li>Incumplimiento de cualquiera de las cláusulas de estos Términos y Condiciones.</li>
@@ -182,7 +182,7 @@
 
     <!-- Section 7 -->
     <section class="mb-8">
-      <h2 class="text-sm sm:text-base font-bold text-slate-900 border-b border-slate-200 pb-1.5 mb-3">
+      <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-[#fae4cf] border-b border-slate-200 dark:border-[#1b2858] pb-1.5 mb-3">
         7. MODIFICACIONES A LOS TÉRMINOS Y CONDICIONES
       </h2>
       <div class="pl-1">
@@ -194,7 +194,7 @@
 
     <!-- Section 8 -->
     <section class="mb-10">
-      <h2 class="text-sm sm:text-base font-bold text-slate-900 border-b border-slate-200 pb-1.5 mb-3">
+      <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-[#fae4cf] border-b border-slate-200 dark:border-[#1b2858] pb-1.5 mb-3">
         8. LEY APLICABLE Y JURISDICCIÓN
       </h2>
       <div class="pl-1">
@@ -205,12 +205,12 @@
     </section>
 
     <!-- Document Footer Actions -->
-    <div class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-xs text-slate-500">
+    <div class="pt-6 border-t border-slate-200 dark:border-[#1b2858] flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-slate-500 dark:text-slate-400">
         © 2026 Control Gastos. Todos los derechos reservados.
       </p>
       <a routerLink="/registro"
-        class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow-sm transition-colors active:scale-95">
+        class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-[#fae4cf] dark:hover:bg-[#f5e5d5] text-white dark:text-[#0a0f23] font-bold text-xs uppercase tracking-wider rounded-interactive shadow-sm transition-colors active:scale-95">
         <span>Aceptar y Volver al Registro</span>
       </a>
     </div>

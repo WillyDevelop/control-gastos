@@ -34,7 +34,7 @@
           <tr *ngFor="let gasto of gastos" class="border-b border-slate-100 hover:bg-slate-50 transition-colors text-sm">
             <td class="p-3 font-medium">{{ gasto.descripcion }}</td>
             <td class="p-3">
-              <span class="inline-block px-2 py-0.5 bg-neo-purple border border-neo-text text-xs font-bold rounded-full shadow-brutal-sm">
+              <span class="inline-block px-2 py-0.5 bg-neo-purple border border-neo-text text-xs font-bold rounded-interactive shadow-brutal-sm">
                 {{ gasto.categoria?.nombre || 'Sin Categoría' }}
               </span>
             </td>

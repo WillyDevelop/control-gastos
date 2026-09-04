@@ -17,7 +17,7 @@ import { PlantillaGastoService } from './plantilla-gasto.service';
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth`;
   
-  currentUser = signal<{nombre: string, email: string} | null>(null);
+  currentUser = signal<{nombre: string, email: string, rol: string} | null>(null);
 
   private gastoService = inject(GastoService);
   private patrimonioService = inject(PatrimonioService);
@@ -45,8 +45,9 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
     const nombre = localStorage.getItem('nombre');
+    const rol = localStorage.getItem('rol') || 'ROLE_USER';
     if (token && email && nombre) {
-      this.currentUser.set({ email, nombre });
+      this.currentUser.set({ email, nombre, rol });
     }
   }
 
@@ -58,7 +59,8 @@ export class AuthService {
         localStorage.setItem('token', res.token);
         localStorage.setItem('email', res.email);
         localStorage.setItem('nombre', res.nombre);
-        this.currentUser.set({ email: res.email, nombre: res.nombre });
+        localStorage.setItem('rol', res.rol || 'ROLE_USER');
+        this.currentUser.set({ email: res.email, nombre: res.nombre, rol: res.rol || 'ROLE_USER' });
         this.router.navigate(['/']);
       })
     );
@@ -84,6 +86,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('nombre');
+    localStorage.removeItem('rol');
     this.currentUser.set(null);
     this.limpiarEstadoAplicacion();
     this.router.navigate(['/login']);
@@ -104,5 +107,10 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  isAdmin(): boolean {
+    const user = this.currentUser();
+    return user?.rol === 'ROLE_ADMIN' || localStorage.getItem('rol') === 'ROLE_ADMIN';
   }
 }

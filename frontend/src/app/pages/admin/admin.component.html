@@ -1,0 +1,306 @@
+<div class="min-h-screen bg-[#0a0f23] text-slate-200 p-4 md:p-8 font-sans transition-colors" (click)="closeActionMenu()">
+  
+  <!-- Header Bar -->
+  <div class="max-w-7xl mx-auto mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+    <div>
+      <div class="flex items-center gap-3">
+        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-[#fae4cf] flex items-center gap-2">
+          <svg class="w-7 h-7 text-[#fae4cf]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+          </svg>
+          Gestión de Servicios y Cuentas
+        </h1>
+        <span class="px-2.5 py-1 text-xs font-semibold rounded-interactive bg-[#fae4cf]/15 text-[#fae4cf] border border-[#fae4cf]/30">
+          Admin Dashboard
+        </span>
+      </div>
+      <p class="text-xs md:text-sm text-slate-400 mt-1">
+        Panel de control exclusivo para suspender, reactivar y administrar las cuentas de la plataforma.
+      </p>
+    </div>
+
+    <button (click)="cargarUsuarios()" class="self-start sm:self-auto px-4 py-2 text-xs font-semibold rounded-interactive bg-slate-800 hover:bg-slate-700 text-[#fae4cf] border border-slate-700 transition-all flex items-center gap-2">
+      <svg class="w-4 h-4" [class.animate-spin]="cargando()" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      Actualizar Lista
+    </button>
+  </div>
+
+  <div class="max-w-7xl mx-auto space-y-6">
+
+    <!-- Mensajes de Alerta -->
+    <div *ngIf="exitoMensaje()" class="p-4 rounded-interactive bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-sm flex items-center gap-3 animate-fade-in shadow-lg">
+      <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+      </svg>
+      <span>{{ exitoMensaje() }}</span>
+    </div>
+
+    <div *ngIf="errorMensaje()" class="p-4 rounded-interactive bg-rose-950/70 border border-rose-500/40 text-rose-300 text-sm flex items-center gap-3 animate-fade-in shadow-lg">
+      <svg class="w-5 h-5 text-rose-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span>{{ errorMensaje() }}</span>
+    </div>
+
+    <!-- Cards de Estadísticas -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-[#101838] border border-slate-700/60 rounded-interactive p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium">Total de Cuentas</span>
+        <div class="text-2xl font-bold text-[#fae4cf] mt-2">{{ totalUsuarios }}</div>
+      </div>
+      <div class="bg-[#101838] border border-slate-700/60 rounded-interactive p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium">Cuentas Activas</span>
+        <div class="text-2xl font-bold text-emerald-400 mt-2 flex items-center gap-2">
+          <span>{{ totalActivos }}</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        </div>
+      </div>
+      <div class="bg-[#101838] border border-slate-700/60 rounded-interactive p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium">Cuentas Suspendidas</span>
+        <div class="text-2xl font-bold text-amber-400 mt-2">
+          <span>{{ totalSuspendidos }}</span>
+        </div>
+      </div>
+      <div class="bg-[#101838] border border-slate-700/60 rounded-interactive p-4 flex flex-col justify-between">
+        <span class="text-xs text-slate-400 font-medium">Administradores</span>
+        <div class="text-2xl font-bold text-[#fae4cf] mt-2">
+          <span>{{ totalAdmins }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buscador -->
+    <div class="flex items-center justify-between gap-4">
+      <div class="relative flex-1 max-w-md">
+        <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input
+          type="text"
+          [ngModel]="filtroTexto()"
+          (ngModelChange)="filtroTexto.set($event)"
+          placeholder="Buscar por nombre, email o rol..."
+          class="w-full bg-[#101838] border border-slate-700 rounded-interactive pl-10 pr-4 py-2.5 text-xs text-[#fae4cf] placeholder-slate-400 focus:outline-none focus:border-[#fae4cf] transition-all"
+        />
+      </div>
+    </div>
+
+    <!-- TABLA ESTILO EXACTO A LA CAPTURA DE PANTALLA -->
+    <div class="bg-[#101838] border border-slate-700/70 rounded-interactive overflow-x-auto shadow-2xl">
+      <table class="w-full text-left text-xs font-sans text-slate-300 min-w-[768px]">
+        
+        <!-- Table Header -->
+        <thead class="border-b border-slate-700 text-slate-400 uppercase tracking-wider font-semibold text-[11px] bg-[#0d1430]">
+          <tr>
+            <th scope="col" class="py-4 px-6">Service / Usuario</th>
+            <th scope="col" class="py-4 px-6">Nodes</th>
+            <th scope="col" class="py-4 px-6">Plan / Rol</th>
+            <th scope="col" class="py-4 px-6">Cloud / App</th>
+            <th scope="col" class="py-4 px-6">Created</th>
+            <th scope="col" class="py-4 px-6 text-right">Action</th>
+          </tr>
+        </thead>
+
+        <!-- Table Body -->
+        <tbody class="divide-y divide-slate-800/60">
+          
+          <!-- Loading State -->
+          <tr *ngIf="cargando()">
+            <td colspan="6" class="py-12 text-center text-slate-500">
+              <div class="flex items-center justify-center gap-3">
+                <svg class="w-5 h-5 animate-spin text-[#00d2b5]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                <span>Cargando cuentas registradas...</span>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="!cargando() && usuariosFiltrados.length === 0">
+            <td colspan="6" class="py-12 text-center text-slate-500">
+              No se encontraron usuarios registradas con ese criterio.
+            </td>
+          </tr>
+
+          <!-- User Item Row (Exact UI matching screenshot) -->
+          <tr *ngFor="let u of usuariosFiltrados" class="hover:bg-slate-800/50 transition-colors group">
+            
+            <!-- Service / Usuario Column -->
+            <td class="py-4 px-6">
+              <div class="flex items-center gap-4">
+                <!-- Icon Avatar -->
+                <div class="w-10 h-10 rounded-interactive border border-slate-700 bg-slate-900 flex items-center justify-center shrink-0 text-[#fae4cf]">
+                  <svg *ngIf="u.rol === 'ROLE_ADMIN'" class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  </svg>
+                  <svg *ngIf="u.rol !== 'ROLE_ADMIN'" class="w-5 h-5 text-[#fae4cf]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                  </svg>
+                </div>
+
+                <div>
+                  <!-- Title in Warm Beige (#fae4cf) -->
+                  <div class="flex items-center gap-2">
+                    <span class="font-semibold text-sm text-[#fae4cf] group-hover:underline cursor-pointer">
+                      {{ u.nombre || u.email.split('@')[0] }}
+                    </span>
+                  </div>
+
+                  <!-- Subtitle email and Status Pill Badge underneath -->
+                  <div class="flex items-center gap-2 mt-0.5">
+                    <span class="text-slate-400 font-mono text-[11px]">{{ u.email }}</span>
+
+                    <!-- STATUS BADGE (Sutil 7px) -->
+                    <!-- Active Status -->
+                    <span *ngIf="u.activo" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-interactive text-[10px] font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">
+                      <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                      Activo
+                    </span>
+
+                    <!-- Suspended "Powered off" -->
+                    <span *ngIf="!u.activo" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-interactive text-[10px] font-semibold bg-slate-800 text-slate-400 border border-slate-700">
+                      <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a5 5 0 010-7.072m0 0l2.829 2.829m-4.243-2.829L3 3m5.636 5.636a9 9 0 0112.728 0"></path>
+                      </svg>
+                      Powered off
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Nodes Column -->
+            <td class="py-4 px-6">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-interactive text-xs font-medium bg-slate-800/90 text-slate-200 border border-slate-700/80">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                Gastos: {{ u.totalGastos }}
+              </span>
+            </td>
+
+            <!-- Plan / Rol Column -->
+            <td class="py-4 px-6">
+              <div>
+                <div class="font-medium text-slate-200">
+                  {{ u.rol === 'ROLE_ADMIN' ? 'Administrador' : 'Standard-User' }}
+                </div>
+                <div class="text-slate-400 text-[11px] font-mono mt-0.5">
+                  {{ u.totalTarjetas }} tarjetas de crédito
+                </div>
+              </div>
+            </td>
+
+            <!-- Cloud / App Column -->
+            <td class="py-4 px-6">
+              <div>
+                <div class="font-medium text-slate-300">CtrlGastos Engine</div>
+                <div class="text-slate-400 text-[11px]">Servidor Principal</div>
+              </div>
+            </td>
+
+            <!-- Created Column -->
+            <td class="py-4 px-6 text-slate-400 font-mono text-[11px]">
+              ID: #{{ u.id }}
+            </td>
+
+            <!-- Action Button Column (••• Menu) -->
+            <td class="py-4 px-6 text-right relative">
+              <button
+                (click)="toggleActionMenu(u.id, $event)"
+                class="p-2 rounded-interactive text-slate-400 hover:text-[#fae4cf] hover:bg-slate-800 transition-colors focus:outline-none"
+                title="Acciones"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                </svg>
+              </button>
+
+              <!-- Dropdown Menu -->
+              <div
+                *ngIf="openActionMenuId() === u.id"
+                (click)="$event.stopPropagation()"
+                class="absolute right-6 top-12 w-48 bg-[#141e45] border border-slate-700/80 rounded-interactive shadow-2xl z-50 py-1.5 animate-fade-in text-left divide-y divide-slate-800"
+              >
+                <!-- Toggle Suspender / Reactivar -->
+                <div class="py-1">
+                  <button
+                    (click)="toggleEstado(u, $event)"
+                    [disabled]="u.email === authService.currentUser()?.email"
+                    class="w-full px-4 py-2 text-xs font-medium text-[#fae4cf] hover:bg-slate-800/80 hover:text-white flex items-center gap-2.5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <svg *ngIf="u.activo" class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                    </svg>
+                    <svg *ngIf="!u.activo" class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>{{ u.activo ? 'Suspender Cuenta' : 'Reactivar Cuenta' }}</span>
+                  </button>
+                </div>
+
+                <!-- Eliminar -->
+                <div class="py-1">
+                  <button
+                    (click)="confirmarEliminar(u, $event)"
+                    [disabled]="u.email === authService.currentUser()?.email"
+                    class="w-full px-4 py-2 text-xs font-medium text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 flex items-center gap-2.5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <svg class="w-4 h-4 text-rose-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    <span>Eliminar Cuenta</span>
+                  </button>
+                </div>
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN -->
+  <div *ngIf="usuarioAEliminar()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in" (click)="cancelarEliminar()">
+    <div class="bg-[#121b3d] border border-slate-700/80 rounded-interactive p-6 max-w-md w-full shadow-2xl text-slate-200" (click)="$event.stopPropagation()">
+      <div class="w-12 h-12 rounded-interactive bg-rose-950/80 border border-rose-500/30 flex items-center justify-center text-rose-400 mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+      </div>
+
+      <h3 class="text-lg font-bold text-[#fae4cf] mb-2">¿Eliminar cuenta permanentemente?</h3>
+      <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+        Estás a punto de eliminar la cuenta de <strong class="text-rose-300">{{ usuarioAEliminar()?.email }}</strong>. Esta acción eliminará permanentemente todos sus registros (gastos, tarjetas, categorías) y no se podrá deshacer.
+      </p>
+
+      <div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-800">
+        <button
+          (click)="cancelarEliminar()"
+          class="px-4 py-2 rounded-interactive text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+        >
+          Cancelar
+        </button>
+
+        <button
+          (click)="eliminarDefinitivo()"
+          [disabled]="procesandoEliminacion()"
+          class="px-4 py-2 rounded-interactive text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white transition-colors flex items-center gap-2 disabled:opacity-50"
+        >
+          <svg *ngIf="procesandoEliminacion()" class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          <span>Confirmar y Eliminar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

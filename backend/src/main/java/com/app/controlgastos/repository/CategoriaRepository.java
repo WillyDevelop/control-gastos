@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     Optional<Categoria> findByNombreAndUsuarioId(String nombre, Long usuarioId);
     java.util.List<Categoria> findByUsuarioId(Long usuarioId);
+    void deleteByUsuario(com.app.controlgastos.model.Usuario usuario);
 }
