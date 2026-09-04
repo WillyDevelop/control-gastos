@@ -15,4 +15,5 @@ COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
+# Start Spring Boot application with production profile and memory optimizations
+ENTRYPOINT ["java", "-Xmx300m", "-Xss512k", "-XX:+UseSerialGC", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
