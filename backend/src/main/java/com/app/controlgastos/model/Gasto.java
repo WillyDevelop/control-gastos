@@ -32,10 +32,10 @@ public class Gasto {
     private MetodoPago metodoPago;
 
     @Column(name = "es_recurrente")
-    private boolean esRecurrente = false;
+    private Boolean esRecurrente = false;
 
     @Column(nullable = false)
-    private boolean pagado = true;
+    private Boolean pagado = true;
 
     private String notas;
 
@@ -51,7 +51,7 @@ public class Gasto {
     private TarjetaCredito tarjetaCredito;
 
     @Column(name = "destinar_ahorro")
-    private boolean destinarAhorro = false;
+    private Boolean destinarAhorro = false;
 
     @Column(name = "monto_ahorro", precision = 10, scale = 2)
     private BigDecimal montoAhorro;
@@ -79,11 +79,11 @@ public class Gasto {
     public MetodoPago getMetodoPago() { return metodoPago; }
     public void setMetodoPago(MetodoPago metodoPago) { this.metodoPago = metodoPago; }
 
-    public boolean isEsRecurrente() { return esRecurrente; }
-    public void setEsRecurrente(boolean esRecurrente) { this.esRecurrente = esRecurrente; }
+    public boolean isEsRecurrente() { return Boolean.TRUE.equals(esRecurrente); }
+    public void setEsRecurrente(Boolean esRecurrente) { this.esRecurrente = esRecurrente != null ? esRecurrente : false; }
 
-    public boolean isPagado() { return pagado; }
-    public void setPagado(boolean pagado) { this.pagado = pagado; }
+    public boolean isPagado() { return Boolean.TRUE.equals(pagado); }
+    public void setPagado(Boolean pagado) { this.pagado = pagado != null ? pagado : true; }
 
     public String getNotas() { return notas; }
     public void setNotas(String notas) { this.notas = notas; }
@@ -97,8 +97,8 @@ public class Gasto {
     public TarjetaCredito getTarjetaCredito() { return tarjetaCredito; }
     public void setTarjetaCredito(TarjetaCredito tarjetaCredito) { this.tarjetaCredito = tarjetaCredito; }
 
-    public boolean isDestinarAhorro() { return destinarAhorro; }
-    public void setDestinarAhorro(boolean destinarAhorro) { this.destinarAhorro = destinarAhorro; }
+    public boolean isDestinarAhorro() { return Boolean.TRUE.equals(destinarAhorro); }
+    public void setDestinarAhorro(Boolean destinarAhorro) { this.destinarAhorro = destinarAhorro != null ? destinarAhorro : false; }
 
     public BigDecimal getMontoAhorro() { return montoAhorro; }
     public void setMontoAhorro(BigDecimal montoAhorro) { this.montoAhorro = montoAhorro; }

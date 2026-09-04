@@ -20,7 +20,7 @@ public class MetaAhorro {
     private BigDecimal montoActual = BigDecimal.ZERO;
 
     @Column(name = "activa_para_redondeo", nullable = false)
-    private boolean activaParaRedondeo = false;
+    private Boolean activaParaRedondeo = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
@@ -40,8 +40,8 @@ public class MetaAhorro {
     public BigDecimal getMontoActual() { return montoActual; }
     public void setMontoActual(BigDecimal montoActual) { this.montoActual = montoActual; }
 
-    public boolean isActivaParaRedondeo() { return activaParaRedondeo; }
-    public void setActivaParaRedondeo(boolean activaParaRedondeo) { this.activaParaRedondeo = activaParaRedondeo; }
+    public boolean isActivaParaRedondeo() { return Boolean.TRUE.equals(activaParaRedondeo); }
+    public void setActivaParaRedondeo(Boolean activaParaRedondeo) { this.activaParaRedondeo = activaParaRedondeo != null ? activaParaRedondeo : false; }
 
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }

@@ -26,7 +26,7 @@ public class Deuda {
     private BigDecimal montoDeuda;
 
     @Column(nullable = false)
-    private boolean liquidada = false;
+    private Boolean liquidada = false;
 
     public Deuda() {}
 
@@ -40,6 +40,6 @@ public class Deuda {
     public void setDeudor(Usuario deudor) { this.deudor = deudor; }
     public BigDecimal getMontoDeuda() { return montoDeuda; }
     public void setMontoDeuda(BigDecimal montoDeuda) { this.montoDeuda = montoDeuda; }
-    public boolean isLiquidada() { return liquidada; }
-    public void setLiquidada(boolean liquidada) { this.liquidada = liquidada; }
+    public boolean isLiquidada() { return Boolean.TRUE.equals(liquidada); }
+    public void setLiquidada(Boolean liquidada) { this.liquidada = liquidada != null ? liquidada : false; }
 }

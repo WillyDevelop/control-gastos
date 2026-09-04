@@ -24,7 +24,7 @@ public class Usuario implements UserDetails {
 
     private String nombre;
 
-    private boolean activo = false;
+    private Boolean activo = false;
 
     private String nuevoEmailPendiente;
 
@@ -54,8 +54,8 @@ public class Usuario implements UserDetails {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public boolean isActivo() { return activo; }
-    public void setActivo(boolean activo) { this.activo = activo; }
+    public boolean isActivo() { return Boolean.TRUE.equals(activo); }
+    public void setActivo(Boolean activo) { this.activo = activo != null ? activo : false; }
 
     public String getNuevoEmailPendiente() { return nuevoEmailPendiente; }
     public void setNuevoEmailPendiente(String nuevoEmailPendiente) { this.nuevoEmailPendiente = nuevoEmailPendiente; }
