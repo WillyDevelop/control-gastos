@@ -92,9 +92,13 @@ export class AppComponent implements OnInit {
 
   abrirNuevoGastoMovil() {
     this.closeMobileMenu();
-    if (!this.router.url.includes('/dashboard')) {
+    const currentUrl = this.router.url.split('?')[0];
+    if (currentUrl !== '/dashboard') {
+      this.gastoService.triggerAbrirModal('GASTO');
       this.router.navigate(['/dashboard']).then(() => {
-        this.gastoService.triggerAbrirModal('GASTO');
+        if (this.gastoService.consumirModalPendiente()) {
+          this.gastoService.triggerAbrirModal('GASTO');
+        }
       });
     } else {
       this.gastoService.triggerAbrirModal('GASTO');

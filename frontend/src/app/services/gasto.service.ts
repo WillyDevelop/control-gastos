@@ -17,9 +17,17 @@ export class GastoService {
 
   private abrirModalSubject = new Subject<'GASTO' | 'INGRESO'>();
   abrirModal$ = this.abrirModalSubject.asObservable();
+  private pendingAbrirModal: ('GASTO' | 'INGRESO') | null = null;
 
   triggerAbrirModal(tipo: 'GASTO' | 'INGRESO' = 'GASTO') {
+    this.pendingAbrirModal = tipo;
     this.abrirModalSubject.next(tipo);
+  }
+
+  consumirModalPendiente(): ('GASTO' | 'INGRESO') | null {
+    const accion = this.pendingAbrirModal;
+    this.pendingAbrirModal = null;
+    return accion;
   }
 
   gastosMes = signal<Gasto[]>([]);

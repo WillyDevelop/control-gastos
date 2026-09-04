@@ -1,8 +1,9 @@
-import { Component, inject, OnInit, computed, signal } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartOptions, ChartData } from 'chart.js';
+import { Subscription } from 'rxjs';
 import { MetricasHeaderComponent } from '../../components/metricas-header/metricas-header.component';
 import { PatrimonioService } from '../../services/patrimonio.service';
 import { GastoService } from '../../services/gasto.service';
@@ -20,7 +21,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
   imports: [CommonModule, FormsModule, NgChartsModule, MetricasHeaderComponent, RouterModule],
   templateUrl: './dashboard.component.html'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   patrimonioService = inject(PatrimonioService);
   gastoService = inject(GastoService);
   categoriaService = inject(CategoriaService);
@@ -29,6 +30,8 @@ export class DashboardComponent implements OnInit {
   tarjetaCreditoService = inject(TarjetaCreditoService);
   themeService = inject(ThemeService);
   private route = inject(ActivatedRoute);
+  private abrirModalSub?: Subscription;
+  private routeSub?: Subscription;
 
   showModal = false;
   tipoTransaccion: 'INGRESO' | 'GASTO' = 'GASTO';
@@ -392,15 +395,26 @@ export class DashboardComponent implements OnInit {
     this.metaAhorroService.cargarMetas();
     this.tarjetaCreditoService.cargarTarjetas();
 
-    this.gastoService.abrirModal$.subscribe(tipo => {
+    this.abrirModalSub = this.gastoService.abrirModal$.subscribe(tipo => {
+      this.gastoService.consumirModalPendiente();
       this.abrirModalTransaccion(tipo);
     });
 
-    this.route.queryParams.subscribe(params => {
+    const modalPendiente = this.gastoService.consumirModalPendiente();
+    if (modalPendiente) {
+      setTimeout(() => this.abrirModalTransaccion(modalPendiente), 0);
+    }
+
+    this.routeSub = this.route.queryParams.subscribe(params => {
       if (params['action'] === 'nuevoGasto') {
         this.abrirModalTransaccion('GASTO');
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.abrirModalSub?.unsubscribe();
+    this.routeSub?.unsubscribe();
   }
 
   eliminarTransaccion(id: number) {
